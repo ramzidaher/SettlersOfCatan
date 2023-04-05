@@ -452,7 +452,7 @@ public class Board extends SignUpController  implements Initializable {
         PlayerTwoID.setText(players.get(1).getPlayerName());
         PlayerThreeID.setText(players.get(2).getPlayerName());
         PlayerFourID.setText(players.get(3).getPlayerName());
-
+        System.out.println("DEBUG");
     }
 
 
