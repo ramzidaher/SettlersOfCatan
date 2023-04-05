@@ -447,13 +447,13 @@ public class Board extends SignUpController  implements Initializable {
 //        assignPlayer();
     }
 
-//    private void assignPlayer() {
-//        PlayerOneID.setText(players.get(0).getPlayerName());
-//        PlayerTwoID.setText(players.get(1).getPlayerName());
-//        PlayerThreeID.setText(players.get(2).getPlayerName());
-//        PlayerFourID.setText(players.get(3).getPlayerName());
-//
-//    }
+    private void assignPlayer() {
+        PlayerOneID.setText(players.get(0).getPlayerName());
+        PlayerTwoID.setText(players.get(1).getPlayerName());
+        PlayerThreeID.setText(players.get(2).getPlayerName());
+        PlayerFourID.setText(players.get(3).getPlayerName());
+
+    }
 
 
     private void shuffleHexagons() {
