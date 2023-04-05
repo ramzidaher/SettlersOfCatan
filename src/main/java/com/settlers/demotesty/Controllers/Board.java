@@ -11,8 +11,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 
@@ -281,12 +279,6 @@ public class Board extends SignUpController  implements Initializable {
     private Rectangle road_1_99;
 
     @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
-    @FXML
     private Polygon HexDesert;
 
     @FXML
@@ -364,7 +356,6 @@ public class Board extends SignUpController  implements Initializable {
     ArrayList<Double> xCoordText = new ArrayList<>();
     ArrayList<Double> yCoordText = new ArrayList<>();
 
-    int DiceResult = 0;
     static ArrayList<Polygon> shuffledHexagons = new ArrayList<>(); // create a new ArrayList to hold the shuffled hexagons
 
 
@@ -378,8 +369,6 @@ public class Board extends SignUpController  implements Initializable {
         Image img5_wool = new Image("https://i.postimg.cc/Y0zy2dCB/wool.png");
         Image img6_Desert = new Image("https://i.postimg.cc/G3TL3GR8/Desert.png");
         Image img7_water = new Image("https://i.postimg.cc/FRhmsM7h/Hex4-removebg-preview.png");
-//        Hex121.setFill(new ImagePattern(img7_water));
-//        Hex1211.setFill(new ImagePattern(img7_water));
         //Ore x 3
         Hex1.setFill(new ImagePattern(img1_ore));
         Hex2.setFill(new ImagePattern(img1_ore));
@@ -444,46 +433,66 @@ public class Board extends SignUpController  implements Initializable {
         shuffleHexagons();//Calls Shuffle method
         shuffleNumber();
         diceRoll();//Calls Dice Roll
-//        assignPlayer();
+        assignPlayer();
     }
 
+    // This method assigns player names to the respective PlayerID labels
     private void assignPlayer() {
+        // Set the text of PlayerOneID label to the first player's name
         PlayerOneID.setText(players.get(0).getPlayerName());
+        // Set the text of PlayerTwoID label to the second player's name
         PlayerTwoID.setText(players.get(1).getPlayerName());
+        // Set the text of PlayerThreeID label to the third player's name
         PlayerThreeID.setText(players.get(2).getPlayerName());
+        // Set the text of PlayerFourID label to the fourth player's name
         PlayerFourID.setText(players.get(3).getPlayerName());
-        System.out.println("DEBUG");
     }
 
-
+    // This method shuffles the positions of the hexagons on the board
     private void shuffleHexagons() {
+        // Initialize new lists to store the shuffled coordinates and hexagons
         ArrayList<Double> shuffledXCoordinates = new ArrayList<>();
         ArrayList<Double> shuffledYCoordinates = new ArrayList<>();
         ArrayList<Polygon> shuffledHexagons = new ArrayList<>();
 
+        // Create copies of the original coordinates lists
         ArrayList<Double> xCoordinatesCopy = new ArrayList<>(xCoordinates);
         ArrayList<Double> yCoordinatesCopy = new ArrayList<>(yCoordinates);
 
-        for (Polygon hexagon : hexagons) {
+        // Iterate through each hexagon
+        for (Polygon hexagon : hexagons)
+        {
+            // Create a new Random object for generating random indices
             Random rand = new Random();
+            // Generate a random index within the range of xCoordinatesCopy's size
             int randomIndex = rand.nextInt(xCoordinatesCopy.size());
+            // Get the x-coordinate at the random index from xCoordinatesCopy
             double newX = xCoordinatesCopy.get(randomIndex);
+            // Get the y-coordinate at the random index from yCoordinatesCopy
             double newY = yCoordinatesCopy.get(randomIndex);
+            // Update the x and y layout positions of the hexagon
             hexagon.setLayoutX(newX);
             hexagon.setLayoutY(newY);
+            // Add the new x and y coordinates to the shuffled coordinates lists
             shuffledXCoordinates.add(newX);
             shuffledYCoordinates.add(newY);
+            // Remove the used coordinates from the coordinates copies
             xCoordinatesCopy.remove(randomIndex);
             yCoordinatesCopy.remove(randomIndex);
+            // Add the hexagon to the shuffled hexagons list
             shuffledHexagons.add(hexagon);
         }
 
+        // Clear the original hexagons list and add the shuffled hexagons
         hexagons.clear();
         hexagons.addAll(shuffledHexagons);
 
+        // Print the new x and y coordinates for debugging purposes
         System.out.println("New X Coordinates: " + shuffledXCoordinates);
         System.out.println("New Y Coordinates: " + shuffledYCoordinates);
     }
+
+
 
     private double getHexDesertX() {
         return hexagons.get(18).getLayoutX();
@@ -493,128 +502,35 @@ public class Board extends SignUpController  implements Initializable {
         return hexagons.get(18).getLayoutY();
     }
 
+    // This method shuffles the positions of the number tokens on the board
     private void shuffleNumber() {
+        // Set the layout position of Num_19 (the desert hexagon) to the desert hexagon's position
         Num_19.setLayoutY(getHexDesertY());
         Num_19.setLayoutX(getHexDesertX());
+        // Hide the desert number token (Num_19) since the desert hexagon has no number
         Num_19.setVisible(false);
+        // Remove Num_19 from the TextNumbers list as it's not needed for the shuffling process
         TextNumbers.remove(Num_19);
+        // Remove the desert hexagon's x and y coordinates from xCoordText and yCoordText lists
         xCoordText.remove(getHexDesertX());
         yCoordText.remove(getHexDesertY());
 
+        // Iterate through each number token in TextNumbers
         for (Text textNumber : TextNumbers) {
+            // Create a new Random object for generating random indices
             Random rand = new Random();
+            // Generate a random index within the range of xCoordText's size
             int randomIndex = rand.nextInt(xCoordText.size());
+            // Set the layout position of the number token to the randomly chosen coordinates
             textNumber.setLayoutX(xCoordText.get(randomIndex));
             textNumber.setLayoutY(yCoordText.get(randomIndex));
+            // Remove the used coordinates from xCoordText and yCoordText lists
             xCoordText.remove(randomIndex);
             yCoordText.remove(randomIndex);
         }
     }
-//        for (Text textNumber : TextNumbers) {
-//            Random rand = new Random();
-//            int randomIndex = rand.nextInt(xCoordText.size());
-//
-//            Num_19.setLayoutY(getHexDesertY());
-//            Num_19.setLayoutX(getHexDesertX());
-//            Num_19.setVisible(true);
-
-//            TextNumbers.remove(Num_19);
-//            TextNumbers.remove(18);
-//            xCoordText.remove(getHexDesertX());
-//            yCoordText.remove(getHexDesertY());
-////            yCoordText.remove(getHexDesertY());
-////
-//            textNumber.setLayoutX(xCoordText.get(randomIndex));
-//            textNumber.setLayoutY(yCoordText.get(randomIndex));
-////
-//            xCoordText.remove(randomIndex);
-//            yCoordText.remove(randomIndex);
 
 
-
-//            double newX = xCoordText.get(randomIndex);
-//            double newY = yCoordText.get(randomIndex);
-//            if (getHexDesertX() == newX && getHexDesertY() == newY) {
-////                continue;
-//                System.out.println();
-//                HexDesert.getLayoutY();
-//            } else {
-//                textNumber.setLayoutX(randomIndex);
-//                textNumber.setLayoutY(randomIndex);
-//                xCoordText.remove(randomIndex);
-//                yCoordText.remove(randomIndex);
-
-
-
-//    }
-
-
-//        for (int i = 0; i < TextNumbers.size(); i++) {
-//            Text number = TextNumbers.get(i);
-//            Random rand = new Random();
-//            int randomIndex = rand.nextInt(xCoordText.size());
-//
-//            double newX = xCoordText.get(randomIndex);
-//            double newY = yCoordText.get(randomIndex);
-//            if (newX == getHexDesertX() && newY == getHexDesertY()) {
-//                // skip assigning this number
-//                continue;
-//            } else {
-//                // assign new coordinates
-//                number.setLayoutX(newX);
-//                number.setLayoutY(newY);
-//                xCoordText.remove(randomIndex);
-//                yCoordText.remove(randomIndex);
-//            }
-//
-//            // check if this number is on the desert hexagon
-//            if (number.getLayoutX() == getHexDesertX() && number.getLayoutY() == getHexDesertY()) {
-//                // make a copy and add it to the end of the list
-//                Text copy = new Text(number.getText());
-//                TextNumbers.add(copy);
-//            }
-//        }
-
-
-//    private void shuffleNumber() {
-//        for (Text number : TextNumbers) {
-//            Random rand = new Random();
-//            int randomIndex = rand.nextInt(xCoordText.size());
-//
-//            number.setLayoutX(xCoordText.get(randomIndex));
-//            number.setLayoutY(yCoordText.get(randomIndex));
-//            xCoordText.remove(randomIndex);
-//            yCoordText.remove(randomIndex);
-//            System.out.println(getHexDesertX());
-//            System.out.println(getHexDesertY());
-//
-//        }
-//    }
-
-
-//    private void shuffleHexagons() {
-//        ArrayList<Double> xCoordinatesCopy = new ArrayList<>(xCoordinates);
-//        ArrayList<Double> yCoordinatesCopy = new ArrayList<>(yCoordinates);
-////        ArrayList<Polygon> shuffledHexagons = new ArrayList<>(); // create a new list to store shuffled hexagons
-//        for (Polygon hexagon : hexagons) {
-//            Random rand = new Random();
-//            int randomIndex = rand.nextInt(xCoordinatesCopy.size());
-//            double newX = xCoordinatesCopy.get(randomIndex);
-//            double newY = yCoordinatesCopy.get(randomIndex);
-//            hexagon.setLayoutX(newX);
-//            hexagon.setLayoutY(newY);
-//            xCoordinatesCopy.remove(randomIndex);
-//            yCoordinatesCopy.remove(randomIndex);
-//            shuffledHexagons.add(hexagon);
-//        }
-//        hexagons.clear(); // clear the original hexagons list
-//        hexagons.addAll(shuffledHexagons); // add shuffled hexagons to the original hexagons list
-//        System.out.println("New Coordinates:" + xCoordinatesCopy);
-//        System.out.println("New Coordinates:" + yCoordinatesCopy);
-//        System.out.println(xCoordinates);
-//        System.out.println(yCoordinates);
-//
-//    }
 
 
     private void diceRoll() {
@@ -655,9 +571,6 @@ public class Board extends SignUpController  implements Initializable {
 
         DiceOutCome.setVisible(true);
         for (Rectangle rectangle : Roads) {
-//            if (rectangle != null) {
-//                rectangle.setVisible(false);
-//            }
             if (rectangle != null) {
                 rectangle.setFill(Color.rgb(216, 213, 213));
             }
@@ -686,7 +599,6 @@ public class Board extends SignUpController  implements Initializable {
                 result += 6;
             }
         }
-
         switch (diceImages_2.get(diceTwo).getUrl()) {
             case "https://i.postimg.cc/W1XhYM6H/Dice-One-removebg-preview-Yellow.png" -> {
                 result += 1;
@@ -709,8 +621,6 @@ public class Board extends SignUpController  implements Initializable {
         }
         String diceOutcomeSTR = String.valueOf(result);
         System.out.println("The result is: " + result);
-//        DiceOutCome.setLayoutX(200.0);
-
         DiceOutCome.setText("Dice OutCome: " + diceOutcomeSTR);
     }
 
