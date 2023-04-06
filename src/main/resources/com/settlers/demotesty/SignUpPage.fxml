@@ -18,7 +18,7 @@
                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="1074.0" stroke="BLACK" strokeType="INSIDE" width="1920.0" />
                 <ImageView fitHeight="1080.0" fitWidth="1920.0">
                     <image>
-                        <Image url="https://i.postimg.cc/FF3KWHXr/Empty-Sign-Up.jpg" />
+                        <Image url="@../../../Images%20for%20the%20game/Empty-Sign-Up.jpg" />
                     </image>
                 </ImageView>
                 <Text fx:id="PlayerName" layoutX="819.0" layoutY="375.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player Name:" wrappingWidth="82.291015625">

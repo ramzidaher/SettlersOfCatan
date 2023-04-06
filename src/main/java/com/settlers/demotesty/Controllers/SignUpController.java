@@ -90,7 +90,7 @@ void submitBTN(MouseEvent event) throws IOException {
     PlayerNameWarning.setVisible(false);
     ColourPickWarning.setVisible(false);
     PlayerNameNotEntered.setVisible(false);
-
+    PlayerNameTextField.setText("");//Resets the Text filed to empty
     for (Player player : players) {
         System.out.println("Players in the Game: "+ player.getPlayerName() + " (" + player.getPlayerColour() + ")");
     }

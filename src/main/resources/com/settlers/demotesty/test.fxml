@@ -111,7 +111,7 @@
                                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="Blue" height="120.0" stroke="BLUE" strokeType="INSIDE" width="282.0" />
                                 <ImageView fitHeight="120.0" fitWidth="120.0">
                                     <image>
-                                        <Image url="https://i.postimg.cc/TYKK9X6D/matt-mocarski-h-candamir-01-removebg-preview.png" />
+                                        <Image url="@../../../Images%20for%20the%20game/PlayerOne.png" />
                                     </image>
                                 </ImageView>
                                 <Text fx:id="PlayerOneID" layoutX="193.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerOne" />
@@ -125,7 +125,7 @@
                                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="Green" height="120.0" stroke="GREEN" strokeType="INSIDE" width="282.0" />
                                 <ImageView fitHeight="120.0" fitWidth="120.0">
                                     <image>
-                                        <Image url="https://i.postimg.cc/g0gsf6MJ/matt-mocarski-nassir-02-removebg-preview.png" />
+                                        <Image url="@../../../Images%20for%20the%20game/PlayerTwo.png" />
                                     </image>
                                 </ImageView>
                                 <Text fx:id="PlayerTwoID" layoutX="193.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerTwo" />
@@ -139,7 +139,7 @@
                                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="Red" height="120.0" layoutX="427.0" layoutY="6.94921875" stroke="RED" strokeType="INSIDE" width="282.0" />
                                 <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="427.0" layoutY="6.94921875">
                                     <image>
-                                        <Image url="https://i.postimg.cc/d1Q2QSTj/matt-mocarski-lin-02-removebg-preview.png" />
+                                        <Image url="@../../../Images%20for%20the%20game/PlayerThree.png" />
                                     </image>
                                 </ImageView>
                                 <Text fx:id="PlayerThreeID" layoutX="612.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerThree" />
@@ -149,19 +149,19 @@
                             </children>
                         </Group>
                         <Group fx:id="PlayerFoursTagBox" layoutX="514.0" layoutY="9.0">
-                            <children>
-                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="Yellow" height="120.0" layoutX="838.0" layoutY="13.84765625" stroke="YELLOW" strokeType="INSIDE" width="282.0" />
-                                <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="838.0" layoutY="13.84765625">
-                                    <image>
-                                        <Image url="https://i.postimg.cc/WbNBL23d/matt-mocarski-jean-01-removebg-preview.png" />
-                                    </image>
-                                </ImageView>
-                                <Text fx:id="PlayerFourID" layoutX="1030.0" layoutY="36.8984375" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerFour" />
-                                <Text layoutX="979.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Knights:" />
-                                <Text layoutX="979.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longest Road:" />
-                                <Text layoutX="979.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VPs:" />
-                            </children>
-                        </Group>
+                        <children>
+                            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="Yellow" height="120.0" layoutX="838.0" layoutY="13.84765625" stroke="YELLOW" strokeType="INSIDE" width="282.0" />
+                            <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="838.0" layoutY="13.84765625">
+                                <image>
+                                    <Image url="@../../../Images%20for%20the%20game/PlayerFour.png" />
+                                </image>
+                            </ImageView>
+                            <Text fx:id="PlayerFourID" layoutX="1030.0" layoutY="36.8984375" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerFour" />
+                            <Text layoutX="979.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Knights:" />
+                            <Text layoutX="979.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longest Road:" />
+                            <Text layoutX="979.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VPs:" />
+                        </children>
+                    </Group>
                         <Rectangle fx:id="Road_1_3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="1128.0" layoutY="330.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
                         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1551.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -194,92 +194,92 @@
                         <Rectangle fx:id="road_1_99" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="1048.0" layoutY="280.0" rotate="60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="1134.0" layoutY="288.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="1079.0" layoutY="186.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="965.0" layoutY="184.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="850.0" layoutY="186.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="736.0" layoutY="188.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="676.0" layoutY="286.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="619.0" layoutY="385.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="562.0" layoutY="484.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="617.0" layoutY="585.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="672.0" layoutY="686.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="731.0" layoutY="786.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="846.0" layoutY="789.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="961.0" layoutY="789.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="1076.0" layoutY="788.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="1136.0" layoutY="688.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="1194.0" layoutY="590.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="1251.0" layoutY="491.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="143.0" fitWidth="129.0" layoutX="1192.0" layoutY="385.0">
                             <image>
-                                <Image url="https://i.postimg.cc/bwGFk3Kk/Hex4-removebg-preview.png" />
+                                <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
                         <RadioButton layoutX="1126.0" layoutY="710.0" mnemonicParsing="false" />
@@ -435,7 +435,7 @@
                             <children>
                                 <ImageView fitHeight="285.0" fitWidth="468.0" layoutX="9.0" layoutY="14.0">
                                     <image>
-                                        <Image url = "https://i.postimg.cc/TYhpPcCm/cardsdeck-removebg-preview.png" />
+                                        <Image url="@../../../Images%20for%20the%20game/cardsdeck-removebg-preview.png" />
                                     </image>
                                 </ImageView>
                                 <Text fx:id="ResourceCrdsPlayerName" layoutX="176.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerName">
@@ -497,7 +497,7 @@
                         </AnchorPane>
                         <ImageView fitHeight="361.0" fitWidth="314.0" layoutX="14.0" layoutY="311.0">
                             <image>
-                                <Image url="https://i.postimg.cc/d1GMK4N4/building-cost-card-by-conquerorworm1522-d41ezjj-fullview.jpg" />
+                                <Image url="@../../../Images%20for%20the%20game/building-cost-card-by-conquerorworm1522-d41ezjj-fullview.jpg" />
                             </image>
                         </ImageView>
                     </children>

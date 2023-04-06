@@ -356,19 +356,19 @@ public class Board extends SignUpController  implements Initializable {
     ArrayList<Double> xCoordText = new ArrayList<>();
     ArrayList<Double> yCoordText = new ArrayList<>();
 
+    int DiceResult = 0;
     static ArrayList<Polygon> shuffledHexagons = new ArrayList<>(); // create a new ArrayList to hold the shuffled hexagons
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //IMages of the Tiles
-        Image img1_ore = new Image("https://i.postimg.cc/Dz1QK8zt/ore.png");
-        Image img2_grain = new Image("https://i.postimg.cc/NfP5CBQm/Untitled-1-Recovered-Recovered.png");
-        Image img3_clay = new Image("https://i.postimg.cc/htBP5jHJ/Clay.png");
-        Image img4_wood = new Image("https://i.postimg.cc/283KN7NM/wood.png");
-        Image img5_wool = new Image("https://i.postimg.cc/Y0zy2dCB/wool.png");
-        Image img6_Desert = new Image("https://i.postimg.cc/G3TL3GR8/Desert.png");
-        Image img7_water = new Image("https://i.postimg.cc/FRhmsM7h/Hex4-removebg-preview.png");
+        Image img1_ore = new Image("Images for the game/ore.png");
+        Image img2_grain = new Image("Images for the game/grain.png");
+        Image img3_clay = new Image("Images for the game/Clay.png");
+        Image img4_wood = new Image("Images for the game/wood.png");
+        Image img5_wool = new Image("Images for the game/wool.png");
+        Image img6_Desert = new Image("Images for the game/Desert.png");
         //Ore x 3
         Hex1.setFill(new ImagePattern(img1_ore));
         Hex2.setFill(new ImagePattern(img1_ore));
@@ -433,20 +433,20 @@ public class Board extends SignUpController  implements Initializable {
         shuffleHexagons();//Calls Shuffle method
         shuffleNumber();
         diceRoll();//Calls Dice Roll
-        assignPlayer();
+//        assignPlayer();
     }
 
-    // This method assigns player names to the respective PlayerID labels
-    private void assignPlayer() {
-        // Set the text of PlayerOneID label to the first player's name
-        PlayerOneID.setText(players.get(0).getPlayerName());
-        // Set the text of PlayerTwoID label to the second player's name
-        PlayerTwoID.setText(players.get(1).getPlayerName());
-        // Set the text of PlayerThreeID label to the third player's name
-        PlayerThreeID.setText(players.get(2).getPlayerName());
-        // Set the text of PlayerFourID label to the fourth player's name
-        PlayerFourID.setText(players.get(3).getPlayerName());
-    }
+    //This method assigns player names to the respective PlayerID labels
+//    private void assignPlayer() {
+//        // Set the text of PlayerOneID label to the first player's name
+//        PlayerOneID.setText(players.get(0).getPlayerName());
+//        // Set the text of PlayerTwoID label to the second player's name
+//        PlayerTwoID.setText(players.get(1).getPlayerName());
+//        // Set the text of PlayerThreeID label to the third player's name
+//        PlayerThreeID.setText(players.get(2).getPlayerName());
+//        // Set the text of PlayerFourID label to the fourth player's name
+//        PlayerFourID.setText(players.get(3).getPlayerName());
+//    }
 
     // This method shuffles the positions of the hexagons on the board
     private void shuffleHexagons() {
@@ -492,8 +492,6 @@ public class Board extends SignUpController  implements Initializable {
         System.out.println("New Y Coordinates: " + shuffledYCoordinates);
     }
 
-
-
     private double getHexDesertX() {
         return hexagons.get(18).getLayoutX();
     }
@@ -502,67 +500,63 @@ public class Board extends SignUpController  implements Initializable {
         return hexagons.get(18).getLayoutY();
     }
 
-    // This method shuffles the positions of the number tokens on the board
     private void shuffleNumber() {
-        // Set the layout position of Num_19 (the desert hexagon) to the desert hexagon's position
-        Num_19.setLayoutY(getHexDesertY());
-        Num_19.setLayoutX(getHexDesertX());
         // Hide the desert number token (Num_19) since the desert hexagon has no number
         Num_19.setVisible(false);
+
         // Remove Num_19 from the TextNumbers list as it's not needed for the shuffling process
         TextNumbers.remove(Num_19);
-        // Remove the desert hexagon's x and y coordinates from xCoordText and yCoordText lists
-        xCoordText.remove(getHexDesertX());
-        yCoordText.remove(getHexDesertY());
 
         // Iterate through each number token in TextNumbers
         for (Text textNumber : TextNumbers) {
-            // Create a new Random object for generating random indices
-            Random rand = new Random();
-            // Generate a random index within the range of xCoordText's size
-            int randomIndex = rand.nextInt(xCoordText.size());
-            // Set the layout position of the number token to the randomly chosen coordinates
-            textNumber.setLayoutX(xCoordText.get(randomIndex));
-            textNumber.setLayoutY(yCoordText.get(randomIndex));
-            // Remove the used coordinates from xCoordText and yCoordText lists
-            xCoordText.remove(randomIndex);
-            yCoordText.remove(randomIndex);
+            double newX, newY;
+            boolean validPosition;
+            do {
+                // Create a new Random object for generating random indices
+                Random rand = new Random();
+                // Generate a random index within the range of xCoordText's size
+                int randomIndex = rand.nextInt(xCoordText.size());
+                // Get the x and y coordinates for the current number token
+                newX = xCoordText.get(randomIndex);
+                newY = yCoordText.get(randomIndex);
+                // Check if the number token is too close to the desert hexagon
+                validPosition = Math.abs(newX - getHexDesertX()) > 1e-6 || Math.abs(newY - getHexDesertY()) > 1e-6;
+                if (validPosition) {
+                    // Set the layout position of the number token to the randomly chosen coordinates
+                    textNumber.setLayoutX(newX);
+                    textNumber.setLayoutY(newY);
+                    // Remove the used coordinates from xCoordText and yCoordText lists
+                    xCoordText.remove(randomIndex);
+                    yCoordText.remove(randomIndex);
+                }
+            } while (!validPosition);
         }
     }
-
-
-
-
-    private void diceRoll() {
-        //DiceIMages 1
-        Image ImageDice1_1 = new Image("https://i.postimg.cc/HWyd8QJC/Dice-One-removebg-preview.png");
-        Image ImageDice2_1 = new Image("https://i.postimg.cc/zGJrQ6xJ/Dice-Two-removebg-preview.png");
-        Image ImageDice3_1 = new Image("https://i.postimg.cc/PqgVg8dm/dice-Three-removebg-preview.png");
-        Image ImageDice4_1 = new Image("https://i.postimg.cc/SNP61bS9/Dice-Four-removebg-preview.png");
-        Image ImageDice5_1 = new Image("https://i.postimg.cc/vTc15D6N/Dice-Five-removebg-preview.png");
-        Image ImageDice6_1 = new Image("https://i.postimg.cc/JhxtgjNF/Dice-Six-removebg-preview.png");
-        //DiceIMages 2
-        Image ImageDice1_2 = new Image("https://i.postimg.cc/W1XhYM6H/Dice-One-removebg-preview-Yellow.png");
-        Image ImageDice2_2 = new Image("https://i.postimg.cc/85kwQdqf/Dice-Two-removebg-preview-Yellow.png");
-        Image ImageDice3_2 = new Image("https://i.postimg.cc/3NVZvsW2/Dice-Three-removebg-preview-Yellow.png");
-        Image ImageDice4_2 = new Image("https://i.postimg.cc/TPfJgq2N/Dice-Four-removebg-preview-Yellow.png");
-        Image ImageDice5_2 = new Image("https://i.postimg.cc/7PfNPHZ5/dice-Five-removebg-preview-Yellow.png");
-        Image ImageDice6_2 = new Image("https://i.postimg.cc/MGHn0G4R/Dice-Six-removebg-preview-Yellow.png");
-
-        //Adds both dices to own its own arrays
-        diceImages_1.addAll(Arrays.asList(ImageDice1_1, ImageDice2_1, ImageDice3_1, ImageDice4_1, ImageDice5_1, ImageDice6_1));
-        diceImages_2.addAll(Arrays.asList(ImageDice1_2, ImageDice2_2, ImageDice3_2, ImageDice4_2, ImageDice5_2, ImageDice6_2));
-        dice1.setFill(new ImagePattern(ImageDice1_1));
-        dice2.setFill(new ImagePattern(ImageDice1_2));
-        Random randomImage = new Random();
-        int diceOne = randomImage.nextInt(1, 7);
-        int diceTwo = randomImage.nextInt(1, 7);
-        DiceOutCome.setVisible(false);//Makes dice outcome text not visible
-
-    }
+private void diceRoll() {
+    //DiceImages 1
+    diceImages_1.addAll(Arrays.asList(
+            new Image("Images for the game/Dice/Dice1/Dice-One-removebg-preview.png"),
+            new Image("Images for the game/Dice/Dice1/Dice-Two-removebg-preview.png"),
+            new Image("Images for the game/Dice/Dice1/dice-Three-removebg-preview.png"),
+            new Image("Images for the game/Dice/Dice1/Dice-Four-removebg-preview.png"),
+            new Image("Images for the game/Dice/Dice1/Dice-Five-removebg-preview.png"),
+            new Image("Images for the game/Dice/Dice1/Dice-Six-removebg-preview.png")
+    ));
+    //DiceImages 2
+    diceImages_2.addAll(Arrays.asList(
+            new Image("Images for the game/Dice/Dice2/Dice-One-removebg-preview-Yellow.png"),
+            new Image("Images for the game/Dice/Dice2/Dice-Two-removebg-preview-Yellow.png"),
+            new Image("Images for the game/Dice/Dice2/Dice-Three-removebg-preview-Yellow.png"),
+            new Image("Images for the game/Dice/Dice2/Dice-Four-removebg-preview-Yellow.png"),
+            new Image("Images for the game/Dice/Dice2/dice-Five-removebg-preview-Yellow.png"),
+            new Image("Images for the game/Dice/Dice2/Dice-Six-removebg-preview-Yellow.png")
+    ));
+    dice1.setFill(new ImagePattern(diceImages_1.get(0)));
+    dice2.setFill(new ImagePattern(diceImages_2.get(0)));
+    DiceOutCome.setVisible(false);
+}
 
     public void roll(MouseEvent mouseEvent) {
-//        dice1.setStroke();
         Random randomImage = new Random();
         int diceOne = randomImage.nextInt(0, 6);
         int diceTwo = randomImage.nextInt(0, 6);
@@ -574,56 +568,13 @@ public class Board extends SignUpController  implements Initializable {
             if (rectangle != null) {
                 rectangle.setFill(Color.rgb(216, 213, 213));
             }
+        }
 
-        }
-        System.out.println(diceImages_1);
-        int result = 0; // initialize the result to 0
-
-        switch (diceImages_1.get(diceOne).getUrl()) {
-            case "https://i.postimg.cc/HWyd8QJC/Dice-One-removebg-preview.png" -> {
-                result += 1;
-            }
-            case "https://i.postimg.cc/zGJrQ6xJ/Dice-Two-removebg-preview.png" -> {
-                result += 2;
-            }
-            case "https://i.postimg.cc/PqgVg8dm/dice-Three-removebg-preview.png" -> {
-                result += 3;
-            }
-            case "https://i.postimg.cc/SNP61bS9/Dice-Four-removebg-preview.png" -> {
-                result += 4;
-            }
-            case "https://i.postimg.cc/vTc15D6N/Dice-Five-removebg-preview.png" -> {
-                result += 5;
-            }
-            case "https://i.postimg.cc/JhxtgjNF/Dice-Six-removebg-preview.png" -> {
-                result += 6;
-            }
-        }
-        switch (diceImages_2.get(diceTwo).getUrl()) {
-            case "https://i.postimg.cc/W1XhYM6H/Dice-One-removebg-preview-Yellow.png" -> {
-                result += 1;
-            }
-            case "https://i.postimg.cc/85kwQdqf/Dice-Two-removebg-preview-Yellow.png" -> {
-                result += 2;
-            }
-            case "https://i.postimg.cc/3NVZvsW2/Dice-Three-removebg-preview-Yellow.png" -> {
-                result += 3;
-            }
-            case "https://i.postimg.cc/TPfJgq2N/Dice-Four-removebg-preview-Yellow.png" -> {
-                result += 4;
-            }
-            case "https://i.postimg.cc/7PfNPHZ5/dice-Five-removebg-preview-Yellow.png" -> {
-                result += 5;
-            }
-            case "https://i.postimg.cc/MGHn0G4R/Dice-Six-removebg-preview-Yellow.png" -> {
-                result += 6;
-            }
-        }
+        int result = diceOne + diceTwo + 2; // Add 2 because array indexes start at 0
         String diceOutcomeSTR = String.valueOf(result);
         System.out.println("The result is: " + result);
         DiceOutCome.setText("Dice OutCome: " + diceOutcomeSTR);
     }
-
     public void click(MouseEvent mouseEvent) {
         System.out.println("Road is Clicked");
     }

@@ -16,7 +16,7 @@
                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="1080.0" stroke="BLACK" strokeType="INSIDE" width="1920.0" />
                 <ImageView fx:id="Welcome" fitHeight="1080.0" fitWidth="1920.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="https://i.postimg.cc/mD5vLBGm/Empty-Login-Page.jpg" />
+                        <Image url="@../../../Images%20for%20the%20game/Empty-Login-Page.jpg" />
                     </image>
                 </ImageView>
                 <Button fx:id="startBTN" layoutX="880.0" layoutY="819.0" mnemonicParsing="false" onMouseClicked="#Start" prefHeight="49.0" prefWidth="160.0" style="-fx-background-color: #FFBF00;" text="Start">
