@@ -67,6 +67,10 @@ public class Board extends SignUpController  implements Initializable {
     public Rectangle PlayerThreeTagBoxColor;
     public Rectangle PlayerFourTagBoxColor;
     public Button NextTurn;
+    public Text PlayerOneLongestRoad;
+    public Text PlayerTwoLongestRoad;
+    public Text PlayerThreeLongestRoad;
+    public Text PlayerFourLongestRoad;
     @FXML
     private Rectangle Road_1_10;
 
@@ -638,7 +642,49 @@ private void diceRoll() {
 
         // Update the GUI with the current player's name
         ResourceCrdsPlayerName.setText(currentPlayer.getPlayerName());
+
+        hideAllPlayerElements();
+
+        // Show elements for the current player
+        if (currentPlayerIndex == 0) {
+            showPlayerOneElements(currentPlayer);
+        } else if (currentPlayerIndex == 1) {
+            showPlayerTwoElements(currentPlayer);
+        } else if (currentPlayerIndex == 2) {
+            showPlayerThreeElements(currentPlayer);
+        } else if (currentPlayerIndex == 3) {
+            showPlayerFourElements(currentPlayer);
+        }
     }
+
+    private void hideAllPlayerElements() {
+        PlayerOneLongestRoad.setVisible(false);
+        PlayerTwoLongestRoad.setVisible(false);
+        PlayerThreeLongestRoad.setVisible(false);
+        PlayerFourLongestRoad.setVisible(false);
+    }
+
+    private void showPlayerOneElements(Player currentPlayer) {
+        PlayerOneLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+        PlayerOneLongestRoad.setVisible(true);
+    }
+
+    private void showPlayerTwoElements(Player currentPlayer) {
+        PlayerTwoLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+        PlayerTwoLongestRoad.setVisible(true);
+    }
+
+    private void showPlayerThreeElements(Player currentPlayer) {
+        PlayerThreeLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+        PlayerThreeLongestRoad.setVisible(true);
+    }
+
+    private void showPlayerFourElements(Player currentPlayer) {
+        PlayerFourLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+        PlayerFourLongestRoad.setVisible(true);
+    }
+
+
 
     public void changeRoadColor(MouseEvent mouseEvent) {
         // Get the source of the event and cast it to a Rectangle
@@ -654,10 +700,22 @@ private void diceRoll() {
 
         // Set the rectangle's fill color to the current player's color
         clickedRoad.setFill(currentPlayer.getPlayerColour().getFxColor());
-
+        currentPlayer.setRoads();
         // Set the UserData of the rectangle to "used" to mark it as used
         clickedRoad.setUserData("used");
+        System.out.println(currentPlayer.getPlayerName()+currentPlayer.getRoads());
+
+        if (currentPlayerIndex == 0){
+            PlayerOneLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+        } else if (currentPlayerIndex == 1){
+            PlayerTwoLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+        } else if (currentPlayerIndex == 2){
+            PlayerThreeLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+        } else if (currentPlayerIndex == 3){
+            PlayerFourLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+        }
     }
+
 
 
 
