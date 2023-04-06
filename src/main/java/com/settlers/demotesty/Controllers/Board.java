@@ -1,8 +1,11 @@
 package com.settlers.demotesty.Controllers;
 
+import com.settlers.demotesty.Fundimentals.Colour;
+import com.settlers.demotesty.Fundimentals.Player;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -59,6 +62,11 @@ public class Board extends SignUpController  implements Initializable {
     public Text PlayerTwoID;
     public Text PlayerThreeID;
     public Text PlayerFourID;
+    public Rectangle PlayerOneTagBoxColor;
+    public Rectangle PlayerTwoTagBoxColor;
+    public Rectangle PlayerThreeTagBoxColor;
+    public Rectangle PlayerFourTagBoxColor;
+    public Button NextTurn;
     @FXML
     private Rectangle Road_1_10;
 
@@ -355,6 +363,8 @@ public class Board extends SignUpController  implements Initializable {
     ArrayList<Text> TextNumbers = new ArrayList<>();
     ArrayList<Double> xCoordText = new ArrayList<>();
     ArrayList<Double> yCoordText = new ArrayList<>();
+    private int currentPlayerIndex = -1;
+
 
     int DiceResult = 0;
     static ArrayList<Polygon> shuffledHexagons = new ArrayList<>(); // create a new ArrayList to hold the shuffled hexagons
@@ -430,23 +440,47 @@ public class Board extends SignUpController  implements Initializable {
         System.out.println("Printing The Hex");
         System.out.println(hexagons);
 
+        currentPlayerIndex = -1;
+
+
+
         shuffleHexagons();//Calls Shuffle method
         shuffleNumber();
         diceRoll();//Calls Dice Roll
-//        assignPlayer();
+        assignPlayer();
+        for (Rectangle road : Roads) {
+            if (road != null) {
+                road.setOnMouseClicked(this::changeRoadColor);
+            } else {
+                System.out.println("Road is null!");
+            }
+        }
+
     }
 
     //This method assigns player names to the respective PlayerID labels
-//    private void assignPlayer() {
-//        // Set the text of PlayerOneID label to the first player's name
-//        PlayerOneID.setText(players.get(0).getPlayerName());
-//        // Set the text of PlayerTwoID label to the second player's name
-//        PlayerTwoID.setText(players.get(1).getPlayerName());
-//        // Set the text of PlayerThreeID label to the third player's name
-//        PlayerThreeID.setText(players.get(2).getPlayerName());
-//        // Set the text of PlayerFourID label to the fourth player's name
-//        PlayerFourID.setText(players.get(3).getPlayerName());
-//    }
+    private void assignPlayer() {
+        // Set the text of PlayerOneID label to the first player's name
+        PlayerOneID.setText(players.get(0).getPlayerName());
+        // Set the fill color of PlayerOneTagBoxColor based on the first player's color
+        PlayerOneTagBoxColor.setFill(players.get(0).getPlayerColour().getFxColor());
+
+        // Set the text of PlayerTwoID label to the second player's name
+        PlayerTwoID.setText(players.get(1).getPlayerName());
+        // Set the fill color of PlayerTwoTagBoxColor based on the second player's color
+        PlayerTwoTagBoxColor.setFill(players.get(1).getPlayerColour().getFxColor());
+
+        // Set the text of PlayerThreeID label to the third player's name
+        PlayerThreeID.setText(players.get(2).getPlayerName());
+        // Set the fill color of PlayerThreeTagBoxColor based on the third player's color
+        PlayerThreeTagBoxColor.setFill(players.get(2).getPlayerColour().getFxColor());
+
+        // Set the text of PlayerFourID label to the fourth player's name
+        PlayerFourID.setText(players.get(3).getPlayerName());
+        // Set the fill color of PlayerFourTagBoxColor based on the fourth player's color
+        PlayerFourTagBoxColor.setFill(players.get(3).getPlayerColour().getFxColor());
+    }
+
 
     // This method shuffles the positions of the hexagons on the board
     private void shuffleHexagons() {
@@ -490,6 +524,8 @@ public class Board extends SignUpController  implements Initializable {
         // Print the new x and y coordinates for debugging purposes
         System.out.println("New X Coordinates: " + shuffledXCoordinates);
         System.out.println("New Y Coordinates: " + shuffledYCoordinates);
+
+
     }
 
     private double getHexDesertX() {
@@ -578,6 +614,53 @@ private void diceRoll() {
     public void click(MouseEvent mouseEvent) {
         System.out.println("Road is Clicked");
     }
+
+
+
+    public void NextPlayer(MouseEvent mouseEvent) {
+        // Check if the players list is empty
+        if (players.isEmpty()) {
+            // If it's empty, show an error message or handle the situation as needed
+            System.out.println("The players list is empty!");
+            return;
+        }
+
+        // Increment the currentPlayerIndex
+        currentPlayerIndex++;
+
+        // If the currentPlayerIndex reaches the last player, set it back to 0
+        if (currentPlayerIndex >= players.size()) {
+            currentPlayerIndex = 0;
+        }
+
+        // Get the current player
+        Player currentPlayer = players.get(currentPlayerIndex);
+
+        // Update the GUI with the current player's name
+        ResourceCrdsPlayerName.setText(currentPlayer.getPlayerName());
+    }
+
+    public void changeRoadColor(MouseEvent mouseEvent) {
+        // Get the source of the event and cast it to a Rectangle
+        Rectangle clickedRoad = (Rectangle) mouseEvent.getSource();
+
+        // Check if the UserData is set to "used", if so, return from the method
+        if ("used".equals(clickedRoad.getUserData())) {
+            return;
+        }
+
+        // Get the current player
+        Player currentPlayer = players.get(currentPlayerIndex);
+
+        // Set the rectangle's fill color to the current player's color
+        clickedRoad.setFill(currentPlayer.getPlayerColour().getFxColor());
+
+        // Set the UserData of the rectangle to "used" to mark it as used
+        clickedRoad.setUserData("used");
+    }
+
+
+
 
 
 }
