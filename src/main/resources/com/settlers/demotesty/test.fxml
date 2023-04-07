@@ -114,10 +114,26 @@
                                         <Image url="@../../../Images%20for%20the%20game/PlayerOne.png" />
                                     </image>
                                 </ImageView>
-                                <Text fx:id="PlayerOneID" layoutX="193.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerOne" />
-                                <Text layoutX="141.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Knights:" />
-                                <Text fx:id="PlayerOneLongestRoad" layoutX="141.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longest Road:" />
-                                <Text layoutX="141.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VPs:" />
+                                <Text fx:id="PlayerOneID" layoutX="193.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerOne">
+                                <font>
+                                    <Font name="System Bold Italic" size="13.0" />
+                                </font>
+                            </Text>
+                                <Text layoutX="141.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Knights:">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                                </Text>
+                                <Text fx:id="PlayerOneLongestRoad" layoutX="141.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longest Road:">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Text>
+                                <Text layoutX="141.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VPs:">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Text>
                             </children>
                         </Group>
                         <Group fx:id="PlayerTwoTagBox" layoutX="485.0" layoutY="20.0">
@@ -128,38 +144,86 @@
                                         <Image url="@../../../Images%20for%20the%20game/PlayerTwo.png" />
                                     </image>
                                 </ImageView>
-                                <Text fx:id="PlayerTwoID" layoutX="193.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerTwo" />
-                                <Text layoutX="141.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Knights:" />
-                                <Text fx:id="PlayerTwoLongestRoad" layoutX="141.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longest Road:" />
-                                <Text layoutX="141.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VPs:" />
+                                <Text fx:id="PlayerTwoID" layoutX="193.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerTwo">
+                                    <font>
+                                        <Font name="System Bold Italic" size="13.0" />
+                                    </font>
+                                </Text>
+                                <Text layoutX="141.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Knights:">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Text>
+                                <Text fx:id="PlayerTwoLongestRoad" layoutX="141.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longest Road:">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Text>
+                                <Text layoutX="141.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VPs:">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Text>
                             </children>
                         </Group>
                         <Group fx:id="PlayerThreeTagBox" layoutX="496.0" layoutY="11.0">
                             <children>
                                 <Rectangle fx:id="PlayerThreeTagBoxColor" arcHeight="5.0" arcWidth="5.0" fill="Red" height="120.0" layoutX="427.0" layoutY="6.94921875" stroke="white" strokeType="INSIDE" width="282.0" />
-                                <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="427.0" layoutY="6.94921875">
+                                <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="427.0" layoutY="7.94921875">
                                     <image>
                                         <Image url="@../../../Images%20for%20the%20game/PlayerThree.png" />
                                     </image>
                                 </ImageView>
-                                <Text fx:id="PlayerThreeID" layoutX="612.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerThree" />
-                                <Text layoutX="569.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Knights:" />
-                                <Text fx:id="PlayerThreeLongestRoad" layoutX="568.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longest Road:" />
-                                <Text layoutX="569.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VPs:" />
+                                <Text fx:id="PlayerThreeID" layoutX="612.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerThree">
+                                    <font>
+                                        <Font name="System Bold Italic" size="13.0" />
+                                    </font>
+                                </Text>
+                                <Text layoutX="569.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Knights:">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Text>
+                                <Text fx:id="PlayerThreeLongestRoad" layoutX="568.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longest Road:">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Text>
+                                <Text layoutX="569.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VPs:">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Text>
                             </children>
                         </Group>
                         <Group fx:id="PlayerFoursTagBox" layoutX="514.0" layoutY="9.0">
                         <children>
                             <Rectangle fx:id="PlayerFourTagBoxColor" arcHeight="5.0" arcWidth="5.0" fill="Yellow" height="120.0" layoutX="838.0" layoutY="13.84765625" stroke="white" strokeType="INSIDE" width="282.0" />
-                            <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="838.0" layoutY="13.84765625">
+                            <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="838.0" layoutY="14.84765625">
                                 <image>
                                     <Image url="@../../../Images%20for%20the%20game/PlayerFour.png" />
                                 </image>
                             </ImageView>
-                            <Text fx:id="PlayerFourID" layoutX="1030.0" layoutY="36.8984375" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerFour" />
-                            <Text layoutX="979.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Knights:" />
-                            <Text fx:id="PlayerFourLongestRoad" layoutX="979.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longest Road:" />
-                            <Text layoutX="979.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VPs:" />
+                            <Text fx:id="PlayerFourID" layoutX="1030.0" layoutY="36.8984375" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerFour">
+                                <font>
+                                    <Font name="System Bold Italic" size="13.0" />
+                                </font>
+                            </Text>
+                            <Text layoutX="979.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Knights:">
+                                <font>
+                                    <Font name="System Bold" size="13.0" />
+                                </font>
+                            </Text>
+                            <Text fx:id="PlayerFourLongestRoad" layoutX="979.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longest Road:">
+                                <font>
+                                    <Font name="System Bold" size="13.0" />
+                                </font>
+                            </Text>
+                            <Text layoutX="979.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VPs:">
+                                <font>
+                                    <Font name="System Bold" size="13.0" />
+                                </font>
+                            </Text>
                         </children>
                     </Group>
                         <Rectangle fx:id="Road_1_3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="1128.0" layoutY="330.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
@@ -486,7 +550,7 @@
                                 <Group layoutX="421.0" layoutY="93.0">
                                     <children>
                                         <Circle fill="WHITE" layoutX="2.0" layoutY="-3.0" radius="22.0" stroke="WHITE" strokeType="INSIDE" />
-                                        <Text fx:id="GrainCardCOunter" layoutX="-8.0" layoutY="8.0" strokeType="OUTSIDE" strokeWidth="0.0" text="">
+                                        <Text fx:id="GrainCardCOunter" layoutX="-8.0" layoutY="8.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2">
                                             <font>
                                                 <Font name="Broadway" size="24.0" />
                                             </font>

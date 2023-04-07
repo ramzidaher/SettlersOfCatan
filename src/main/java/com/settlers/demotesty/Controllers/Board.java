@@ -435,8 +435,13 @@ public class Board extends SignUpController  implements Initializable {
             yCoordinates.add(hexagon.getLayoutY());//Add Hex's Y-Coordinates in the specific array
         }
 
-        System.out.println(xCoordinates);
-        System.out.println(yCoordinates);
+        for (Rectangle rectangle : Roads) {
+            if (rectangle != null) {
+                rectangle.setFill(Color.valueOf("White"));
+
+            }
+        }
+
 
         System.out.println("Text x: " + xCoordText);
         System.out.println("Text y: " + yCoordText);
@@ -604,11 +609,6 @@ private void diceRoll() {
         dice2.setFill(new ImagePattern(diceImages_2.get(diceTwo)));
 
         DiceOutCome.setVisible(true);
-        for (Rectangle rectangle : Roads) {
-            if (rectangle != null) {
-                rectangle.setFill(Color.rgb(216, 213, 213));
-            }
-        }
 
         int result = diceOne + diceTwo + 2; // Add 2 because array indexes start at 0
         String diceOutcomeSTR = String.valueOf(result);
