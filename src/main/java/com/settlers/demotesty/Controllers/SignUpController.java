@@ -114,12 +114,4 @@ void submitBTN(MouseEvent event) throws IOException {
 
     }
 
-    public static ArrayList<Player> getPlayersList(){
-        return players;
-    }
-//    public void getPlayersNames(){
-//        for (int i = 0; i < players.size(); i++) {
-//            players.get(i);
-//        }
-//    }
 }

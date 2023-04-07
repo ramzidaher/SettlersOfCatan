@@ -1,12 +1,15 @@
 package com.settlers.demotesty.Controllers;
 
-import com.settlers.demotesty.Fundimentals.Colour;
 import com.settlers.demotesty.Fundimentals.Player;
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -14,6 +17,8 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
+
 import java.net.URL;
 import java.util.*;
 
@@ -71,6 +76,61 @@ public class Board extends SignUpController  implements Initializable {
     public Text PlayerTwoLongestRoad;
     public Text PlayerThreeLongestRoad;
     public Text PlayerFourLongestRoad;
+    public RadioButton RadioBTN1;
+    public RadioButton RadioBTN2;
+    public RadioButton RadioBTN3;
+    public RadioButton RadioBTN4;
+    public RadioButton RadioBTN5;
+    public RadioButton RadioBTN6;
+    public RadioButton RadioBTN7;
+    public RadioButton RadioBTN8;
+    public RadioButton RadioBTN9;
+    public RadioButton RadioBTN10;
+    public RadioButton RadioBTN11;
+    public RadioButton RadioBTN12;
+    public RadioButton RadioBTN13;
+    public RadioButton RadioBTN14;
+    public RadioButton RadioBTN15;
+    public RadioButton RadioBTN16;
+    public RadioButton RadioBTN17;
+    public RadioButton RadioBTN18;
+    public RadioButton RadioBTN19;
+    public RadioButton RadioBTN20;
+    public RadioButton RadioBTN21;
+    public RadioButton RadioBTN22;
+    public RadioButton RadioBTN23;
+    public RadioButton RadioBTN24;
+    public RadioButton RadioBTN25;
+    public RadioButton RadioBTN26;
+    public RadioButton RadioBTN27;
+    public RadioButton RadioBTN28;
+    public RadioButton RadioBTN29;
+    public RadioButton RadioBTN30;
+    public RadioButton RadioBTN31;
+    public RadioButton RadioBTN32;
+    public RadioButton RadioBTN33;
+    public RadioButton RadioBTN34;
+    public RadioButton RadioBTN35;
+    public RadioButton RadioBTN36;
+    public RadioButton RadioBTN37;
+    public RadioButton RadioBTN38;
+    public RadioButton RadioBTN39;
+    public RadioButton RadioBTN40;
+    public RadioButton RadioBTN41;
+    public RadioButton RadioBTN42;
+    public RadioButton RadioBTN43;
+    public RadioButton RadioBTN44;
+    public RadioButton RadioBTN45;
+    public RadioButton RadioBTN46;
+    public RadioButton RadioBTN47;
+    public RadioButton RadioBTN48;
+    public RadioButton RadioBTN49;
+    public RadioButton RadioBTN50;
+    public RadioButton RadioBTN51;
+    public RadioButton RadioBTN52;
+    public RadioButton RadioBTN53;
+    public RadioButton RadioBTN54;
+
     @FXML
     private Rectangle Road_1_10;
 
@@ -296,23 +356,16 @@ public class Board extends SignUpController  implements Initializable {
     @FXML
     private Polygon Hex1;
 
-
     @FXML
     private Polygon Hex10;
-
-
     @FXML
     private Polygon Hex11;
-
     @FXML
     private Polygon Hex12;
-
     @FXML
     private Polygon Hex13;
-
     @FXML
     private Polygon Hex14;
-
     @FXML
     private Polygon Hex15;
 
@@ -348,30 +401,26 @@ public class Board extends SignUpController  implements Initializable {
 
     @FXML
     private Polygon Hex9;
-
-
     @FXML
     public Text DiceOutCome;
 
+    //Main Fields that are used
 
     List<Polygon> hexagons = new ArrayList<>();
-
-
     ArrayList<Double> xCoordinates = new ArrayList<Double>();//x-coordinates for Hexs
     ArrayList<Double> yCoordinates = new ArrayList<Double>();//y-coordinates for Hexs
     ArrayList<Image> diceImages_1 = new ArrayList<>();//Dice_1 ArrayList
     ArrayList<Image> diceImages_2 = new ArrayList<>();//Dice_2 ArrayList
-
     ArrayList<Rectangle> Roads = new ArrayList<>();
-
+    ArrayList<RadioButton> ButtonForBuildings = new ArrayList<>();
     ArrayList<Text> TextNumbers = new ArrayList<>();
     ArrayList<Double> xCoordText = new ArrayList<>();
     ArrayList<Double> yCoordText = new ArrayList<>();
+    ArrayList<Double> xCoordRadioBTN = new ArrayList<>();
+    ArrayList<Double> yCoordRadioBTN = new ArrayList<>();
     private int currentPlayerIndex = -1;
 
 
-    int DiceResult = 0;
-    static ArrayList<Polygon> shuffledHexagons = new ArrayList<>(); // create a new ArrayList to hold the shuffled hexagons
 
 
     @Override
@@ -422,19 +471,6 @@ public class Board extends SignUpController  implements Initializable {
                 Road_1_61, Road_1_62, Road_1_63, Road_1_64, Road_1_65, Road_1_66, Road_1_67, Road_1_68,
                 Road_1_69, Road_1_70, Road_1_72, Road_1_73, Road_74, Road_74, road_1_99, Road_1_100, Road_1_101));
 
-        TextNumbers.addAll(Arrays.asList(Num_1, Num_2, Num_3, Num_4, Num_5, Num_6, Num_7, Num_8, Num_9, Num_10, Num_11, Num_12, Num_13, Num_14, Num_15, Num_16, Num_17, Num_18, Num_19));
-        for (Text number : TextNumbers) {
-            xCoordText.add(number.getLayoutX());
-            yCoordText.add(number.getLayoutY());
-
-        }
-
-        hexagons.addAll(Arrays.asList(Hex1, Hex2, Hex3, Hex4, Hex5, Hex6, Hex7, Hex8, Hex9, Hex10, Hex11, Hex12, Hex13, Hex14, Hex15, Hex17, Hex18, Hex19, HexDesert));//Add all the Hex's to the ArrayList
-        for (Polygon hexagon : hexagons) {
-            xCoordinates.add(hexagon.getLayoutX());//Add Hex's X-coordiantes in the specific array
-            yCoordinates.add(hexagon.getLayoutY());//Add Hex's Y-Coordinates in the specific array
-        }
-
         for (Rectangle rectangle : Roads) {
             if (rectangle != null) {
                 rectangle.setFill(Color.valueOf("White"));
@@ -442,6 +478,47 @@ public class Board extends SignUpController  implements Initializable {
             }
         }
 
+        TextNumbers.addAll(Arrays.asList(Num_1, Num_2, Num_3, Num_4, Num_5, Num_6,
+                Num_7, Num_8, Num_9, Num_10, Num_11, Num_12, Num_13, Num_14, Num_15,
+                Num_16, Num_17, Num_18, Num_19));
+        for (Text number : TextNumbers) {
+            xCoordText.add(number.getLayoutX());
+            yCoordText.add(number.getLayoutY());
+
+        }
+
+        hexagons.addAll(Arrays.asList(Hex1, Hex2, Hex3, Hex4, Hex5, Hex6, Hex7, Hex8,
+                Hex9, Hex10, Hex11, Hex12, Hex13, Hex14,
+                Hex15, Hex17, Hex18, Hex19, HexDesert));//Add all the Hex's to the ArrayList
+        for (Polygon hexagon : hexagons) {
+            xCoordinates.add(hexagon.getLayoutX());//Add Hex's X-coordiantes in the specific array
+            yCoordinates.add(hexagon.getLayoutY());//Add Hex's Y-Coordinates in the specific array
+        }
+
+        ButtonForBuildings.addAll(Arrays.asList(
+                RadioBTN1, RadioBTN2, RadioBTN3, RadioBTN4, RadioBTN5,
+                RadioBTN6, RadioBTN7, RadioBTN8, RadioBTN9, RadioBTN10,
+                RadioBTN11, RadioBTN12, RadioBTN13, RadioBTN14, RadioBTN15,
+                RadioBTN16, RadioBTN17, RadioBTN18, RadioBTN19, RadioBTN20,
+                RadioBTN21, RadioBTN22, RadioBTN23, RadioBTN24, RadioBTN25,
+                RadioBTN26, RadioBTN27, RadioBTN28, RadioBTN29, RadioBTN30,
+                RadioBTN31, RadioBTN32, RadioBTN33, RadioBTN34, RadioBTN35,
+                RadioBTN36, RadioBTN37, RadioBTN38, RadioBTN39, RadioBTN40,
+                RadioBTN41, RadioBTN42, RadioBTN43, RadioBTN44, RadioBTN45,
+                RadioBTN46, RadioBTN47, RadioBTN48, RadioBTN49, RadioBTN50,
+                RadioBTN51, RadioBTN52, RadioBTN53, RadioBTN54
+        ));
+
+        for (RadioButton placeButton : ButtonForBuildings) {
+            if (placeButton != null) {
+                xCoordRadioBTN.add(placeButton.getLayoutX());
+                yCoordRadioBTN.add(placeButton.getLayoutX());
+
+            }
+        }
+
+        System.out.println("RadioBTN x: " + xCoordRadioBTN);
+        System.out.println("RadioBTN y: " + yCoordRadioBTN);
 
         System.out.println("Text x: " + xCoordText);
         System.out.println("Text y: " + yCoordText);
@@ -450,7 +527,6 @@ public class Board extends SignUpController  implements Initializable {
         System.out.println(hexagons);
 
         currentPlayerIndex = -1;
-
 
 
         shuffleHexagons();//Calls Shuffle method
@@ -503,8 +579,7 @@ public class Board extends SignUpController  implements Initializable {
         ArrayList<Double> yCoordinatesCopy = new ArrayList<>(yCoordinates);
 
         // Iterate through each hexagon
-        for (Polygon hexagon : hexagons)
-        {
+        for (Polygon hexagon : hexagons) {
             // Create a new Random object for generating random indices
             Random rand = new Random();
             // Generate a random index within the range of xCoordinatesCopy's size
@@ -577,29 +652,30 @@ public class Board extends SignUpController  implements Initializable {
             } while (!validPosition);
         }
     }
-private void diceRoll() {
-    //DiceImages 1
-    diceImages_1.addAll(Arrays.asList(
-            new Image("Images for the game/Dice/Dice1/Dice-One-removebg-preview.png"),
-            new Image("Images for the game/Dice/Dice1/Dice-Two-removebg-preview.png"),
-            new Image("Images for the game/Dice/Dice1/dice-Three-removebg-preview.png"),
-            new Image("Images for the game/Dice/Dice1/Dice-Four-removebg-preview.png"),
-            new Image("Images for the game/Dice/Dice1/Dice-Five-removebg-preview.png"),
-            new Image("Images for the game/Dice/Dice1/Dice-Six-removebg-preview.png")
-    ));
-    //DiceImages 2
-    diceImages_2.addAll(Arrays.asList(
-            new Image("Images for the game/Dice/Dice2/Dice-One-removebg-preview-Yellow.png"),
-            new Image("Images for the game/Dice/Dice2/Dice-Two-removebg-preview-Yellow.png"),
-            new Image("Images for the game/Dice/Dice2/Dice-Three-removebg-preview-Yellow.png"),
-            new Image("Images for the game/Dice/Dice2/Dice-Four-removebg-preview-Yellow.png"),
-            new Image("Images for the game/Dice/Dice2/dice-Five-removebg-preview-Yellow.png"),
-            new Image("Images for the game/Dice/Dice2/Dice-Six-removebg-preview-Yellow.png")
-    ));
-    dice1.setFill(new ImagePattern(diceImages_1.get(0)));
-    dice2.setFill(new ImagePattern(diceImages_2.get(0)));
-    DiceOutCome.setVisible(false);
-}
+
+    private void diceRoll() {
+        //DiceImages 1
+        diceImages_1.addAll(Arrays.asList(
+                new Image("Images for the game/Dice/Dice1/Dice-One-removebg-preview.png"),
+                new Image("Images for the game/Dice/Dice1/Dice-Two-removebg-preview.png"),
+                new Image("Images for the game/Dice/Dice1/dice-Three-removebg-preview.png"),
+                new Image("Images for the game/Dice/Dice1/Dice-Four-removebg-preview.png"),
+                new Image("Images for the game/Dice/Dice1/Dice-Five-removebg-preview.png"),
+                new Image("Images for the game/Dice/Dice1/Dice-Six-removebg-preview.png")
+        ));
+        //DiceImages 2
+        diceImages_2.addAll(Arrays.asList(
+                new Image("Images for the game/Dice/Dice2/Dice-One-removebg-preview-Yellow.png"),
+                new Image("Images for the game/Dice/Dice2/Dice-Two-removebg-preview-Yellow.png"),
+                new Image("Images for the game/Dice/Dice2/Dice-Three-removebg-preview-Yellow.png"),
+                new Image("Images for the game/Dice/Dice2/Dice-Four-removebg-preview-Yellow.png"),
+                new Image("Images for the game/Dice/Dice2/dice-Five-removebg-preview-Yellow.png"),
+                new Image("Images for the game/Dice/Dice2/Dice-Six-removebg-preview-Yellow.png")
+        ));
+        dice1.setFill(new ImagePattern(diceImages_1.get(0)));
+        dice2.setFill(new ImagePattern(diceImages_2.get(0)));
+        DiceOutCome.setVisible(false);
+    }
 
     public void roll(MouseEvent mouseEvent) {
         Random randomImage = new Random();
@@ -615,10 +691,10 @@ private void diceRoll() {
         System.out.println("The result is: " + result);
         DiceOutCome.setText("Dice OutCome: " + diceOutcomeSTR);
     }
+
     public void click(MouseEvent mouseEvent) {
         System.out.println("Road is Clicked");
     }
-
 
 
     public void NextPlayer(MouseEvent mouseEvent) {
@@ -685,7 +761,6 @@ private void diceRoll() {
     }
 
 
-
     public void changeRoadColor(MouseEvent mouseEvent) {
         // Get the source of the event and cast it to a Rectangle
         Rectangle clickedRoad = (Rectangle) mouseEvent.getSource();
@@ -703,22 +778,53 @@ private void diceRoll() {
         currentPlayer.setRoads();
         // Set the UserData of the rectangle to "used" to mark it as used
         clickedRoad.setUserData("used");
-        System.out.println(currentPlayer.getPlayerName()+currentPlayer.getRoads());
+        System.out.println(currentPlayer.getPlayerName() + currentPlayer.getRoads());
 
-        if (currentPlayerIndex == 0){
+        if (currentPlayerIndex == 0) {
             PlayerOneLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
-        } else if (currentPlayerIndex == 1){
+        } else if (currentPlayerIndex == 1) {
             PlayerTwoLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
-        } else if (currentPlayerIndex == 2){
+        } else if (currentPlayerIndex == 2) {
             PlayerThreeLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
-        } else if (currentPlayerIndex == 3){
+        } else if (currentPlayerIndex == 3) {
             PlayerFourLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
         }
     }
 
 
+    public void addCity(MouseEvent mouseEvent) {
+        players.get(currentPlayerIndex).setAddCity(true);
+    }
 
 
+    public void addSettlement(MouseEvent mouseEvent) {
+        // Your implementation to add a settlement
+    }
 
+    public void addRoad(MouseEvent mouseEvent) {
+        // Your implementation to add a road
+    }
 
+    public void hoverEnter(MouseEvent mouseEvent) {
+        ImageView imageView = (ImageView) mouseEvent.getSource();
+
+        ScaleTransition scaleUp = new ScaleTransition(Duration.millis(200), imageView);
+        scaleUp.setByX(0.1);
+        scaleUp.setByY(0.1);
+        scaleUp.setCycleCount(1);
+        scaleUp.setAutoReverse(false);
+        scaleUp.play();
+    }
+
+    public void hoverExit(MouseEvent mouseEvent) {
+        ImageView imageView = (ImageView) mouseEvent.getSource();
+        ScaleTransition scaleDown = new ScaleTransition(Duration.millis(200), imageView);
+        scaleDown.setByX(-0.1);
+        scaleDown.setByY(-0.1);
+        scaleDown.setCycleCount(1);
+        scaleDown.setAutoReverse(false);
+        scaleDown.play();
+    }
 }
+
+

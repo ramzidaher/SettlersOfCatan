@@ -115,14 +115,14 @@
                                     </image>
                                 </ImageView>
                                 <Text fx:id="PlayerOneID" layoutX="193.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerOne">
-                                <font>
-                                    <Font name="System Bold Italic" size="13.0" />
-                                </font>
-                            </Text>
+                                    <font>
+                                        <Font name="System Bold Italic" size="13.0" />
+                                    </font>
+                                </Text>
                                 <Text layoutX="141.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Knights:">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
                                 </Text>
                                 <Text fx:id="PlayerOneLongestRoad" layoutX="141.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longest Road:">
                                     <font>
@@ -197,41 +197,36 @@
                             </children>
                         </Group>
                         <Group fx:id="PlayerFoursTagBox" layoutX="514.0" layoutY="9.0">
-                        <children>
-                            <Rectangle fx:id="PlayerFourTagBoxColor" arcHeight="5.0" arcWidth="5.0" fill="Yellow" height="120.0" layoutX="838.0" layoutY="13.84765625" stroke="white" strokeType="INSIDE" width="282.0" />
-                            <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="838.0" layoutY="14.84765625">
-                                <image>
-                                    <Image url="@../../../Images%20for%20the%20game/PlayerFour.png" />
-                                </image>
-                            </ImageView>
-                            <Text fx:id="PlayerFourID" layoutX="1030.0" layoutY="36.8984375" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerFour">
-                                <font>
-                                    <Font name="System Bold Italic" size="13.0" />
-                                </font>
-                            </Text>
-                            <Text layoutX="979.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Knights:">
-                                <font>
-                                    <Font name="System Bold" size="13.0" />
-                                </font>
-                            </Text>
-                            <Text fx:id="PlayerFourLongestRoad" layoutX="979.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longest Road:">
-                                <font>
-                                    <Font name="System Bold" size="13.0" />
-                                </font>
-                            </Text>
-                            <Text layoutX="979.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VPs:">
-                                <font>
-                                    <Font name="System Bold" size="13.0" />
-                                </font>
-                            </Text>
-                        </children>
-                    </Group>
+                            <children>
+                                <Rectangle fx:id="PlayerFourTagBoxColor" arcHeight="5.0" arcWidth="5.0" fill="Yellow" height="120.0" layoutX="838.0" layoutY="13.84765625" stroke="white" strokeType="INSIDE" width="282.0" />
+                                <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="838.0" layoutY="14.84765625">
+                                    <image>
+                                        <Image url="@../../../Images%20for%20the%20game/PlayerFour.png" />
+                                    </image>
+                                </ImageView>
+                                <Text fx:id="PlayerFourID" layoutX="1030.0" layoutY="36.8984375" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerFour">
+                                    <font>
+                                        <Font name="System Bold Italic" size="13.0" />
+                                    </font>
+                                </Text>
+                                <Text layoutX="979.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Knights:">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Text>
+                                <Text fx:id="PlayerFourLongestRoad" layoutX="979.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longest Road:">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Text>
+                                <Text layoutX="979.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VPs:">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </Group>
                         <Rectangle fx:id="Road_1_3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="1128.0" layoutY="330.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
-                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1551.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../Sussex%20OneDrive/Desktop/Properties/Remove%20background/House-removebg-preview.png" />
-                            </image>
-                        </ImageView>
                         <Rectangle fx:id="Road_1_28" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="1158.0" layoutY="379.0" rotate="-60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
                         <Rectangle fx:id="Road_1_68" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="930.0" layoutY="770.0" rotate="-60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
                         <Rectangle fx:id="Road_1_72" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="818.0" layoutY="771.0" rotate="-60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
@@ -346,60 +341,61 @@
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <RadioButton layoutX="1126.0" layoutY="710.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="785.0" layoutY="778.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1013.0" layoutY="382.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="957.0" layoutY="416.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="901.0" layoutY="383.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="845.0" layoutY="415.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1069.0" layoutY="414.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1069.0" layoutY="481.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1012.0" layoutY="512.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="957.0" layoutY="484.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="900.0" layoutY="512.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="845.0" layoutY="481.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="787.0" layoutY="513.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="786.0" layoutY="581.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="899.0" layoutY="580.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="955.0" layoutY="610.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1012.0" layoutY="582.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1069.0" layoutY="613.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1125.0" layoutY="581.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1069.0" layoutY="680.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1012.0" layoutY="709.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="956.0" layoutY="680.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="899.0" layoutY="709.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="843.0" layoutY="679.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1125.0" layoutY="513.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="843.0" layoutY="611.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="789.0" layoutY="382.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1182.0" layoutY="676.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1182.0" layoutY="612.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1125.0" layoutY="385.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1181.0" layoutY="419.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1124.0" layoutY="321.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1072.0" layoutY="287.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1013.0" layoutY="317.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="958.0" layoutY="289.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="901.0" layoutY="316.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="845.0" layoutY="289.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="789.0" layoutY="320.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="732.0" layoutY="417.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="731.0" layoutY="482.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="675.0" layoutY="516.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="674.0" layoutY="579.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="727.0" layoutY="613.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="729.0" layoutY="678.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="785.0" layoutY="710.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="842.0" layoutY="805.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="954.0" layoutY="803.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1068.0" layoutY="805.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1123.0" layoutY="777.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1238.0" layoutY="581.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1238.0" layoutY="515.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1182.0" layoutY="484.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="1012.0" layoutY="776.0" mnemonicParsing="false" />
-                        <RadioButton layoutX="899.0" layoutY="777.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN1" layoutX="1126.0" layoutY="710.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN2" layoutX="785.0" layoutY="778.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN3" layoutX="1013.0" layoutY="382.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN4" layoutX="957.0" layoutY="416.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN5" layoutX="901.0" layoutY="383.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN6" layoutX="845.0" layoutY="415.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN7" layoutX="1069.0" layoutY="414.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN8" layoutX="1069.0" layoutY="481.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN9" layoutX="1012.0" layoutY="512.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN10" layoutX="957.0" layoutY="484.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN11" layoutX="900.0" layoutY="512.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN12" layoutX="845.0" layoutY="481.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN13" layoutX="787.0" layoutY="513.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN14" layoutX="786.0" layoutY="581.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN15" layoutX="899.0" layoutY="580.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN16" layoutX="955.0" layoutY="610.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN17" layoutX="1012.0" layoutY="582.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN18" layoutX="1069.0" layoutY="613.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN19" layoutX="1125.0" layoutY="581.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN20" layoutX="1069.0" layoutY="680.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN21" layoutX="1012.0" layoutY="709.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN22" layoutX="956.0" layoutY="680.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN23" layoutX="899.0" layoutY="709.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN24" layoutX="843.0" layoutY="679.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN25" layoutX="1125.0" layoutY="513.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN26" layoutX="843.0" layoutY="611.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN27" layoutX="789.0" layoutY="382.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN28" layoutX="1182.0" layoutY="676.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN29" layoutX="1182.0" layoutY="612.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN30" layoutX="1125.0" layoutY="385.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN31" layoutX="1181.0" layoutY="419.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN32" layoutX="1124.0" layoutY="321.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN33" layoutX="1072.0" layoutY="287.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN34" layoutX="1013.0" layoutY="317.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN35" layoutX="958.0" layoutY="289.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN36" layoutX="901.0" layoutY="316.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN37" layoutX="845.0" layoutY="289.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN38" layoutX="789.0" layoutY="320.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN39" layoutX="732.0" layoutY="417.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN40" layoutX="731.0" layoutY="482.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN41" layoutX="675.0" layoutY="516.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN42" layoutX="674.0" layoutY="579.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN43" layoutX="727.0" layoutY="613.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN44" layoutX="729.0" layoutY="678.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN45" layoutX="785.0" layoutY="710.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN46" layoutX="842.0" layoutY="805.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN47" layoutX="954.0" layoutY="803.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN48" layoutX="1068.0" layoutY="805.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN49" layoutX="1123.0" layoutY="777.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN50" layoutX="1238.0" layoutY="581.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN51" layoutX="1238.0" layoutY="515.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN52" layoutX="1182.0" layoutY="484.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN53" layoutX="1012.0" layoutY="776.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN54" layoutX="899.0" layoutY="777.0" mnemonicParsing="false" />
+
                         <Text fx:id="Num_1" fill="#f8ff1f" layoutX="854.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5" visible="true">
                             <font>
                                 <Font size="32.0" />
@@ -564,7 +560,30 @@
                                 <Image url="@../../../Images%20for%20the%20game/building-cost-card-by-conquerorworm1522-d41ezjj-fullview.jpg" />
                             </image>
                         </ImageView>
-                  <Button fx:id="NextTurn" layoutX="1510.0" layoutY="904.0" mnemonicParsing="false" onMouseClicked="#NextPlayer" prefHeight="80.0" prefWidth="263.0" text="NextTurn" />
+                        <Button fx:id="NextTurn" layoutX="1510.0" layoutY="904.0" mnemonicParsing="false" onMouseClicked="#NextPlayer" prefHeight="80.0" prefWidth="263.0" text="NextTurn" />
+                        <ImageView fitHeight="90.0" fitWidth="105.0" layoutX="1023.0" layoutY="941.0" onMouseClicked="#addCity" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../Images%20for%20the%20game/Black edit.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="90.0" fitWidth="105.0" layoutX="935.0" layoutY="944.0" onMouseClicked="#addSettlement" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../Images%20for%20the%20game/Black House edited.png" />
+                            </image>
+                        </ImageView>
+                        <Text layoutX="1062.0" layoutY="1046.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City" />
+                        <Text layoutX="951.0" layoutY="1045.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settlement" />
+                        <ImageView fitHeight="90.0" fitWidth="105.0" layoutX="839.0" layoutY="946.0" onMouseClicked="#addRoad" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../Images%20for%20the%20game/Black Road.png" />
+                            </image>
+                        </ImageView>
+                        <Text layoutX="869.0" layoutY="1045.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Road" />
+                  <ImageView fitHeight="60.0" fitWidth="57.0" layoutX="1110.0" layoutY="756.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../../Sussex%20OneDrive/Software%20Engineering/Catan%20Game/Shelly/Properties/Player_1_green/image.png" />
+                     </image>
+                  </ImageView>
                     </children>
                 </AnchorPane>
             </children>
