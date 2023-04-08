@@ -498,7 +498,7 @@
                                         <Image url="@../../../Images%20for%20the%20game/cardsdeck-removebg-preview.png" />
                                     </image>
                                 </ImageView>
-                                <Text fx:id="ResourceCrdsPlayerName" layoutX="176.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerName">
+                                <Text fx:id="ResourceCrdsPlayerName" layoutX="176.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player Name">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
@@ -561,19 +561,19 @@
                             </image>
                         </ImageView>
                         <Button fx:id="NextTurn" layoutX="1510.0" layoutY="904.0" mnemonicParsing="false" onMouseClicked="#NextPlayer" prefHeight="80.0" prefWidth="263.0" text="NextTurn" />
-                        <ImageView fitHeight="90.0" fitWidth="105.0" layoutX="1023.0" layoutY="941.0" onMouseClicked="#addCity" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="CityBTN" fitHeight="90.0" fitWidth="105.0" layoutX="1023.0" layoutY="941.0" onMouseClicked="#addCity" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Black edit.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="90.0" fitWidth="105.0" layoutX="935.0" layoutY="944.0" onMouseClicked="#addSettlement" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="SettlementBTN" fitHeight="90.0" fitWidth="105.0" layoutX="935.0" layoutY="944.0" onMouseClicked="#addSettlement" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Black House edited.png" />
                             </image>
                         </ImageView>
                         <Text layoutX="1062.0" layoutY="1046.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City" />
                         <Text layoutX="951.0" layoutY="1045.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settlement" />
-                        <ImageView fitHeight="90.0" fitWidth="105.0" layoutX="839.0" layoutY="946.0" onMouseClicked="#addRoad" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="RoadBTN" fitHeight="90.0" fitWidth="105.0" layoutX="839.0" layoutY="946.0" onMouseClicked="#addRoad" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Black Road.png" />
                             </image>
@@ -581,7 +581,23 @@
                         <Text layoutX="869.0" layoutY="1045.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Road" />
                   <ImageView fitHeight="60.0" fitWidth="57.0" layoutX="1110.0" layoutY="756.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../../Sussex%20OneDrive/Software%20Engineering/Catan%20Game/Shelly/Properties/Player_1_green/image.png" />
+                        <Image url="@../../../Images%20for%20the%20game/GreenSettlement.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="PickATurnNote" layoutX="898.0" layoutY="1070.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Please pick a turn first" visible="false" />
+                  <ImageView fitHeight="44.0" fitWidth="49.0" layoutX="949.0" layoutY="470.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images%20for%20the%20game/RedSettlement.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="60.0" fitWidth="44.0" layoutX="1053.0" layoutY="586.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images%20for%20the%20game/YellowSettlement.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="60.0" fitWidth="57.0" layoutX="1114.0" layoutY="488.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images%20for%20the%20game/BlueSettlement.png" />
                      </image>
                   </ImageView>
                     </children>

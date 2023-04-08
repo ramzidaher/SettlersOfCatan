@@ -1,15 +1,16 @@
 package com.settlers.demotesty.Controllers;
 
+import com.settlers.demotesty.Fundimentals.Colour;
 import com.settlers.demotesty.Fundimentals.Player;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -130,6 +131,10 @@ public class Board extends SignUpController  implements Initializable {
     public RadioButton RadioBTN52;
     public RadioButton RadioBTN53;
     public RadioButton RadioBTN54;
+    public Text PickATurnNote;
+    public ImageView CityBTN;
+    public ImageView SettlementBTN;
+    public ImageView RoadBTN;
 
     @FXML
     private Rectangle Road_1_10;
@@ -532,7 +537,6 @@ public class Board extends SignUpController  implements Initializable {
         shuffleHexagons();//Calls Shuffle method
         shuffleNumber();
         diceRoll();//Calls Dice Roll
-        assignPlayer();
         for (Rectangle road : Roads) {
             if (road != null) {
                 road.setOnMouseClicked(this::changeRoadColor);
@@ -541,7 +545,23 @@ public class Board extends SignUpController  implements Initializable {
             }
         }
 
+        //TODO remove later as its used for testing
+        Player player1 = new Player("Ramzi", Colour.RED);
+        Player player2 = new Player("Ahmad", Colour.BLUE);
+        Player player3 = new Player("Shelly", Colour.YELLOW);
+        Player player4 = new Player("Gheith", Colour.GREEN);
+        players.add(player1);
+        players.add(player2);
+        players.add(player3);
+        players.add(player4);
+
+
+        assignPlayer();//TODO change the position of it put it back on top
+
     }
+
+
+
 
     //This method assigns player names to the respective PlayerID labels
     private void assignPlayer() {
@@ -721,17 +741,150 @@ public class Board extends SignUpController  implements Initializable {
 
         hideAllPlayerElements();
 
-        // Show elements for the current player
-        if (currentPlayerIndex == 0) {
-            showPlayerOneElements(currentPlayer);
-        } else if (currentPlayerIndex == 1) {
-            showPlayerTwoElements(currentPlayer);
-        } else if (currentPlayerIndex == 2) {
-            showPlayerThreeElements(currentPlayer);
-        } else if (currentPlayerIndex == 3) {
-            showPlayerFourElements(currentPlayer);
+        // Set isPlaying for all players to false, except for the current player
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            if (i == currentPlayerIndex) {
+                player.setPlaying(true);
+            } else {
+                player.setPlaying(false);
+            }
+        }
+
+        // Show elements for the current player based on currentPlayerIndex
+        switch (currentPlayerIndex) {
+            case 0 -> showPlayerOneElements(currentPlayer);
+            case 1 -> showPlayerTwoElements(currentPlayer);
+            case 2 -> showPlayerThreeElements(currentPlayer);
+            case 3 -> showPlayerFourElements(currentPlayer);
         }
     }
+
+
+
+    public void changeRoadColor(MouseEvent mouseEvent) {
+        // Get the source of the event and cast it to a Rectangle
+        Rectangle clickedRoad = (Rectangle) mouseEvent.getSource();
+
+        // Check if the UserData is set to "used", if so, return from the method
+        if ("used".equals(clickedRoad.getUserData())) {
+            return;
+        }
+
+        // Get the current player
+        Player currentPlayer = players.get(currentPlayerIndex);
+
+        // Check if the currentPlayer is playing and setRoad is true, otherwise return
+        if (!currentPlayer.isPlaying() || !currentPlayer.isAddRoad()) {
+            System.out.println("In if");
+            roadAnimation();
+
+
+            return;
+        }
+
+        // Set the rectangle's fill color to the current player's color
+        clickedRoad.setFill(currentPlayer.getPlayerColour().getFxColor());
+        currentPlayer.setRoads();
+        // Set the UserData of the rectangle to "used" to mark it as used
+        clickedRoad.setUserData("used");
+        System.out.println(currentPlayer.getPlayerName() + currentPlayer.getRoads());
+
+        if (currentPlayerIndex == 0) {
+            PlayerOneLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+        } else if (currentPlayerIndex == 1) {
+            PlayerTwoLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+        } else if (currentPlayerIndex == 2) {
+            PlayerThreeLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+        } else if (currentPlayerIndex == 3) {
+            PlayerFourLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+        }
+    }
+
+
+    //TODO add a messge to pick a turn first
+    public void addCity(MouseEvent mouseEvent) {
+        if (currentPlayerIndex == -1){
+            PickATurnNote.setVisible(true);
+
+        }else {
+            PickATurnNote.setVisible(false);
+            players.get(currentPlayerIndex).setAddCity(true);
+            System.out.println("Add city is pressed");
+        }
+
+
+    }
+
+
+    public void addSettlement(MouseEvent mouseEvent) {
+        if (currentPlayerIndex == -1){
+            PickATurnNote.setVisible(true);
+        }else {
+            PickATurnNote.setVisible(false);
+            //  implementation to add a settlement
+            System.out.println("Add Settel is pressed");
+            System.out.println(players.get(0).isPlaying());
+            System.out.println(players.get(1).isPlaying());
+            System.out.println(players.get(2).isPlaying());
+            System.out.println(players.get(3).isPlaying());
+        }
+
+
+    }
+
+    public void addRoad(MouseEvent mouseEvent) {
+        // Your implementation to add a road
+        //its redudndent
+        //TODO Fix as its redundant
+        if (currentPlayerIndex == -1){
+            PickATurnNote.setVisible(true);
+        }else {
+            PickATurnNote.setVisible(false);
+            if (players.get(currentPlayerIndex).isPlaying()){
+                System.out.println("Its turn");
+                players.get(currentPlayerIndex).setAddRoad(true);
+            }else {
+                System.out.println("not Tunr");
+            }
+        }
+
+    }
+
+
+
+    //Simple animation for the buttons
+    //TODO re draw this looks pixelated
+    public void hoverEnter(MouseEvent mouseEvent) {
+        ImageView imageView = (ImageView) mouseEvent.getSource();
+        ScaleTransition scaleUp = new ScaleTransition(Duration.millis(200), imageView);
+        scaleUp.setByX(0.1);
+        scaleUp.setByY(0.1);
+        scaleUp.setCycleCount(1);
+        scaleUp.setAutoReverse(false);
+        scaleUp.play();
+    }
+
+    public void hoverExit(MouseEvent mouseEvent) {
+        ImageView imageView = (ImageView) mouseEvent.getSource();
+        ScaleTransition scaleDown = new ScaleTransition(Duration.millis(200), imageView);
+        scaleDown.setByX(-0.1);
+        scaleDown.setByY(-0.1);
+        scaleDown.setCycleCount(1);
+        scaleDown.setAutoReverse(false);
+        scaleDown.play();
+    }
+    public void roadAnimation() {
+        ImageView imageView = (ImageView) RoadBTN;
+        ScaleTransition scaleUp = new ScaleTransition(Duration.millis(200), imageView);
+        scaleUp.setByX(0.1);
+        scaleUp.setByY(0.1);
+        scaleUp.setCycleCount(2); // Increase cycle count to 2
+        scaleUp.setAutoReverse(true); // Set auto reverse to true
+        scaleUp.play();
+    }
+
+
 
     private void hideAllPlayerElements() {
         PlayerOneLongestRoad.setVisible(false);
@@ -759,72 +912,6 @@ public class Board extends SignUpController  implements Initializable {
         PlayerFourLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
         PlayerFourLongestRoad.setVisible(true);
     }
-
-
-    public void changeRoadColor(MouseEvent mouseEvent) {
-        // Get the source of the event and cast it to a Rectangle
-        Rectangle clickedRoad = (Rectangle) mouseEvent.getSource();
-
-        // Check if the UserData is set to "used", if so, return from the method
-        if ("used".equals(clickedRoad.getUserData())) {
-            return;
-        }
-
-        // Get the current player
-        Player currentPlayer = players.get(currentPlayerIndex);
-
-        // Set the rectangle's fill color to the current player's color
-        clickedRoad.setFill(currentPlayer.getPlayerColour().getFxColor());
-        currentPlayer.setRoads();
-        // Set the UserData of the rectangle to "used" to mark it as used
-        clickedRoad.setUserData("used");
-        System.out.println(currentPlayer.getPlayerName() + currentPlayer.getRoads());
-
-        if (currentPlayerIndex == 0) {
-            PlayerOneLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
-        } else if (currentPlayerIndex == 1) {
-            PlayerTwoLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
-        } else if (currentPlayerIndex == 2) {
-            PlayerThreeLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
-        } else if (currentPlayerIndex == 3) {
-            PlayerFourLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
-        }
     }
-
-
-    public void addCity(MouseEvent mouseEvent) {
-        players.get(currentPlayerIndex).setAddCity(true);
-    }
-
-
-    public void addSettlement(MouseEvent mouseEvent) {
-        // Your implementation to add a settlement
-    }
-
-    public void addRoad(MouseEvent mouseEvent) {
-        // Your implementation to add a road
-    }
-
-    public void hoverEnter(MouseEvent mouseEvent) {
-        ImageView imageView = (ImageView) mouseEvent.getSource();
-
-        ScaleTransition scaleUp = new ScaleTransition(Duration.millis(200), imageView);
-        scaleUp.setByX(0.1);
-        scaleUp.setByY(0.1);
-        scaleUp.setCycleCount(1);
-        scaleUp.setAutoReverse(false);
-        scaleUp.play();
-    }
-
-    public void hoverExit(MouseEvent mouseEvent) {
-        ImageView imageView = (ImageView) mouseEvent.getSource();
-        ScaleTransition scaleDown = new ScaleTransition(Duration.millis(200), imageView);
-        scaleDown.setByX(-0.1);
-        scaleDown.setByY(-0.1);
-        scaleDown.setCycleCount(1);
-        scaleDown.setAutoReverse(false);
-        scaleDown.play();
-    }
-}
 
 

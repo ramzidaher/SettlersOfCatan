@@ -25,6 +25,8 @@ public class Player {
 
     private boolean addCity;
     private boolean addSettlement;
+    private boolean addRoad;
+    private boolean isPlaying;
 
     /**
     * Create a player: assign name, colour and create ArrayLists of cities, settlements, and roads.
@@ -37,8 +39,10 @@ public class Player {
         cities = new ArrayList<>();
         roads = new ArrayList<>();
         Roads =0;
+        addRoad = false;
         addCity = false;
         addSettlement = false;
+        isPlaying = false;
         for (int i = 0; i < SETTLEMENTS ; ++i ) {
             settlements.add(new Settlement(colour));
         }
@@ -48,6 +52,22 @@ public class Player {
         for (int i = 0; i < ROADS; ++i) {
             roads.add(new Road(colour));
         }
+    }
+
+    public boolean isAddRoad() {
+        return addRoad;
+    }
+
+    public void setAddRoad(boolean addRoad) {
+        this.addRoad = addRoad;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
     }
 
     public void setAddCity(boolean addCity) {
