@@ -31,113 +31,371 @@ import java.util.*;
  */
 public class Board extends SignUpController  implements Initializable {
 
-    public Rectangle Road_1_100;
-    public Rectangle Road_1_101;
-    public Text Num_1;
-    public Text Num_2;
-    public Text Num_3;
-    public Text Num_4;
-    public Text Num_5;
-    public Text Num_6;
-    public Text Num_7;
-    public Text Num_8;
-    public Text Num_9;
-    public Text Num_10;
-    public Text Num_11;
-    public Text Num_12;
-    public Text Num_13;
-    public Text Num_14;
-    public Text Num_15;
-    public Text Num_16;
-    public Text Num_17;
-    public Text Num_18;
-    public Text Num_19;
-    public Group PlayerOneTagBox;
-    public Group PlayerTwoTagBox;
-    public Group PlayerThreeTagBox;
-    public Group PlayerFoursTagBox;
-    public Text GrainCardCOunter;
-    public Text WoodCardCounter;
-    public Text OreCardCounter;
-    public Text WoolCardCounter;
-    public Text BrickCardCounter;
-    public Text ResourceCrdsPlayerName;
-    public AnchorPane CardResources;
-    //PLayers ID
-    public Text PlayerOneID;
-    public Text PlayerTwoID;
-    public Text PlayerThreeID;
-    public Text PlayerFourID;
-    public Rectangle PlayerOneTagBoxColor;
-    public Rectangle PlayerTwoTagBoxColor;
-    public Rectangle PlayerThreeTagBoxColor;
-    public Rectangle PlayerFourTagBoxColor;
-    public Button NextTurn;
-    public Text PlayerOneLongestRoad;
-    public Text PlayerTwoLongestRoad;
-    public Text PlayerThreeLongestRoad;
-    public Text PlayerFourLongestRoad;
-    public RadioButton RadioBTN1;
-    public RadioButton RadioBTN2;
-    public RadioButton RadioBTN3;
-    public RadioButton RadioBTN4;
-    public RadioButton RadioBTN5;
-    public RadioButton RadioBTN6;
-    public RadioButton RadioBTN7;
-    public RadioButton RadioBTN8;
-    public RadioButton RadioBTN9;
-    public RadioButton RadioBTN10;
-    public RadioButton RadioBTN11;
-    public RadioButton RadioBTN12;
-    public RadioButton RadioBTN13;
-    public RadioButton RadioBTN14;
-    public RadioButton RadioBTN15;
-    public RadioButton RadioBTN16;
-    public RadioButton RadioBTN17;
-    public RadioButton RadioBTN18;
-    public RadioButton RadioBTN19;
-    public RadioButton RadioBTN20;
-    public RadioButton RadioBTN21;
-    public RadioButton RadioBTN22;
-    public RadioButton RadioBTN23;
-    public RadioButton RadioBTN24;
-    public RadioButton RadioBTN25;
-    public RadioButton RadioBTN26;
-    public RadioButton RadioBTN27;
-    public RadioButton RadioBTN28;
-    public RadioButton RadioBTN29;
-    public RadioButton RadioBTN30;
-    public RadioButton RadioBTN31;
-    public RadioButton RadioBTN32;
-    public RadioButton RadioBTN33;
-    public RadioButton RadioBTN34;
-    public RadioButton RadioBTN35;
-    public RadioButton RadioBTN36;
-    public RadioButton RadioBTN37;
-    public RadioButton RadioBTN38;
-    public RadioButton RadioBTN39;
-    public RadioButton RadioBTN40;
-    public RadioButton RadioBTN41;
-    public RadioButton RadioBTN42;
-    public RadioButton RadioBTN43;
-    public RadioButton RadioBTN44;
-    public RadioButton RadioBTN45;
-    public RadioButton RadioBTN46;
-    public RadioButton RadioBTN47;
-    public RadioButton RadioBTN48;
-    public RadioButton RadioBTN49;
-    public RadioButton RadioBTN50;
-    public RadioButton RadioBTN51;
-    public RadioButton RadioBTN52;
-    public RadioButton RadioBTN53;
-    public RadioButton RadioBTN54;
-    public Text PickATurnNote;
-    public ImageView CityBTN;
-    public ImageView SettlementBTN;
-    public ImageView RoadBTN;
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private Text BrickCardCounter;
+
+    @FXML
+    private AnchorPane CardResources;
+
+    @FXML
+    private ImageView CityBTN;
+
+    @FXML
+    private Text DiceOutCome;
+
+    @FXML
+    private Text GrainCardCOunter;
+
+    @FXML
+    private Polygon Hex1;
+
+    @FXML
+    private Polygon Hex10;
+
+    @FXML
+    private Polygon Hex11;
+
+    @FXML
+    private Polygon Hex12;
+
+    @FXML
+    private Polygon Hex13;
+
+    @FXML
+    private Polygon Hex14;
+
+    @FXML
+    private Polygon Hex15;
+
+    @FXML
+    private Polygon Hex17;
+
+    @FXML
+    private Polygon Hex18;
+
+    @FXML
+    private Polygon Hex19;
+
+    @FXML
+    private Polygon Hex2;
+
+    @FXML
+    private Polygon Hex3;
+
+    @FXML
+    private Polygon Hex4;
+
+    @FXML
+    private Polygon Hex5;
+
+    @FXML
+    private Polygon Hex6;
+
+    @FXML
+    private Polygon Hex7;
+
+    @FXML
+    private Polygon Hex8;
+
+    @FXML
+    private Polygon Hex9;
+
+    @FXML
+    private Polygon HexDesert;
+
+    @FXML
+    private Button NextTurn;
+
+    @FXML
+    private Text Num_1;
+
+    @FXML
+    private Text Num_10;
+
+    @FXML
+    private Text Num_11;
+
+    @FXML
+    private Text Num_12;
+
+    @FXML
+    private Text Num_13;
+
+    @FXML
+    private Text Num_14;
+
+    @FXML
+    private Text Num_15;
+
+    @FXML
+    private Text Num_16;
+
+    @FXML
+    private Text Num_17;
+
+    @FXML
+    private Text Num_18;
+
+    @FXML
+    private Text Num_19;
+
+    @FXML
+    private Text Num_2;
+
+    @FXML
+    private Text Num_3;
+
+    @FXML
+    private Text Num_4;
+
+    @FXML
+    private Text Num_5;
+
+    @FXML
+    private Text Num_6;
+
+    @FXML
+    private Text Num_7;
+
+    @FXML
+    private Text Num_8;
+
+    @FXML
+    private Text Num_9;
+
+    @FXML
+    private Text OreCardCounter;
+
+    @FXML
+    private Text PickATurnNote;
+
+    @FXML
+    private Text PlayerFourID;
+
+    @FXML
+    private Text PlayerFourLongestRoad;
+
+    @FXML
+    private Rectangle PlayerFourTagBoxColor;
+
+    @FXML
+    private Group PlayerFoursTagBox;
+
+    @FXML
+    private Text PlayerOneID;
+
+    @FXML
+    private Text PlayerOneLongestRoad;
+
+    @FXML
+    private Group PlayerOneTagBox;
+
+    @FXML
+    private Rectangle PlayerOneTagBoxColor;
+
+    @FXML
+    private Text PlayerThreeID;
+
+    @FXML
+    private Text PlayerThreeLongestRoad;
+
+    @FXML
+    private Group PlayerThreeTagBox;
+
+    @FXML
+    private Rectangle PlayerThreeTagBoxColor;
+
+    @FXML
+    private Text PlayerTwoID;
+
+    @FXML
+    private Text PlayerTwoLongestRoad;
+
+    @FXML
+    private Group PlayerTwoTagBox;
+
+    @FXML
+    private Rectangle PlayerTwoTagBoxColor;
+
+    @FXML
+    private RadioButton RadioBTN1;
+
+    @FXML
+    private RadioButton RadioBTN10;
+
+    @FXML
+    private RadioButton RadioBTN11;
+
+    @FXML
+    private RadioButton RadioBTN12;
+
+    @FXML
+    private RadioButton RadioBTN13;
+
+    @FXML
+    private RadioButton RadioBTN14;
+
+    @FXML
+    private RadioButton RadioBTN15;
+
+    @FXML
+    private RadioButton RadioBTN16;
+
+    @FXML
+    private RadioButton RadioBTN17;
+
+    @FXML
+    private RadioButton RadioBTN18;
+
+    @FXML
+    private RadioButton RadioBTN19;
+
+    @FXML
+    private RadioButton RadioBTN2;
+
+    @FXML
+    private RadioButton RadioBTN20;
+
+    @FXML
+    private RadioButton RadioBTN21;
+
+    @FXML
+    private RadioButton RadioBTN22;
+
+    @FXML
+    private RadioButton RadioBTN23;
+
+    @FXML
+    private RadioButton RadioBTN24;
+
+    @FXML
+    private RadioButton RadioBTN25;
+
+    @FXML
+    private RadioButton RadioBTN26;
+
+    @FXML
+    private RadioButton RadioBTN27;
+
+    @FXML
+    private RadioButton RadioBTN28;
+
+    @FXML
+    private RadioButton RadioBTN29;
+
+    @FXML
+    private RadioButton RadioBTN3;
+
+    @FXML
+    private RadioButton RadioBTN30;
+
+    @FXML
+    private RadioButton RadioBTN31;
+
+    @FXML
+    private RadioButton RadioBTN32;
+
+    @FXML
+    private RadioButton RadioBTN33;
+
+    @FXML
+    private RadioButton RadioBTN34;
+
+    @FXML
+    private RadioButton RadioBTN35;
+
+    @FXML
+    private RadioButton RadioBTN36;
+
+    @FXML
+    private RadioButton RadioBTN37;
+
+    @FXML
+    private RadioButton RadioBTN38;
+
+    @FXML
+    private RadioButton RadioBTN39;
+
+    @FXML
+    private RadioButton RadioBTN4;
+
+    @FXML
+    private RadioButton RadioBTN40;
+
+    @FXML
+    private RadioButton RadioBTN41;
+
+    @FXML
+    private RadioButton RadioBTN42;
+
+    @FXML
+    private RadioButton RadioBTN43;
+
+    @FXML
+    private RadioButton RadioBTN44;
+
+    @FXML
+    private RadioButton RadioBTN45;
+
+    @FXML
+    private RadioButton RadioBTN46;
+
+    @FXML
+    private RadioButton RadioBTN47;
+
+    @FXML
+    private RadioButton RadioBTN48;
+
+    @FXML
+    private RadioButton RadioBTN49;
+
+    @FXML
+    private RadioButton RadioBTN5;
+
+    @FXML
+    private RadioButton RadioBTN50;
+
+    @FXML
+    private RadioButton RadioBTN51;
+
+    @FXML
+    private RadioButton RadioBTN52;
+
+    @FXML
+    private RadioButton RadioBTN53;
+
+    @FXML
+    private RadioButton RadioBTN54;
+
+    @FXML
+    private RadioButton RadioBTN6;
+
+    @FXML
+    private RadioButton RadioBTN7;
+
+    @FXML
+    private RadioButton RadioBTN8;
+
+    @FXML
+    private RadioButton RadioBTN9;
+
+    @FXML
+    private Text ResourceCrdsPlayerName;
+
+    @FXML
+    private ImageView RoadBTN;
 
     @FXML
     private Rectangle Road_1_10;
+
+    @FXML
+    private Rectangle Road_1_101;
 
     @FXML
     private Rectangle Road_1_11;
@@ -347,68 +605,25 @@ public class Board extends SignUpController  implements Initializable {
     private Rectangle Road_74;
 
     @FXML
-    Rectangle dice1;
+    private ImageView SettlementBTN;
 
     @FXML
-    Rectangle dice2;
+    private Text WoodCardCounter;
+
+    @FXML
+    private Text WoolCardCounter;
+
+    @FXML
+    private AnchorPane anchorPane;
+
+    @FXML
+    private Rectangle dice1;
+
+    @FXML
+    private Rectangle dice2;
 
     @FXML
     private Rectangle road_1_99;
-
-    @FXML
-    private Polygon HexDesert;
-
-    @FXML
-    private Polygon Hex1;
-
-    @FXML
-    private Polygon Hex10;
-    @FXML
-    private Polygon Hex11;
-    @FXML
-    private Polygon Hex12;
-    @FXML
-    private Polygon Hex13;
-    @FXML
-    private Polygon Hex14;
-    @FXML
-    private Polygon Hex15;
-
-    @FXML
-    private Polygon Hex17;
-
-    @FXML
-    private Polygon Hex18;
-
-    @FXML
-    private Polygon Hex19;
-
-    @FXML
-    private Polygon Hex2;
-
-    @FXML
-    private Polygon Hex3;
-
-    @FXML
-    private Polygon Hex4;
-
-    @FXML
-    private Polygon Hex5;
-
-    @FXML
-    private Polygon Hex6;
-
-    @FXML
-    private Polygon Hex7;
-
-    @FXML
-    private Polygon Hex8;
-
-    @FXML
-    private Polygon Hex9;
-    @FXML
-    public Text DiceOutCome;
-
     //Main Fields that are used
 
     List<Polygon> hexagons = new ArrayList<>();
@@ -424,12 +639,30 @@ public class Board extends SignUpController  implements Initializable {
     ArrayList<Double> xCoordRadioBTN = new ArrayList<>();
     ArrayList<Double> yCoordRadioBTN = new ArrayList<>();
     private int currentPlayerIndex = -1;
+    //Images for Roads, Settlements and Cities
 
+    //Blue
+    ImageView BlueSettlement = new ImageView("Images for the game/BlueSettlement.png");
+    ImageView BlueCity = new ImageView("Images for the game/BlueCity.png");
+    //Red
+    ImageView RedSettlement = new ImageView("Images for the game/RedSettlement.png");
+    ImageView RedCity = new ImageView("Images for the game/RedCity.png");
+    //Yellow
+    ImageView YellowSettlement = new ImageView("Images for the game/YellowSettlement.png");
+    ImageView YellowCity = new ImageView("Images for the game/YellowCity.png");
+    //Green
+    ImageView GreenSettlement = new ImageView("Images for the game/GreenSettlement.png");
+    ImageView GreenCity = new ImageView("Images for the game/GreenCity.png");
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
+
+
+
         //IMages of the Tiles
         Image img1_ore = new Image("Images for the game/ore.png");
         Image img2_grain = new Image("Images for the game/grain.png");
@@ -474,7 +707,7 @@ public class Board extends SignUpController  implements Initializable {
                 Road_1_44, Road_1_45, Road_1_46, Road_1_47, Road_1_48, Road_1_50, Road_1_51, Road_1_52,
                 Road_1_53, Road_1_54, Road_1_55, Road_1_56, Road_1_57, Road_1_58, Road_1_59, Road_1_60,
                 Road_1_61, Road_1_62, Road_1_63, Road_1_64, Road_1_65, Road_1_66, Road_1_67, Road_1_68,
-                Road_1_69, Road_1_70, Road_1_72, Road_1_73, Road_74, Road_74, road_1_99, Road_1_100, Road_1_101));
+                Road_1_69, Road_1_70, Road_1_72, Road_1_73, Road_74, Road_74, road_1_99, Road_1_101));
 
         for (Rectangle rectangle : Roads) {
             if (rectangle != null) {
@@ -557,6 +790,10 @@ public class Board extends SignUpController  implements Initializable {
 
 
         assignPlayer();//TODO change the position of it put it back on top
+//        addImage(1012,582);
+        for (RadioButton BTN: ButtonForBuildings){
+            BTN.setOnMouseClicked(event -> handleRadioButtonAction(event, BTN));
+        }
 
     }
 
@@ -815,23 +1052,87 @@ public class Board extends SignUpController  implements Initializable {
 
 
     }
-
-
     public void addSettlement(MouseEvent mouseEvent) {
-        if (currentPlayerIndex == -1){
-            PickATurnNote.setVisible(true);
-        }else {
-            PickATurnNote.setVisible(false);
-            //  implementation to add a settlement
-            System.out.println("Add Settel is pressed");
-            System.out.println(players.get(0).isPlaying());
-            System.out.println(players.get(1).isPlaying());
-            System.out.println(players.get(2).isPlaying());
-            System.out.println(players.get(3).isPlaying());
+        // Get the current player
+        Player currentPlayer = players.get(currentPlayerIndex);
+
+        // Check if any radio button is pressed
+        RadioButton selectedButton = null;
+        for (RadioButton button : ButtonForBuildings) {
+            if (button.isSelected()) {
+                selectedButton = button;
+                break;
+            }
         }
 
+        // If no radio button is selected, return
+        if (selectedButton == null) {
+            System.out.println("No radio button is selected!");
+            return;
+        }
 
+        // Create a new ImageView based on the current player's color
+        ImageView settlement;
+        switch (currentPlayer.getPlayerColour()) {
+            case BLUE:
+                settlement = new ImageView("Images for the game/BlueSettlement.png");
+                break;
+            case RED:
+                settlement = new ImageView("Images for the game/RedSettlement.png");
+                break;
+            case YELLOW:
+                settlement = new ImageView("Images for the game/YellowSettlement.png");
+                break;
+            case GREEN:
+                settlement = new ImageView("Images for the game/GreenSettlement.png");
+                break;
+            default:
+                System.out.println("Invalid player color!");
+                return;
+        }
+
+        // Set the layout position of the settlement ImageView to the selected radio button's x and y coordinates
+        settlement.setLayoutX(selectedButton.getLayoutX());
+        settlement.setLayoutY(selectedButton.getLayoutY());
+
+        // Add the settlement ImageView to the board (assuming board is a Pane)
+
+        // Set the radio button to not visible
+        selectedButton.setVisible(false);
     }
+    private void handleRadioButtonAction(MouseEvent event, RadioButton BTN) {
+        RadioButton radioButton = (RadioButton) event.getSource();
+        radioButton.setVisible(false);
+        double tempX = BTN.getLayoutX();
+        double tempY = BTN.getLayoutY();
+        addImage(tempX -15,tempY-20);
+    }
+
+//    public void addSettlement(MouseEvent mouseEvent) {
+//        if (currentPlayerIndex == -1) {
+//            PickATurnNote.setVisible(true);
+//        } else {
+//            PickATurnNote.setVisible(false);
+//            //  implementation to add a settlement
+//            System.out.println("Add Settel is pressed");
+//            System.out.println(players.get(0).isPlaying());
+//            System.out.println(players.get(1).isPlaying());
+//            System.out.println(players.get(2).isPlaying());
+//            System.out.println(players.get(3).isPlaying());
+//            for (RadioButton placeButton : ButtonForBuildings) {
+//                if (placeButton.isSelected()) {
+//                    System.out.println("Pressed");
+//                    placeButton.setVisible(false);
+////                    ImageView newSettlement = new ImageView(BlueSettlement.getImage());
+//                    BlueSettlement.setLayoutX(placeButton.getLayoutX());
+//                    BlueSettlement.setLayoutY(placeButton.getLayoutY());
+////                    .getChildren().add(newSettlement); // Replace 'yourParentPane' with the actual pane containing the radio buttons
+//
+//                }
+//            }
+//        }
+//    }
+
 
     public void addRoad(MouseEvent mouseEvent) {
         // Your implementation to add a road
@@ -847,6 +1148,7 @@ public class Board extends SignUpController  implements Initializable {
             }else {
                 System.out.println("not Tunr");
             }
+
         }
 
     }
@@ -912,6 +1214,30 @@ public class Board extends SignUpController  implements Initializable {
         PlayerFourLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
         PlayerFourLongestRoad.setVisible(true);
     }
+
+    public void setWandHCity(ImageView image){
+        image.setFitWidth(50);
+        image.setFitHeight(65);
+    }
+    public void setWandHSettlement(ImageView image){
+        image.setFitWidth(50);
+        image.setFitHeight(45);
+    }
+
+    public void addImage(double x, double y) {
+        Image image = new Image("Images for the game/YellowCity.png");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(65);
+        imageView.setFitWidth(50);
+
+        // Set the image position
+        AnchorPane.setTopAnchor(imageView, y);
+        AnchorPane.setLeftAnchor(imageView, x);
+
+        // Add the image to the AnchorPane
+        anchorPane.getChildren().add(imageView);
+    }
+
     }
 
 

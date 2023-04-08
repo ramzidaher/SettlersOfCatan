@@ -26,7 +26,7 @@
                 <RowConstraints maxHeight="1080.0" minHeight="10.0" prefHeight="1032.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="913.0" prefWidth="1922.0" style="-fx-background-color: white;">
+                <AnchorPane id="Content" fx:id="anchorPane" minHeight="-1.0" minWidth="-1.0" prefHeight="913.0" prefWidth="1922.0" style="-fx-background-color: white;">
                     <children>
                         <AnchorPane layoutX="1391.0" layoutY="548.0" prefHeight="262.0" prefWidth="486.0">
                             <children>
