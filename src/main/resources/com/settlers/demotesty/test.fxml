@@ -580,6 +580,11 @@
                         </ImageView>
                         <Text layoutX="869.0" layoutY="1045.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Road" />
                   <Text fx:id="PickATurnNote" layoutX="898.0" layoutY="1070.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Please pick a turn first" visible="false" />
+                  <ImageView fitHeight="60.0" fitWidth="70.0" layoutX="943.0" layoutY="389.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images%20for%20the%20game/YellowSettlement.png" />
+                     </image>
+                  </ImageView>
                     </children>
                 </AnchorPane>
             </children>

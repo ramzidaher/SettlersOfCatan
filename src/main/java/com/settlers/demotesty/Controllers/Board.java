@@ -639,28 +639,10 @@ public class Board extends SignUpController  implements Initializable {
     ArrayList<Double> xCoordRadioBTN = new ArrayList<>();
     ArrayList<Double> yCoordRadioBTN = new ArrayList<>();
     private int currentPlayerIndex = -1;
-    //Images for Roads, Settlements and Cities
 
-    //Blue
-    ImageView BlueSettlement = new ImageView("Images for the game/BlueSettlement.png");
-    ImageView BlueCity = new ImageView("Images for the game/BlueCity.png");
-    //Red
-    ImageView RedSettlement = new ImageView("Images for the game/RedSettlement.png");
-    ImageView RedCity = new ImageView("Images for the game/RedCity.png");
-    //Yellow
-    ImageView YellowSettlement = new ImageView("Images for the game/YellowSettlement.png");
-    ImageView YellowCity = new ImageView("Images for the game/YellowCity.png");
-    //Green
-    ImageView GreenSettlement = new ImageView("Images for the game/GreenSettlement.png");
-    ImageView GreenCity = new ImageView("Images for the game/GreenCity.png");
-
-
-
+    private int gameCounter;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
-
 
 
         //IMages of the Tiles
@@ -790,14 +772,9 @@ public class Board extends SignUpController  implements Initializable {
 
 
         assignPlayer();//TODO change the position of it put it back on top
-//        addImage(1012,582);
-        for (RadioButton BTN: ButtonForBuildings){
-            BTN.setOnMouseClicked(event -> handleRadioButtonAction(event, BTN));
-        }
+
 
     }
-
-
 
 
     //This method assigns player names to the respective PlayerID labels
@@ -998,7 +975,6 @@ public class Board extends SignUpController  implements Initializable {
     }
 
 
-
     public void changeRoadColor(MouseEvent mouseEvent) {
         // Get the source of the event and cast it to a Rectangle
         Rectangle clickedRoad = (Rectangle) mouseEvent.getSource();
@@ -1039,12 +1015,12 @@ public class Board extends SignUpController  implements Initializable {
     }
 
 
-    //TODO add a messge to pick a turn first
+    //TODO add a message to pick a turn first
     public void addCity(MouseEvent mouseEvent) {
-        if (currentPlayerIndex == -1){
+        if (currentPlayerIndex == -1) {
             PickATurnNote.setVisible(true);
 
-        }else {
+        } else {
             PickATurnNote.setVisible(false);
             players.get(currentPlayerIndex).setAddCity(true);
             System.out.println("Add city is pressed");
@@ -1052,111 +1028,88 @@ public class Board extends SignUpController  implements Initializable {
 
 
     }
+
     public void addSettlement(MouseEvent mouseEvent) {
         // Get the current player
         Player currentPlayer = players.get(currentPlayerIndex);
-
-        // Check if any radio button is pressed
-        RadioButton selectedButton = null;
-        for (RadioButton button : ButtonForBuildings) {
-            if (button.isSelected()) {
-                selectedButton = button;
-                break;
-            }
+        for (RadioButton BTN : ButtonForBuildings) {
+            BTN.setOnMouseClicked(event -> handleRadioButtonSettlementAction(event, BTN, currentPlayer));
         }
 
-        // If no radio button is selected, return
-        if (selectedButton == null) {
-            System.out.println("No radio button is selected!");
-            return;
-        }
-
-        // Create a new ImageView based on the current player's color
-        ImageView settlement;
-        switch (currentPlayer.getPlayerColour()) {
-            case BLUE:
-                settlement = new ImageView("Images for the game/BlueSettlement.png");
-                break;
-            case RED:
-                settlement = new ImageView("Images for the game/RedSettlement.png");
-                break;
-            case YELLOW:
-                settlement = new ImageView("Images for the game/YellowSettlement.png");
-                break;
-            case GREEN:
-                settlement = new ImageView("Images for the game/GreenSettlement.png");
-                break;
-            default:
-                System.out.println("Invalid player color!");
-                return;
-        }
-
-        // Set the layout position of the settlement ImageView to the selected radio button's x and y coordinates
-        settlement.setLayoutX(selectedButton.getLayoutX());
-        settlement.setLayoutY(selectedButton.getLayoutY());
-
-        // Add the settlement ImageView to the board (assuming board is a Pane)
-
-        // Set the radio button to not visible
-        selectedButton.setVisible(false);
     }
-    private void handleRadioButtonAction(MouseEvent event, RadioButton BTN) {
+
+    private void handleRadioButtonSettlementAction(MouseEvent event, RadioButton BTN, Player currentPlayer) {
         RadioButton radioButton = (RadioButton) event.getSource();
         radioButton.setVisible(false);
         double tempX = BTN.getLayoutX();
         double tempY = BTN.getLayoutY();
-        addImage(tempX -15,tempY-20);
+        switch (currentPlayer.getPlayerColour()) {
+            case RED -> addImageSettlement("Red", tempX, tempY);
+            case YELLOW -> addImageSettlement("Yellow", tempX, tempY);
+            case BLUE -> addImageSettlement("Blue", tempX, tempY);
+            case GREEN -> addImageSettlement("Green", tempX, tempY);
+
+        }
     }
-
-//    public void addSettlement(MouseEvent mouseEvent) {
-//        if (currentPlayerIndex == -1) {
-//            PickATurnNote.setVisible(true);
-//        } else {
-//            PickATurnNote.setVisible(false);
-//            //  implementation to add a settlement
-//            System.out.println("Add Settel is pressed");
-//            System.out.println(players.get(0).isPlaying());
-//            System.out.println(players.get(1).isPlaying());
-//            System.out.println(players.get(2).isPlaying());
-//            System.out.println(players.get(3).isPlaying());
-//            for (RadioButton placeButton : ButtonForBuildings) {
-//                if (placeButton.isSelected()) {
-//                    System.out.println("Pressed");
-//                    placeButton.setVisible(false);
-////                    ImageView newSettlement = new ImageView(BlueSettlement.getImage());
-//                    BlueSettlement.setLayoutX(placeButton.getLayoutX());
-//                    BlueSettlement.setLayoutY(placeButton.getLayoutY());
-////                    .getChildren().add(newSettlement); // Replace 'yourParentPane' with the actual pane containing the radio buttons
-//
-//                }
-//            }
-//        }
-//    }
-
 
     public void addRoad(MouseEvent mouseEvent) {
         // Your implementation to add a road
         //its redudndent
         //TODO Fix as its redundant
-        if (currentPlayerIndex == -1){
+        if (currentPlayerIndex == -1) {
             PickATurnNote.setVisible(true);
-        }else {
+        } else {
             PickATurnNote.setVisible(false);
-            if (players.get(currentPlayerIndex).isPlaying()){
+            if (players.get(currentPlayerIndex).isPlaying()) {
                 System.out.println("Its turn");
                 players.get(currentPlayerIndex).setAddRoad(true);
-            }else {
+            } else {
                 System.out.println("not Tunr");
             }
 
         }
 
     }
+    public void setWandHCity(ImageView image) {
+        image.setFitWidth(50);
+        image.setFitHeight(65);
+    }
 
+    public void setWandHSettlement(ImageView image) {
+        image.setFitWidth(50);
+        image.setFitHeight(45);
+    }
+    public void addImageSettlement(String colour, double x, double y) {
+        Image image;
+        switch (colour.toLowerCase()) {
+            case "blue":
+                image = new Image("Images for the game/BlueSettlement.png");
+                break;
+            case "yellow":
+                image = new Image("Images for the game/YellowSettlement.png");
+                break;
+            case "green":
+                image = new Image("Images for the game/GreenSettlement.png");
+                break;
+            case "red":
+                image = new Image("Images for the game/RedSettlement.png");
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid color: " + colour);
+        }
 
+        ImageView imageView = new ImageView(image);
+
+        // Set the image position
+        AnchorPane.setTopAnchor(imageView, y-15);
+        AnchorPane.setLeftAnchor(imageView, x-10);
+
+        // Add the image to the AnchorPane
+        anchorPane.getChildren().add(imageView);
+    }
 
     //Simple animation for the buttons
-    //TODO re draw this looks pixelated
+
     public void hoverEnter(MouseEvent mouseEvent) {
         ImageView imageView = (ImageView) mouseEvent.getSource();
         ScaleTransition scaleUp = new ScaleTransition(Duration.millis(200), imageView);
@@ -1176,6 +1129,7 @@ public class Board extends SignUpController  implements Initializable {
         scaleDown.setAutoReverse(false);
         scaleDown.play();
     }
+
     public void roadAnimation() {
         ImageView imageView = (ImageView) RoadBTN;
         ScaleTransition scaleUp = new ScaleTransition(Duration.millis(200), imageView);
@@ -1185,7 +1139,6 @@ public class Board extends SignUpController  implements Initializable {
         scaleUp.setAutoReverse(true); // Set auto reverse to true
         scaleUp.play();
     }
-
 
 
     private void hideAllPlayerElements() {
@@ -1214,30 +1167,9 @@ public class Board extends SignUpController  implements Initializable {
         PlayerFourLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
         PlayerFourLongestRoad.setVisible(true);
     }
+}
 
-    public void setWandHCity(ImageView image){
-        image.setFitWidth(50);
-        image.setFitHeight(65);
-    }
-    public void setWandHSettlement(ImageView image){
-        image.setFitWidth(50);
-        image.setFitHeight(45);
-    }
 
-    public void addImage(double x, double y) {
-        Image image = new Image("Images for the game/YellowCity.png");
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(65);
-        imageView.setFitWidth(50);
 
-        // Set the image position
-        AnchorPane.setTopAnchor(imageView, y);
-        AnchorPane.setLeftAnchor(imageView, x);
-
-        // Add the image to the AnchorPane
-        anchorPane.getChildren().add(imageView);
-    }
-
-    }
 
 
