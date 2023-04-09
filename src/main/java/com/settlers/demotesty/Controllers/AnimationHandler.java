@@ -31,4 +31,12 @@ public class AnimationHandler extends Board{
         scaleUp.setAutoReverse(true);
         scaleUp.play();
     }
+    public static void settlementButtonAnimation(ImageView imageView) {
+        ScaleTransition scaleUp = new ScaleTransition(Duration.millis(200), imageView);
+        scaleUp.setByX(0.1);
+        scaleUp.setByY(0.1);
+        scaleUp.setCycleCount(2);
+        scaleUp.setAutoReverse(true);
+        scaleUp.play();
+    }
 }

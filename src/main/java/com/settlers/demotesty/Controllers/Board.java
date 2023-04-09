@@ -2,6 +2,7 @@ package com.settlers.demotesty.Controllers;
 
 import com.settlers.demotesty.Fundimentals.Colour;
 import com.settlers.demotesty.Fundimentals.Player;
+import com.settlers.demotesty.Main;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -631,8 +632,6 @@ public class Board extends SignUpController  implements Initializable {
     List<Polygon> hexagons = new ArrayList<>();
     ArrayList<Double> xCoordinates = new ArrayList<Double>();//x-coordinates for Hexs
     ArrayList<Double> yCoordinates = new ArrayList<Double>();//y-coordinates for Hexs
-    ArrayList<Image> diceImages_1 = new ArrayList<>();//Dice_1 ArrayList
-    ArrayList<Image> diceImages_2 = new ArrayList<>();//Dice_2 ArrayList
     ArrayList<Rectangle> Roads = new ArrayList<>();
     ArrayList<RadioButton> ButtonForBuildings = new ArrayList<>();
     ArrayList<Text> TextNumbers = new ArrayList<>();
@@ -642,19 +641,18 @@ public class Board extends SignUpController  implements Initializable {
     ArrayList<Double> yCoordRadioBTN = new ArrayList<>();
     private int currentPlayerIndex = -1;
 
-    private int gameCounter;//TODO IMPLEMENT THIS!!!!
+    private int gameCounter;
     private DiceController diceController;
-    private List<ImageView> addedSettlements;
-    private List<ImageView> addedCities;
+
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gameCounter = 0;
-        if (gameCounter == 0){
+        if (gameCounter == 0) {
             NextTurn.setText("Start Game");
-        }else {
+        } else {
             return;
         }
 
@@ -785,8 +783,6 @@ public class Board extends SignUpController  implements Initializable {
         diceController = new DiceController(dice1, dice2, DiceOutCome);
         assignPlayer();//TODO change the position of it put it back on top
 
-        addedSettlements = new ArrayList<>();
-        addedCities = new ArrayList<>();
     }
 
 
@@ -899,6 +895,7 @@ public class Board extends SignUpController  implements Initializable {
             } while (!validPosition);
         }
     }
+
     public void roll(MouseEvent mouseEvent) {
         diceController.roll();
     }
@@ -906,16 +903,13 @@ public class Board extends SignUpController  implements Initializable {
     public void click(MouseEvent mouseEvent) {
         System.out.println("Road is Clicked");
     }
+
     public void NextPlayer(MouseEvent mouseEvent) {
-        // Check if the players list is empty
         if (players.isEmpty()) {
-            // If it's empty, show an error message or handle the situation as needed
             System.out.println("The players list is empty!");
             return;
         }
-        // Increment the currentPlayerIndex
         currentPlayerIndex++;
-        // If the currentPlayerIndex reaches the last player, set it back to 0
         if (NextTurn.getText().equals("Start Game")) {
             gameCounter = 1;
             GameCounterID.setText("1");
@@ -925,34 +919,86 @@ public class Board extends SignUpController  implements Initializable {
             gameCounter++;
             GameCounterID.setText(String.valueOf(gameCounter));
         }
-        // Get the current player
-        Player currentPlayer = players.get(currentPlayerIndex);
-        // Update the GUI with the current player's name
-        ResourceCrdsPlayerName.setText(currentPlayer.getPlayerName());
-        hideAllPlayerElements();
-        // Set isPlaying for all players to false, except for the current player
-        for (int i = 0; i < players.size(); i++) {
-            Player player = players.get(i);
-            if (i == currentPlayerIndex) {
-                player.setPlaying(true);
-            } else {
-                player.setPlaying(false);
-            }
-        }
-        // Show elements for the current player based on currentPlayerIndex
-        showPlayerElements(currentPlayerIndex, currentPlayer);
-        addRadioButtonListeners();
+        updateCurrentPlayer();
     }
 
 
-    private void addRadioButtonListeners() {
-        // Get the current player
+    private void updateCurrentPlayer() {
         Player currentPlayer = players.get(currentPlayerIndex);
+        ResourceCrdsPlayerName.setText(currentPlayer.getPlayerName());
+        hideAllPlayerElements();
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            player.setPlaying(i == currentPlayerIndex);
+        }
+        showPlayerElements(currentPlayerIndex, currentPlayer);
+        addRadioButtonListeners(currentPlayer);
+    }
+    private void addRadioButtonListeners(Player currentPlayer) {
         for (RadioButton BTN : ButtonForBuildings) {
             BTN.setOnMouseClicked(event -> handleRadioButtonSettlementAction(event, BTN, currentPlayer));
         }
     }
+    public void addSettlement(MouseEvent mouseEvent) {
+        if (currentPlayerIndex == -1) {
+            PickATurnNote.setVisible(true);
+        } else {
+            PickATurnNote.setVisible(false);
+            Player currentPlayer = players.get(currentPlayerIndex);
+            currentPlayer.setAddSettlement(true);
+            addRadioButtonListeners(currentPlayer);
+        }
+    }
+    private void handleRadioButtonSettlementAction(MouseEvent event, RadioButton BTN, Player currentPlayer) {
+        RadioButton radioButton = (RadioButton) event.getSource();
+        double tempX = BTN.getLayoutX();
+        double tempY = BTN.getLayoutY();
+        if (currentPlayer.isAddSettlement()) {
+            radioButton.setVisible(false);
+            addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
+        } else {
+            AnimationHandler.settlementButtonAnimation((ImageView) SettlementBTN);
+        }
+    }
 
+    public void addImageSettlement(Colour colour, double x, double y) {
+        Image image;
+        switch (colour) {
+            case BLUE:
+                image = new Image("Images for the game/BlueSettlement.png");
+                break;
+            case YELLOW:
+                image = new Image("Images for the game/YellowSettlement.png");
+                break;
+            case GREEN:
+                image = new Image("Images for the game/GreenSettlement.png");
+                break;
+            case RED:
+                image = new Image("Images for the game/RedSettlement.png");
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid color: " + colour);
+        }
+        ImageView imageView = new ImageView(image);
+        // Add the image to the AnchorPane
+        // Set the image position
+        AnchorPane.setTopAnchor(imageView, y-15);
+        AnchorPane.setLeftAnchor(imageView, x-10);
+        Player currentPlayer = players.get(currentPlayerIndex);
+        currentPlayer.getAddedSettlements().put(imageView, currentPlayer.getPlayerColour());
+        anchorPane.getChildren().add(imageView);
+    }
+    public void addRoad(MouseEvent mouseEvent) {
+        if (currentPlayerIndex == -1) {
+            PickATurnNote.setVisible(true);
+        } else {
+            PickATurnNote.setVisible(false);
+            Player currentPlayer = players.get(currentPlayerIndex);
+            if (currentPlayer.isPlaying()) {
+                currentPlayer.setAddRoad(true);
+            }
+        }
+    }
     public void changeRoadColor(MouseEvent mouseEvent) {
         // Get the source of the event and cast it to a Rectangle
         Rectangle clickedRoad = (Rectangle) mouseEvent.getSource();
@@ -987,9 +1033,6 @@ public class Board extends SignUpController  implements Initializable {
         }
     }
 
-
-    //TODO add a message to pick a turn first
-
     public void addCity(MouseEvent mouseEvent) {
         if (currentPlayerIndex == -1) {
             PickATurnNote.setVisible(true);
@@ -997,91 +1040,65 @@ public class Board extends SignUpController  implements Initializable {
             PickATurnNote.setVisible(false);
             System.out.println("Add city is pressed");
             Player currentPlayer = players.get(currentPlayerIndex);
-            System.out.println(addedSettlements);
-
-            for (ImageView image : addedSettlements) {
+            System.out.println(currentPlayer.getPlayerName() +currentPlayer.getAddedSettlements());
+            System.out.println(currentPlayer.getPlayerName() +currentPlayer.getAddedCities());
+            for (Map.Entry<ImageView, Colour> entry : currentPlayer.getAddedSettlements().entrySet()) {
+                ImageView image = entry.getKey();
+                Colour colour = entry.getValue();
                 currentPlayer.setAddSettlement(true);
-                image.setOnMouseClicked(event -> tempHander());
+                if(entry.getValue().equals(currentPlayer.getPlayerColour())) {
+                    image.setOnMouseClicked(event -> addCityHandler(event, image, currentPlayer));
+                }else {
+                    System.out.println("Not the right colour player");
+                }
             }
         }
 
-        }
-
-    private void tempHander() {
-        System.out.println("WORKS");
     }
 
-    public void addSettlement(MouseEvent mouseEvent) {
-        // Get the current player
-        if (currentPlayerIndex == -1) {
-            PickATurnNote.setVisible(true);
+    private void addCityHandler(MouseEvent event, ImageView image, Player currentPlayer) {
+        System.out.println("HI works");
+        image = (ImageView) event.getSource();
+        double tempX = image.getLayoutX();
+        double tempY = image.getLayoutY();
+        if (currentPlayer.isPlaying() || currentPlayer.isAddSettlement()) {
+            image.setVisible(false);
+            addImageCity(currentPlayer.getPlayerColour(), tempX, tempY);
         } else {
-            PickATurnNote.setVisible(false);
-            Player currentPlayer = players.get(currentPlayerIndex);
-            for (RadioButton BTN : ButtonForBuildings) {
-                currentPlayer.setAddSettlement(true);
-                BTN.setOnMouseClicked(event -> handleRadioButtonSettlementAction(event, BTN, currentPlayer));
-            }
-        }
-
-    }
-
-    private void handleRadioButtonSettlementAction(MouseEvent event, RadioButton BTN, Player currentPlayer) {
-        RadioButton radioButton = (RadioButton) event.getSource();
-        double tempX = BTN.getLayoutX();
-        double tempY = BTN.getLayoutY();
-        switch (currentPlayer.getPlayerColour()) {
-            case RED -> addImageSettlement("Red", tempX, tempY);
-            case YELLOW -> addImageSettlement("Yellow", tempX, tempY);
-            case BLUE -> addImageSettlement("Blue", tempX, tempY);
-            case GREEN -> addImageSettlement("Green", tempX, tempY);
-
+            AnimationHandler.settlementButtonAnimation((ImageView) SettlementBTN);
         }
     }
-    public void addRoad(MouseEvent mouseEvent) {
-        //its redudndent
-        //TODO Fix as its redundant
-        if (currentPlayerIndex == -1) {
-            PickATurnNote.setVisible(true);
-        } else {
-            PickATurnNote.setVisible(false);
-            if (players.get(currentPlayerIndex).isPlaying()) {
-                System.out.println("Its turn");
-                players.get(currentPlayerIndex).setAddRoad(true);
-            } else {
-                System.out.println("not Tunr");
-            }
-        }
-    }
-    public void addImageSettlement(String colour, double x, double y) {
+    private void addImageCity(Colour colour, double x, double y) {
         Image image;
-        switch (colour.toLowerCase()) {
-            case "blue":
-                image = new Image("Images for the game/BlueSettlement.png");
+        switch (colour) {
+            case BLUE:
+                image = new Image("Images for the game/BlueCity.png");
                 break;
-            case "yellow":
-                image = new Image("Images for the game/YellowSettlement.png");
+            case YELLOW:
+                image = new Image("Images for the game/YellowCity.png");
                 break;
-            case "green":
-                image = new Image("Images for the game/GreenSettlement.png");
+            case GREEN:
+                image = new Image("Images for the game/GreenCity.png");
                 break;
-            case "red":
-                image = new Image("Images for the game/RedSettlement.png");
+            case RED:
+                image = new Image("Images for the game/RedCity.png");
                 break;
             default:
                 throw new IllegalArgumentException("Invalid color: " + colour);
         }
-
         ImageView imageView = new ImageView(image);
-
+        imageView.setFitWidth(60);
+        imageView.setFitHeight(70);
         // Set the image position
         AnchorPane.setTopAnchor(imageView, y-15);
         AnchorPane.setLeftAnchor(imageView, x-10);
-        addedSettlements.add(imageView);
-
+        Player currentPlayer = players.get(currentPlayerIndex);
+        currentPlayer.getAddedCities().put(imageView, currentPlayer.getPlayerColour());
         // Add the image to the AnchorPane
         anchorPane.getChildren().add(imageView);
     }
+
+
 
     //Simple animation for the buttons
     public void hoverEnter(MouseEvent mouseEvent) {
@@ -1096,6 +1113,10 @@ public class Board extends SignUpController  implements Initializable {
 
     public void roadAnimation() {
         ImageView imageView = (ImageView) RoadBTN;
+        AnimationHandler.roadAnimation(imageView);
+    }
+    public void settlementButtonAnimation() {
+        ImageView imageView = (ImageView) SettlementBTN;
         AnimationHandler.roadAnimation(imageView);
     }
 
@@ -1126,8 +1147,6 @@ public class Board extends SignUpController  implements Initializable {
             default -> throw new IllegalArgumentException("Invalid player index: " + playerIndex);
         }
     }
-
-
 }
 
 
