@@ -32,6 +32,8 @@ import java.util.*;
 public class Board extends SignUpController  implements Initializable {
 
     @FXML
+    public Text GameCounterID;
+    @FXML
     private ResourceBundle resources;
 
     @FXML
@@ -143,7 +145,7 @@ public class Board extends SignUpController  implements Initializable {
     private Text Num_18;
 
     @FXML
-    private Text Num_19;
+    public Text Num_19;
 
     @FXML
     private Text Num_2;
@@ -176,19 +178,19 @@ public class Board extends SignUpController  implements Initializable {
     private Text PickATurnNote;
 
     @FXML
-    private Text PlayerFourID;
+    public Text PlayerFourID;
 
     @FXML
     private Text PlayerFourLongestRoad;
 
     @FXML
-    private Rectangle PlayerFourTagBoxColor;
+    public Rectangle PlayerFourTagBoxColor;
 
     @FXML
     private Group PlayerFoursTagBox;
 
     @FXML
-    private Text PlayerOneID;
+    public Text PlayerOneID;
 
     @FXML
     private Text PlayerOneLongestRoad;
@@ -197,10 +199,10 @@ public class Board extends SignUpController  implements Initializable {
     private Group PlayerOneTagBox;
 
     @FXML
-    private Rectangle PlayerOneTagBoxColor;
+    public Rectangle PlayerOneTagBoxColor;
 
     @FXML
-    private Text PlayerThreeID;
+    public Text PlayerThreeID;
 
     @FXML
     private Text PlayerThreeLongestRoad;
@@ -209,10 +211,10 @@ public class Board extends SignUpController  implements Initializable {
     private Group PlayerThreeTagBox;
 
     @FXML
-    private Rectangle PlayerThreeTagBoxColor;
+    public Rectangle PlayerThreeTagBoxColor;
 
     @FXML
-    private Text PlayerTwoID;
+    public Text PlayerTwoID;
 
     @FXML
     private Text PlayerTwoLongestRoad;
@@ -221,7 +223,7 @@ public class Board extends SignUpController  implements Initializable {
     private Group PlayerTwoTagBox;
 
     @FXML
-    private Rectangle PlayerTwoTagBoxColor;
+    public Rectangle PlayerTwoTagBoxColor;
 
     @FXML
     private RadioButton RadioBTN1;
@@ -640,9 +642,21 @@ public class Board extends SignUpController  implements Initializable {
     ArrayList<Double> yCoordRadioBTN = new ArrayList<>();
     private int currentPlayerIndex = -1;
 
-    private int gameCounter;
+    private int gameCounter;//TODO IMPLEMENT THIS!!!!
+    private DiceController diceController;
+    private List<ImageView> addedSettlements;
+    private List<ImageView> addedCities;
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        gameCounter = 0;
+        if (gameCounter == 0){
+            NextTurn.setText("Start Game");
+        }else {
+            return;
+        }
 
 
         //IMages of the Tiles
@@ -751,7 +765,7 @@ public class Board extends SignUpController  implements Initializable {
 
         shuffleHexagons();//Calls Shuffle method
         shuffleNumber();
-        diceRoll();//Calls Dice Roll
+//        diceRoll();//Calls Dice Roll
         for (Rectangle road : Roads) {
             if (road != null) {
                 road.setOnMouseClicked(this::changeRoadColor);
@@ -759,7 +773,6 @@ public class Board extends SignUpController  implements Initializable {
                 System.out.println("Road is null!");
             }
         }
-
         //TODO remove later as its used for testing
         Player player1 = new Player("Ramzi", Colour.RED);
         Player player2 = new Player("Ahmad", Colour.BLUE);
@@ -769,11 +782,11 @@ public class Board extends SignUpController  implements Initializable {
         players.add(player2);
         players.add(player3);
         players.add(player4);
-
-
+        diceController = new DiceController(dice1, dice2, DiceOutCome);
         assignPlayer();//TODO change the position of it put it back on top
 
-
+        addedSettlements = new ArrayList<>();
+        addedCities = new ArrayList<>();
     }
 
 
@@ -886,51 +899,13 @@ public class Board extends SignUpController  implements Initializable {
             } while (!validPosition);
         }
     }
-
-    private void diceRoll() {
-        //DiceImages 1
-        diceImages_1.addAll(Arrays.asList(
-                new Image("Images for the game/Dice/Dice1/Dice-One-removebg-preview.png"),
-                new Image("Images for the game/Dice/Dice1/Dice-Two-removebg-preview.png"),
-                new Image("Images for the game/Dice/Dice1/dice-Three-removebg-preview.png"),
-                new Image("Images for the game/Dice/Dice1/Dice-Four-removebg-preview.png"),
-                new Image("Images for the game/Dice/Dice1/Dice-Five-removebg-preview.png"),
-                new Image("Images for the game/Dice/Dice1/Dice-Six-removebg-preview.png")
-        ));
-        //DiceImages 2
-        diceImages_2.addAll(Arrays.asList(
-                new Image("Images for the game/Dice/Dice2/Dice-One-removebg-preview-Yellow.png"),
-                new Image("Images for the game/Dice/Dice2/Dice-Two-removebg-preview-Yellow.png"),
-                new Image("Images for the game/Dice/Dice2/Dice-Three-removebg-preview-Yellow.png"),
-                new Image("Images for the game/Dice/Dice2/Dice-Four-removebg-preview-Yellow.png"),
-                new Image("Images for the game/Dice/Dice2/dice-Five-removebg-preview-Yellow.png"),
-                new Image("Images for the game/Dice/Dice2/Dice-Six-removebg-preview-Yellow.png")
-        ));
-        dice1.setFill(new ImagePattern(diceImages_1.get(0)));
-        dice2.setFill(new ImagePattern(diceImages_2.get(0)));
-        DiceOutCome.setVisible(false);
-    }
-
     public void roll(MouseEvent mouseEvent) {
-        Random randomImage = new Random();
-        int diceOne = randomImage.nextInt(0, 6);
-        int diceTwo = randomImage.nextInt(0, 6);
-        dice1.setFill(new ImagePattern(diceImages_1.get(diceOne)));
-        dice2.setFill(new ImagePattern(diceImages_2.get(diceTwo)));
-
-        DiceOutCome.setVisible(true);
-
-        int result = diceOne + diceTwo + 2; // Add 2 because array indexes start at 0
-        String diceOutcomeSTR = String.valueOf(result);
-        System.out.println("The result is: " + result);
-        DiceOutCome.setText("Dice OutCome: " + diceOutcomeSTR);
+        diceController.roll();
     }
 
     public void click(MouseEvent mouseEvent) {
         System.out.println("Road is Clicked");
     }
-
-
     public void NextPlayer(MouseEvent mouseEvent) {
         // Check if the players list is empty
         if (players.isEmpty()) {
@@ -938,23 +913,23 @@ public class Board extends SignUpController  implements Initializable {
             System.out.println("The players list is empty!");
             return;
         }
-
         // Increment the currentPlayerIndex
         currentPlayerIndex++;
-
         // If the currentPlayerIndex reaches the last player, set it back to 0
-        if (currentPlayerIndex >= players.size()) {
+        if (NextTurn.getText().equals("Start Game")) {
+            gameCounter = 1;
+            GameCounterID.setText("1");
+            NextTurn.setText("Next Turn");
+        } else if (currentPlayerIndex >= players.size()) {
             currentPlayerIndex = 0;
+            gameCounter++;
+            GameCounterID.setText(String.valueOf(gameCounter));
         }
-
         // Get the current player
         Player currentPlayer = players.get(currentPlayerIndex);
-
         // Update the GUI with the current player's name
         ResourceCrdsPlayerName.setText(currentPlayer.getPlayerName());
-
         hideAllPlayerElements();
-
         // Set isPlaying for all players to false, except for the current player
         for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
@@ -964,40 +939,38 @@ public class Board extends SignUpController  implements Initializable {
                 player.setPlaying(false);
             }
         }
-
         // Show elements for the current player based on currentPlayerIndex
-        switch (currentPlayerIndex) {
-            case 0 -> showPlayerOneElements(currentPlayer);
-            case 1 -> showPlayerTwoElements(currentPlayer);
-            case 2 -> showPlayerThreeElements(currentPlayer);
-            case 3 -> showPlayerFourElements(currentPlayer);
-        }
+        showPlayerElements(currentPlayerIndex, currentPlayer);
+        addRadioButtonListeners();
     }
 
+
+    private void addRadioButtonListeners() {
+        // Get the current player
+        Player currentPlayer = players.get(currentPlayerIndex);
+        for (RadioButton BTN : ButtonForBuildings) {
+            BTN.setOnMouseClicked(event -> handleRadioButtonSettlementAction(event, BTN, currentPlayer));
+        }
+    }
 
     public void changeRoadColor(MouseEvent mouseEvent) {
         // Get the source of the event and cast it to a Rectangle
         Rectangle clickedRoad = (Rectangle) mouseEvent.getSource();
-
         // Check if the UserData is set to "used", if so, return from the method
         if ("used".equals(clickedRoad.getUserData())) {
             return;
         }
-
         // Get the current player
         Player currentPlayer = players.get(currentPlayerIndex);
-
         // Check if the currentPlayer is playing and setRoad is true, otherwise return
         if (!currentPlayer.isPlaying() || !currentPlayer.isAddRoad()) {
-            System.out.println("In if");
             roadAnimation();
-
-
             return;
         }
-
+        //TODO Add checker for the amount of resources
         // Set the rectangle's fill color to the current player's color
         clickedRoad.setFill(currentPlayer.getPlayerColour().getFxColor());
+
         currentPlayer.setRoads();
         // Set the UserData of the rectangle to "used" to mark it as used
         clickedRoad.setUserData("used");
@@ -1016,31 +989,45 @@ public class Board extends SignUpController  implements Initializable {
 
 
     //TODO add a message to pick a turn first
+
     public void addCity(MouseEvent mouseEvent) {
         if (currentPlayerIndex == -1) {
             PickATurnNote.setVisible(true);
-
         } else {
             PickATurnNote.setVisible(false);
-            players.get(currentPlayerIndex).setAddCity(true);
             System.out.println("Add city is pressed");
+            Player currentPlayer = players.get(currentPlayerIndex);
+            System.out.println(addedSettlements);
+
+            for (ImageView image : addedSettlements) {
+                currentPlayer.setAddSettlement(true);
+                image.setOnMouseClicked(event -> tempHander());
+            }
         }
 
+        }
 
+    private void tempHander() {
+        System.out.println("WORKS");
     }
 
     public void addSettlement(MouseEvent mouseEvent) {
         // Get the current player
-        Player currentPlayer = players.get(currentPlayerIndex);
-        for (RadioButton BTN : ButtonForBuildings) {
-            BTN.setOnMouseClicked(event -> handleRadioButtonSettlementAction(event, BTN, currentPlayer));
+        if (currentPlayerIndex == -1) {
+            PickATurnNote.setVisible(true);
+        } else {
+            PickATurnNote.setVisible(false);
+            Player currentPlayer = players.get(currentPlayerIndex);
+            for (RadioButton BTN : ButtonForBuildings) {
+                currentPlayer.setAddSettlement(true);
+                BTN.setOnMouseClicked(event -> handleRadioButtonSettlementAction(event, BTN, currentPlayer));
+            }
         }
 
     }
 
     private void handleRadioButtonSettlementAction(MouseEvent event, RadioButton BTN, Player currentPlayer) {
         RadioButton radioButton = (RadioButton) event.getSource();
-        radioButton.setVisible(false);
         double tempX = BTN.getLayoutX();
         double tempY = BTN.getLayoutY();
         switch (currentPlayer.getPlayerColour()) {
@@ -1051,9 +1038,7 @@ public class Board extends SignUpController  implements Initializable {
 
         }
     }
-
     public void addRoad(MouseEvent mouseEvent) {
-        // Your implementation to add a road
         //its redudndent
         //TODO Fix as its redundant
         if (currentPlayerIndex == -1) {
@@ -1066,18 +1051,7 @@ public class Board extends SignUpController  implements Initializable {
             } else {
                 System.out.println("not Tunr");
             }
-
         }
-
-    }
-    public void setWandHCity(ImageView image) {
-        image.setFitWidth(50);
-        image.setFitHeight(65);
-    }
-
-    public void setWandHSettlement(ImageView image) {
-        image.setFitWidth(50);
-        image.setFitHeight(45);
     }
     public void addImageSettlement(String colour, double x, double y) {
         Image image;
@@ -1103,43 +1077,27 @@ public class Board extends SignUpController  implements Initializable {
         // Set the image position
         AnchorPane.setTopAnchor(imageView, y-15);
         AnchorPane.setLeftAnchor(imageView, x-10);
+        addedSettlements.add(imageView);
 
         // Add the image to the AnchorPane
         anchorPane.getChildren().add(imageView);
     }
 
     //Simple animation for the buttons
-
     public void hoverEnter(MouseEvent mouseEvent) {
         ImageView imageView = (ImageView) mouseEvent.getSource();
-        ScaleTransition scaleUp = new ScaleTransition(Duration.millis(200), imageView);
-        scaleUp.setByX(0.1);
-        scaleUp.setByY(0.1);
-        scaleUp.setCycleCount(1);
-        scaleUp.setAutoReverse(false);
-        scaleUp.play();
+        AnimationHandler.hoverEnter(imageView);
     }
 
     public void hoverExit(MouseEvent mouseEvent) {
         ImageView imageView = (ImageView) mouseEvent.getSource();
-        ScaleTransition scaleDown = new ScaleTransition(Duration.millis(200), imageView);
-        scaleDown.setByX(-0.1);
-        scaleDown.setByY(-0.1);
-        scaleDown.setCycleCount(1);
-        scaleDown.setAutoReverse(false);
-        scaleDown.play();
+        AnimationHandler.hoverExit(imageView);
     }
 
     public void roadAnimation() {
         ImageView imageView = (ImageView) RoadBTN;
-        ScaleTransition scaleUp = new ScaleTransition(Duration.millis(200), imageView);
-        scaleUp.setByX(0.1);
-        scaleUp.setByY(0.1);
-        scaleUp.setCycleCount(2); // Increase cycle count to 2
-        scaleUp.setAutoReverse(true); // Set auto reverse to true
-        scaleUp.play();
+        AnimationHandler.roadAnimation(imageView);
     }
-
 
     private void hideAllPlayerElements() {
         PlayerOneLongestRoad.setVisible(false);
@@ -1147,26 +1105,29 @@ public class Board extends SignUpController  implements Initializable {
         PlayerThreeLongestRoad.setVisible(false);
         PlayerFourLongestRoad.setVisible(false);
     }
-
-    private void showPlayerOneElements(Player currentPlayer) {
-        PlayerOneLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
-        PlayerOneLongestRoad.setVisible(true);
+    private void showPlayerElements(int playerIndex, Player currentPlayer) {
+        switch (playerIndex) {
+            case 0 -> {
+                PlayerOneLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+                PlayerOneLongestRoad.setVisible(true);
+            }
+            case 1 -> {
+                PlayerTwoLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+                PlayerTwoLongestRoad.setVisible(true);
+            }
+            case 2 -> {
+                PlayerThreeLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+                PlayerThreeLongestRoad.setVisible(true);
+            }
+            case 3 -> {
+                PlayerFourLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
+                PlayerFourLongestRoad.setVisible(true);
+            }
+            default -> throw new IllegalArgumentException("Invalid player index: " + playerIndex);
+        }
     }
 
-    private void showPlayerTwoElements(Player currentPlayer) {
-        PlayerTwoLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
-        PlayerTwoLongestRoad.setVisible(true);
-    }
 
-    private void showPlayerThreeElements(Player currentPlayer) {
-        PlayerThreeLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
-        PlayerThreeLongestRoad.setVisible(true);
-    }
-
-    private void showPlayerFourElements(Player currentPlayer) {
-        PlayerFourLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
-        PlayerFourLongestRoad.setVisible(true);
-    }
 }
 
 

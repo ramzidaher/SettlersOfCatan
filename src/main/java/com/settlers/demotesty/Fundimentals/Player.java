@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 public class Player {
     //Default starting amounts for players
-    private final int CITIES = 4;
-    private final int SETTLEMENTS = 5;
-    private final int ROADS = 15;
+    private  int CITIES = 4;
+    private  int SETTLEMENTS = 5;
+    private  int ROADS = 15;
     //Player fields
     private Colour playerColour;
     private String playerName;
@@ -87,7 +87,9 @@ public class Player {
     }
 
     public void setRoads(){
-        Roads++;
+        if (Roads != 14) {
+            Roads++;
+        }
     }
     public int getRoads(){
         return Roads;
