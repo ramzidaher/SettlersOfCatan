@@ -22,6 +22,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class Player {
+
     //Default starting amounts for players
     private  int CITIES = 0;
     private  int SETTLEMENTS = 0;
@@ -40,6 +41,7 @@ public class Player {
     private boolean isPlaying;
     private HashMap<ImageView,Colour> addedSettlements;
     private HashMap<ImageView,Colour> addedCities;
+    private  HashMap<String,Integer> resources;
     /**
     * Create a player: assign name, colour and create ArrayLists of cities, settlements, and roads.
     * @param String name, Colour colour
@@ -57,15 +59,13 @@ public class Player {
         isPlaying = false;
         addedSettlements = new HashMap<>();
         addedCities = new HashMap<>();
-//        for (int i = 0; i < SETTLEMENTS ; ++i ) {
-//            settlements.add(new Settlement(colour));
-//        }
-//        for (int i = 0; i < CITIES ; ++i) {
-//            cities.add(new City(colour));
-//        }
-//        for (int i = 0; i < ROADS; ++i) {
-//            roads.add(new Road(colour));
-//        }
+//        resources = new HashMap<>();]
+        this.resources = new HashMap<>();
+        this.resources.put("brick", 0);
+        this.resources.put("grain", 0);
+        this.resources.put("ore", 0);
+        this.resources.put("wool", 0);
+        this.resources.put("wood", 0);
     }
 
     public HashMap<ImageView, Colour> getAddedSettlements() {
@@ -74,6 +74,14 @@ public class Player {
 
     public void setAddedSettlements(HashMap<ImageView, Colour> addedSettlements) {
         this.addedSettlements = addedSettlements;
+    }
+
+    public HashMap<String, Integer> getResources() {
+        return resources;
+    }
+
+    public void setResources(HashMap<String, Integer> resources) {
+        this.resources = resources;
     }
 
     public HashMap<ImageView, Colour> getAddedCities() {
@@ -166,7 +174,7 @@ public class Player {
 //    public void placeRoad() {
 //        roads.remove(0);
 //    }
-//    /**
+//    /**x
 //     * Place settlement on vertex of tile
 //     * @param
 //     */

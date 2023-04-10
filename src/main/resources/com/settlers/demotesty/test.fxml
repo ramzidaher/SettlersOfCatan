@@ -506,7 +506,7 @@
                                 <Group layoutX="60.0" layoutY="95.0">
                                     <children>
                                         <Circle fill="WHITE" layoutX="-2.0" layoutY="-7.0" radius="22.0" stroke="WHITE" strokeType="INSIDE" />
-                                        <Text fx:id="BrickCardCounter" layoutX="-8.0" layoutY="8.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3">
+                                        <Text fx:id="BrickCardCounter" layoutX="-8.0" layoutY="8.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                                             <font>
                                                 <Font name="Broadway" size="24.0" />
                                             </font>
@@ -516,7 +516,7 @@
                                 <Group layoutX="150.0" layoutY="84.0">
                                     <children>
                                         <Circle fill="WHITE" layoutY="-4.0" radius="22.0" stroke="WHITE" strokeType="INSIDE" />
-                                        <Text fx:id="WoolCardCounter" layoutX="-8.0" layoutY="8.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5">
+                                        <Text fx:id="WoolCardCounter" layoutX="-8.0" layoutY="8.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                                             <font>
                                                 <Font name="Broadway" size="24.0" />
                                             </font>
@@ -536,7 +536,7 @@
                                 <Group layoutX="333.0" layoutY="84.0">
                                     <children>
                                         <Circle fill="WHITE" layoutY="-4.0" radius="22.0" stroke="WHITE" strokeType="INSIDE" />
-                                        <Text fx:id="WoodCardCounter" layoutX="-8.0" layoutY="8.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1">
+                                        <Text fx:id="WoodCardCounter" layoutX="-8.0" layoutY="8.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                                             <font>
                                                 <Font name="Broadway" size="24.0" />
                                             </font>
@@ -546,7 +546,7 @@
                                 <Group layoutX="421.0" layoutY="93.0">
                                     <children>
                                         <Circle fill="WHITE" layoutX="2.0" layoutY="-3.0" radius="22.0" stroke="WHITE" strokeType="INSIDE" />
-                                        <Text fx:id="GrainCardCOunter" layoutX="-8.0" layoutY="8.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2">
+                                        <Text fx:id="GrainCardCounter" layoutX="-8.0" layoutY="8.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                                             <font>
                                                 <Font name="Broadway" size="24.0" />
                                             </font>
@@ -557,7 +557,7 @@
                         </AnchorPane>
                         <ImageView fitHeight="361.0" fitWidth="314.0" layoutX="14.0" layoutY="311.0">
                             <image>
-                                <Image url="@../../../Images%20for%20the%20game/building-cost-card-by-conquerorworm1522-d41ezjj-fullview.jpg" />
+                                <Image url="@../../../Images%20for%20the%20game/Building%20cost%20card.png" />
                             </image>
                         </ImageView>
                         <Button fx:id="NextTurn" layoutX="1510.0" layoutY="904.0" mnemonicParsing="false" onMouseClicked="#NextPlayer" prefHeight="80.0" prefWidth="263.0" text="NextTurn" />
@@ -590,6 +590,7 @@
                         <Font size="32.0" />
                      </font>
                   </Text>
+                  <Button fx:id="testDebug" layoutX="1592.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#DEBUG" text="Test" />
                     </children>
                 </AnchorPane>
             </children>

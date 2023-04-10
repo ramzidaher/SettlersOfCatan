@@ -20,6 +20,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
 import java.net.URL;
 import java.util.*;
@@ -34,6 +35,7 @@ public class Board extends SignUpController  implements Initializable {
 
     @FXML
     public Text GameCounterID;
+    public Button testDebug;
     @FXML
     private ResourceBundle resources;
 
@@ -53,7 +55,7 @@ public class Board extends SignUpController  implements Initializable {
     private Text DiceOutCome;
 
     @FXML
-    private Text GrainCardCOunter;
+    private Text GrainCardCounter;
 
     @FXML
     private Polygon Hex1;
@@ -628,8 +630,9 @@ public class Board extends SignUpController  implements Initializable {
     @FXML
     private Rectangle road_1_99;
     //Main Fields that are used
+    private HashMap<String, Polygon> hexagonsById = new HashMap<>();
+    HashMap<Polygon, String> hexagonsResources = new HashMap<>();
 
-    List<Polygon> hexagons = new ArrayList<>();
     ArrayList<Double> xCoordinates = new ArrayList<Double>();//x-coordinates for Hexs
     ArrayList<Double> yCoordinates = new ArrayList<Double>();//y-coordinates for Hexs
     ArrayList<Rectangle> Roads = new ArrayList<>();
@@ -643,8 +646,6 @@ public class Board extends SignUpController  implements Initializable {
 
     private int gameCounter;
     private DiceController diceController;
-
-
 
 
     @Override
@@ -693,6 +694,33 @@ public class Board extends SignUpController  implements Initializable {
         //Desert x 1
         HexDesert.setFill(new ImagePattern(img6_Desert));
 
+        //Ore x 3
+        hexagonsResources.put(Hex1, "ore");
+        hexagonsResources.put(Hex2, "ore");
+        hexagonsResources.put(Hex3, "ore");
+        //Grain x 4
+        hexagonsResources.put(Hex4, "grain");
+        hexagonsResources.put(Hex5, "grain");
+        hexagonsResources.put(Hex6, "grain");
+        hexagonsResources.put(Hex7, "grain");
+        //wool x 4
+        hexagonsResources.put(Hex8, "wool");
+        hexagonsResources.put(Hex9, "wool");
+        hexagonsResources.put(Hex10, "wool");
+        hexagonsResources.put(Hex11, "wool");
+        //Bricks x 3
+        hexagonsResources.put(Hex12, "brick");
+        hexagonsResources.put(Hex13, "brick");
+        hexagonsResources.put(Hex14, "brick");
+        //Lumber x 4
+        hexagonsResources.put(Hex15, "wood");
+        hexagonsResources.put(Hex17, "wood");
+        hexagonsResources.put(Hex18, "wood");
+        hexagonsResources.put(Hex19, "wood");
+        //Desert x 1
+        hexagonsResources.put(HexDesert, "desert");
+
+
         Roads.addAll(Arrays.asList(Road_1_2, Road_1_3, Road_1_5, Road_1_6, Road_1_7, Road_1_8, Road_1_9, Road_1_10, Road_1_11,
                 Road_1_12, Road_1_13, Road_1_14, Road_1_15, Road_1_16, Road_1_17, Road_1_18, Road_1_19,
                 Road_1_20, Road_1_21, Road_1_22, Road_1_23, Road_1_24, Road_1_25, Road_1_26, Road_1_27,
@@ -719,13 +747,15 @@ public class Board extends SignUpController  implements Initializable {
 
         }
 
-        hexagons.addAll(Arrays.asList(Hex1, Hex2, Hex3, Hex4, Hex5, Hex6, Hex7, Hex8,
-                Hex9, Hex10, Hex11, Hex12, Hex13, Hex14,
-                Hex15, Hex17, Hex18, Hex19, HexDesert));//Add all the Hex's to the ArrayList
-        for (Polygon hexagon : hexagons) {
-            xCoordinates.add(hexagon.getLayoutX());//Add Hex's X-coordiantes in the specific array
-            yCoordinates.add(hexagon.getLayoutY());//Add Hex's Y-Coordinates in the specific array
+//        hexagons.addAll(Arrays.asList(Hex1, Hex2, Hex3, Hex4, Hex5, Hex6, Hex7, Hex8,
+//                Hex9, Hex10, Hex11, Hex12, Hex13, Hex14,
+//                Hex15, Hex17, Hex18, Hex19, HexDesert));//Add all the Hex's to the ArrayList
+        for (Map.Entry<String, Polygon> entry : hexagonsById.entrySet()) {
+            Polygon hexagon = entry.getValue();
+            xCoordinates.add(hexagon.getLayoutX()); // Add Hex's X-coordinates in the specific array
+            yCoordinates.add(hexagon.getLayoutY()); // Add Hex's Y-Coordinates in the specific array
         }
+
 
         ButtonForBuildings.addAll(Arrays.asList(
                 RadioBTN1, RadioBTN2, RadioBTN3, RadioBTN4, RadioBTN5,
@@ -748,6 +778,25 @@ public class Board extends SignUpController  implements Initializable {
 
             }
         }
+        hexagonsById.put("Hex1", Hex1);
+        hexagonsById.put("Hex10", Hex10);
+        hexagonsById.put("Hex11", Hex11);
+        hexagonsById.put("Hex12", Hex12);
+        hexagonsById.put("Hex13", Hex13);
+        hexagonsById.put("Hex14", Hex14);
+        hexagonsById.put("Hex15", Hex15);
+        hexagonsById.put("Hex17", Hex17);
+        hexagonsById.put("Hex18", Hex18);
+        hexagonsById.put("Hex19", Hex19);
+        hexagonsById.put("Hex2", Hex2);
+        hexagonsById.put("Hex3", Hex3);
+        hexagonsById.put("Hex4", Hex4);
+        hexagonsById.put("Hex5", Hex5);
+        hexagonsById.put("Hex6", Hex6);
+        hexagonsById.put("Hex7", Hex7);
+        hexagonsById.put("Hex8", Hex8);
+        hexagonsById.put("Hex9", Hex9);
+        hexagonsById.put("HexDesert", HexDesert);
 
         System.out.println("RadioBTN x: " + xCoordRadioBTN);
         System.out.println("RadioBTN y: " + yCoordRadioBTN);
@@ -756,7 +805,7 @@ public class Board extends SignUpController  implements Initializable {
         System.out.println("Text y: " + yCoordText);
 
         System.out.println("Printing The Hex");
-        System.out.println(hexagons);
+        System.out.println(hexagonsById);
 
         currentPlayerIndex = -1;
 
@@ -767,6 +816,7 @@ public class Board extends SignUpController  implements Initializable {
         for (Rectangle road : Roads) {
             if (road != null) {
                 road.setOnMouseClicked(this::changeRoadColor);
+
             } else {
                 System.out.println("Road is null!");
             }
@@ -812,17 +862,18 @@ public class Board extends SignUpController  implements Initializable {
 
     // This method shuffles the positions of the hexagons on the board
     private void shuffleHexagons() {
-        // Initialize new lists to store the shuffled coordinates and hexagons
-        ArrayList<Double> shuffledXCoordinates = new ArrayList<>();
-        ArrayList<Double> shuffledYCoordinates = new ArrayList<>();
-        ArrayList<Polygon> shuffledHexagons = new ArrayList<>();
-
         // Create copies of the original coordinates lists
-        ArrayList<Double> xCoordinatesCopy = new ArrayList<>(xCoordinates);
-        ArrayList<Double> yCoordinatesCopy = new ArrayList<>(yCoordinates);
+        List<Double> xCoordinatesCopy = new ArrayList<>();
+        List<Double> yCoordinatesCopy = new ArrayList<>();
 
-        // Iterate through each hexagon
-        for (Polygon hexagon : hexagons) {
+        // Save the original coordinates of hexagons
+        for (Polygon hexagon : hexagonsById.values()) {
+            xCoordinatesCopy.add(hexagon.getLayoutX());
+            yCoordinatesCopy.add(hexagon.getLayoutY());
+        }
+
+        // Shuffle the hexagons
+        for (Polygon hexagon : hexagonsById.values()) {
             // Create a new Random object for generating random indices
             Random rand = new Random();
             // Generate a random index within the range of xCoordinatesCopy's size
@@ -834,34 +885,21 @@ public class Board extends SignUpController  implements Initializable {
             // Update the x and y layout positions of the hexagon
             hexagon.setLayoutX(newX);
             hexagon.setLayoutY(newY);
-            // Add the new x and y coordinates to the shuffled coordinates lists
-            shuffledXCoordinates.add(newX);
-            shuffledYCoordinates.add(newY);
             // Remove the used coordinates from the coordinates copies
             xCoordinatesCopy.remove(randomIndex);
             yCoordinatesCopy.remove(randomIndex);
-            // Add the hexagon to the shuffled hexagons list
-            shuffledHexagons.add(hexagon);
         }
-
-        // Clear the original hexagons list and add the shuffled hexagons
-        hexagons.clear();
-        hexagons.addAll(shuffledHexagons);
-
-        // Print the new x and y coordinates for debugging purposes
-        System.out.println("New X Coordinates: " + shuffledXCoordinates);
-        System.out.println("New Y Coordinates: " + shuffledYCoordinates);
-
-
     }
 
+
     private double getHexDesertX() {
-        return hexagons.get(18).getLayoutX();
+        return hexagonsById.get("HexDesert").getLayoutX();
     }
 
     private double getHexDesertY() {
-        return hexagons.get(18).getLayoutY();
+        return hexagonsById.get("HexDesert").getLayoutY();
     }
+
 
     private void shuffleNumber() {
         // Hide the desert number token (Num_19) since the desert hexagon has no number
@@ -933,12 +971,15 @@ public class Board extends SignUpController  implements Initializable {
         }
         showPlayerElements(currentPlayerIndex, currentPlayer);
         addRadioButtonListeners(currentPlayer);
+        updateResourceCounters(currentPlayer);
     }
+
     private void addRadioButtonListeners(Player currentPlayer) {
         for (RadioButton BTN : ButtonForBuildings) {
             BTN.setOnMouseClicked(event -> handleRadioButtonSettlementAction(event, BTN, currentPlayer));
         }
     }
+
     public void addSettlement(MouseEvent mouseEvent) {
         if (currentPlayerIndex == -1) {
             PickATurnNote.setVisible(true);
@@ -949,6 +990,7 @@ public class Board extends SignUpController  implements Initializable {
             addRadioButtonListeners(currentPlayer);
         }
     }
+
     private void handleRadioButtonSettlementAction(MouseEvent event, RadioButton BTN, Player currentPlayer) {
         RadioButton radioButton = (RadioButton) event.getSource();
         double tempX = BTN.getLayoutX();
@@ -982,12 +1024,13 @@ public class Board extends SignUpController  implements Initializable {
         ImageView imageView = new ImageView(image);
         // Add the image to the AnchorPane
         // Set the image position
-        AnchorPane.setTopAnchor(imageView, y-15);
-        AnchorPane.setLeftAnchor(imageView, x-10);
+        AnchorPane.setTopAnchor(imageView, y - 15);
+        AnchorPane.setLeftAnchor(imageView, x - 10);
         Player currentPlayer = players.get(currentPlayerIndex);
         currentPlayer.getAddedSettlements().put(imageView, currentPlayer.getPlayerColour());
         anchorPane.getChildren().add(imageView);
     }
+
     public void addRoad(MouseEvent mouseEvent) {
         if (currentPlayerIndex == -1) {
             PickATurnNote.setVisible(true);
@@ -999,6 +1042,7 @@ public class Board extends SignUpController  implements Initializable {
             }
         }
     }
+
     public void changeRoadColor(MouseEvent mouseEvent) {
         // Get the source of the event and cast it to a Rectangle
         Rectangle clickedRoad = (Rectangle) mouseEvent.getSource();
@@ -1009,6 +1053,8 @@ public class Board extends SignUpController  implements Initializable {
         // Get the current player
         Player currentPlayer = players.get(currentPlayerIndex);
         // Check if the currentPlayer is playing and setRoad is true, otherwise return
+//        int nearestHexId = findNearestHexId(clickedRoad);
+//        System.out.println("Nearest Hex ID: " + nearestHexId);
         if (!currentPlayer.isPlaying() || !currentPlayer.isAddRoad()) {
             roadAnimation();
             return;
@@ -1017,11 +1063,11 @@ public class Board extends SignUpController  implements Initializable {
         // Set the rectangle's fill color to the current player's color
         clickedRoad.setFill(currentPlayer.getPlayerColour().getFxColor());
 
+
         currentPlayer.setRoads();
         // Set the UserData of the rectangle to "used" to mark it as used
         clickedRoad.setUserData("used");
         System.out.println(currentPlayer.getPlayerName() + currentPlayer.getRoads());
-
         if (currentPlayerIndex == 0) {
             PlayerOneLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
         } else if (currentPlayerIndex == 1) {
@@ -1031,7 +1077,29 @@ public class Board extends SignUpController  implements Initializable {
         } else if (currentPlayerIndex == 3) {
             PlayerFourLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
         }
+
+        // Get the nearest hexagons
+        double roadX = clickedRoad.getLayoutX();
+        double roadY = clickedRoad.getLayoutY();
+        double roadAngle = clickedRoad.getRotate();
+
+        String[] nearestResourceTypes = getNearestResourceTypes(roadX, roadY, roadAngle);
+
+        for (String resource : nearestResourceTypes) {
+            if (resource != null && !"desert".equals(resource)) {
+                addResourceToPlayer(currentPlayer, resource);
+                updateResourceCounters(currentPlayer);
+            }
+        }
+
     }
+
+    private void addResourceToPlayer(Player player, String resource) {
+        HashMap<String, Integer> resources = player.getResources();
+        int currentResourceAmount = resources.getOrDefault(resource, 0);
+        resources.put(resource, currentResourceAmount + 1);
+    }
+
 
     public void addCity(MouseEvent mouseEvent) {
         if (currentPlayerIndex == -1) {
@@ -1040,21 +1108,59 @@ public class Board extends SignUpController  implements Initializable {
             PickATurnNote.setVisible(false);
             System.out.println("Add city is pressed");
             Player currentPlayer = players.get(currentPlayerIndex);
-            System.out.println(currentPlayer.getPlayerName() +currentPlayer.getAddedSettlements());
-            System.out.println(currentPlayer.getPlayerName() +currentPlayer.getAddedCities());
+            System.out.println(currentPlayer.getPlayerName() + currentPlayer.getAddedSettlements());
+            System.out.println(currentPlayer.getPlayerName() + currentPlayer.getAddedCities());
             for (Map.Entry<ImageView, Colour> entry : currentPlayer.getAddedSettlements().entrySet()) {
                 ImageView image = entry.getKey();
                 Colour colour = entry.getValue();
                 currentPlayer.setAddSettlement(true);
-                if(entry.getValue().equals(currentPlayer.getPlayerColour())) {
+                if (entry.getValue().equals(currentPlayer.getPlayerColour())) {
                     image.setOnMouseClicked(event -> addCityHandler(event, image, currentPlayer));
-                }else {
+                } else {
                     System.out.println("Not the right colour player");
                 }
             }
         }
 
     }
+
+
+    private String[] getNearestResourceTypes(double x, double y, double angle) {
+        Polygon nearestHexLeft = null;
+        Polygon nearestHexRight = null;
+        double minDistanceLeft = Double.MAX_VALUE;
+        double minDistanceRight = Double.MAX_VALUE;
+
+        // Go to the left and right by a bit based on the angle
+        double targetLeftX = angle == 60 || angle == -60 ? x : x - 50;
+        double targetRightX = angle == 60 || angle == -60 ? x : x + 50;
+        double targetLeftY = angle == 60 || angle == -60 ? y - 50 : y;
+        double targetRightY = angle == 60 || angle == -60 ? y + 50 : y;
+
+        for (Polygon hexagon : hexagonsById.values()) {
+            double hexagonX = hexagon.getLayoutX();
+            double hexagonY = hexagon.getLayoutY();
+
+            double distanceToLeft = Math.sqrt(Math.pow(hexagonX - targetLeftX, 2) + Math.pow(hexagonY - targetLeftY, 2));
+            double distanceToRight = Math.sqrt(Math.pow(hexagonX - targetRightX, 2) + Math.pow(hexagonY - targetRightY, 2));
+
+            if (distanceToLeft < minDistanceLeft) {
+                minDistanceLeft = distanceToLeft;
+                nearestHexLeft = hexagon;
+            }
+
+            if (distanceToRight < minDistanceRight) {
+                minDistanceRight = distanceToRight;
+                nearestHexRight = hexagon;
+            }
+        }
+
+        String resourceLeft = nearestHexLeft != null ? hexagonsResources.get(nearestHexLeft) : null;
+        String resourceRight = nearestHexRight != null ? hexagonsResources.get(nearestHexRight) : null;
+
+        return new String[]{resourceLeft, resourceRight};
+    }
+
 
     private void addCityHandler(MouseEvent event, ImageView image, Player currentPlayer) {
         System.out.println("HI works");
@@ -1068,6 +1174,7 @@ public class Board extends SignUpController  implements Initializable {
             AnimationHandler.settlementButtonAnimation((ImageView) SettlementBTN);
         }
     }
+
     private void addImageCity(Colour colour, double x, double y) {
         Image image;
         switch (colour) {
@@ -1090,14 +1197,13 @@ public class Board extends SignUpController  implements Initializable {
         imageView.setFitWidth(60);
         imageView.setFitHeight(70);
         // Set the image position
-        AnchorPane.setTopAnchor(imageView, y-15);
-        AnchorPane.setLeftAnchor(imageView, x-10);
+        AnchorPane.setTopAnchor(imageView, y - 15);
+        AnchorPane.setLeftAnchor(imageView, x - 10);
         Player currentPlayer = players.get(currentPlayerIndex);
         currentPlayer.getAddedCities().put(imageView, currentPlayer.getPlayerColour());
         // Add the image to the AnchorPane
         anchorPane.getChildren().add(imageView);
     }
-
 
 
     //Simple animation for the buttons
@@ -1115,10 +1221,7 @@ public class Board extends SignUpController  implements Initializable {
         ImageView imageView = (ImageView) RoadBTN;
         AnimationHandler.roadAnimation(imageView);
     }
-    public void settlementButtonAnimation() {
-        ImageView imageView = (ImageView) SettlementBTN;
-        AnimationHandler.roadAnimation(imageView);
-    }
+
 
     private void hideAllPlayerElements() {
         PlayerOneLongestRoad.setVisible(false);
@@ -1126,6 +1229,7 @@ public class Board extends SignUpController  implements Initializable {
         PlayerThreeLongestRoad.setVisible(false);
         PlayerFourLongestRoad.setVisible(false);
     }
+
     private void showPlayerElements(int playerIndex, Player currentPlayer) {
         switch (playerIndex) {
             case 0 -> {
@@ -1146,6 +1250,42 @@ public class Board extends SignUpController  implements Initializable {
             }
             default -> throw new IllegalArgumentException("Invalid player index: " + playerIndex);
         }
+    }
+
+    public void DEBUG(MouseEvent event) {
+        System.out.println(players.get(currentPlayerIndex).getResources()
+        );
+    }
+
+    private void deductResourcesForBuilding(Player player, String buildingType) {
+        HashMap<String, Integer> resources = player.getResources();
+        int[] costs;
+
+        if ("road".equals(buildingType)) {
+            costs = new int[]{1, 1, 0, 0, 0}; // brick, wood, ore, wool, grain
+        } else if ("settlement".equals(buildingType)) {
+            costs = new int[]{1, 1, 0, 1, 1}; // brick, wood, ore, wool, grain
+        } else {
+            throw new IllegalArgumentException("Invalid building type: " + buildingType);
+        }
+
+        String[] resourceNames = {"brick", "wood", "ore", "wool", "grain"};
+
+        for (int i = 0; i < resourceNames.length; i++) {
+            String resourceName = resourceNames[i];
+            int currentResourceAmount = resources.getOrDefault(resourceName, 0);
+            resources.put(resourceName, currentResourceAmount - costs[i]);
+        }
+
+        updateResourceCounters(player);
+    }
+
+    private void updateResourceCounters(Player currentPlayer) {
+        BrickCardCounter.setText(String.valueOf(currentPlayer.getResources().get("brick")));
+        GrainCardCounter.setText(String.valueOf(currentPlayer.getResources().get("grain")));
+        OreCardCounter.setText(String.valueOf(currentPlayer.getResources().get("ore")));
+        WoolCardCounter.setText(String.valueOf(currentPlayer.getResources().get("wool")));
+        WoodCardCounter.setText(String.valueOf(currentPlayer.getResources().get("wood")));
     }
 }
 
