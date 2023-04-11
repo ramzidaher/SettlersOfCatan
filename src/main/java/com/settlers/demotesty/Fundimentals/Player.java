@@ -11,7 +11,9 @@ package com.settlers.demotesty.Fundimentals; /**
 */
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -30,9 +32,6 @@ public class Player {
     //Player fields
     private Colour playerColour;
     private String playerName;
-//    private ArrayList<Settlement> settlements;
-//    private ArrayList<City> cities;
-//    private ArrayList<Road> roads;
     private int Roads;
 
     private boolean addCity;
@@ -42,6 +41,10 @@ public class Player {
     private HashMap<ImageView,Colour> addedSettlements;
     private HashMap<ImageView,Colour> addedCities;
     private  HashMap<String,Integer> resources;
+//    private HashMap<ImageView, List<Point2D>> nearestHexes;
+
+    private List<Polygon> nearestHexes;
+
     /**
     * Create a player: assign name, colour and create ArrayLists of cities, settlements, and roads.
     * @param String name, Colour colour
@@ -49,9 +52,6 @@ public class Player {
     public Player(String name, Colour colour) {
         playerName = name;
         playerColour = colour;
-//        settlements = new ArrayList<>();
-//        cities = new ArrayList<>();
-//        roads = new ArrayList<>();
         Roads =0;
         addRoad = false;
         addCity = false;
@@ -59,13 +59,14 @@ public class Player {
         isPlaying = false;
         addedSettlements = new HashMap<>();
         addedCities = new HashMap<>();
-//        resources = new HashMap<>();]
         this.resources = new HashMap<>();
         this.resources.put("brick", 0);
         this.resources.put("grain", 0);
         this.resources.put("ore", 0);
         this.resources.put("wool", 0);
         this.resources.put("wood", 0);
+//        nearestHexes = new HashMap<>();
+
     }
 
     public HashMap<ImageView, Colour> getAddedSettlements() {
@@ -74,6 +75,13 @@ public class Player {
 
     public void setAddedSettlements(HashMap<ImageView, Colour> addedSettlements) {
         this.addedSettlements = addedSettlements;
+    }
+    public List<Polygon> getNearestHexes() {
+        return nearestHexes;
+    }
+
+    public void setNearestHexes(List<Polygon> nearestHexes) {
+        this.nearestHexes = nearestHexes;
     }
 
     public HashMap<String, Integer> getResources() {

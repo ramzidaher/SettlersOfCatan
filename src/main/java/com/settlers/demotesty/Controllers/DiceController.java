@@ -47,7 +47,7 @@ public class DiceController {
         DiceOutCome.setVisible(false);
     }
 
-    public void roll() {
+    public int roll() {
         Random randomImage = new Random();
         int diceOne = randomImage.nextInt(0, 6);
         int diceTwo = randomImage.nextInt(0, 6);
@@ -58,5 +58,6 @@ public class DiceController {
         String diceOutcomeSTR = String.valueOf(result);
         System.out.println("The result is: " + result);
         DiceOutCome.setText("Dice OutCome: " + diceOutcomeSTR);
+        return result;
     }
 }

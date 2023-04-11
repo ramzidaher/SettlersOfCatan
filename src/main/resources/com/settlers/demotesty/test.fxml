@@ -251,12 +251,12 @@
                         <Rectangle fx:id="Road_1_13" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="821.0" layoutY="282.0" rotate="60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
                         <Rectangle fx:id="Road_1_9" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="934.0" layoutY="280.0" rotate="60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
                         <Rectangle fx:id="road_1_99" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="1048.0" layoutY="280.0" rotate="60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="1134.0" layoutY="288.0">
+                        <ImageView fx:id="WaterHex" fitHeight="138.0" fitWidth="120.0" layoutX="1134.0" layoutY="288.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="1079.0" layoutY="186.0">
+                        <ImageView fx:id="WaterHex" fitHeight="138.0" fitWidth="120.0" layoutX="1079.0" layoutY="186.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
