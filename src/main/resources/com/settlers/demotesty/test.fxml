@@ -251,92 +251,92 @@
                         <Rectangle fx:id="Road_1_13" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="821.0" layoutY="282.0" rotate="60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
                         <Rectangle fx:id="Road_1_9" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="934.0" layoutY="280.0" rotate="60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
                         <Rectangle fx:id="road_1_99" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="1048.0" layoutY="280.0" rotate="60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
-                        <ImageView fx:id="WaterHex" fitHeight="138.0" fitWidth="120.0" layoutX="1134.0" layoutY="288.0">
+                        <ImageView fx:id="WaterHex1" fitHeight="138.0" fitWidth="120.0" layoutX="1134.0" layoutY="288.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fx:id="WaterHex" fitHeight="138.0" fitWidth="120.0" layoutX="1079.0" layoutY="186.0">
+                        <ImageView fx:id="WaterHex2" fitHeight="138.0" fitWidth="120.0" layoutX="1079.0" layoutY="186.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="964.0" layoutY="186.0">
+                        <ImageView fx:id="WaterHex3" fitHeight="138.0" fitWidth="120.0" layoutX="964.0" layoutY="186.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="850.0" layoutY="186.0">
+                        <ImageView fx:id="WaterHex4" fitHeight="138.0" fitWidth="120.0" layoutX="850.0" layoutY="186.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="736.0" layoutY="188.0">
+                        <ImageView fx:id="WaterHex5" fitHeight="138.0" fitWidth="120.0" layoutX="736.0" layoutY="188.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="676.0" layoutY="286.0">
+                        <ImageView fx:id="WaterHex6" fitHeight="138.0" fitWidth="120.0" layoutX="676.0" layoutY="286.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="619.0" layoutY="385.0">
+                        <ImageView fx:id="WaterHex7" fitHeight="138.0" fitWidth="120.0" layoutX="619.0" layoutY="385.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="562.0" layoutY="484.0">
+                        <ImageView fx:id="WaterHex8" fitHeight="138.0" fitWidth="120.0" layoutX="562.0" layoutY="484.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="617.0" layoutY="585.0">
+                        <ImageView fx:id="WaterHex9" fitHeight="138.0" fitWidth="120.0" layoutX="617.0" layoutY="585.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="672.0" layoutY="686.0">
+                        <ImageView fx:id="WaterHex10" fitHeight="138.0" fitWidth="120.0" layoutX="672.0" layoutY="686.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="731.0" layoutY="786.0">
+                        <ImageView fx:id="WaterHex11" fitHeight="138.0" fitWidth="120.0" layoutX="731.0" layoutY="786.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="846.0" layoutY="789.0">
+                        <ImageView fx:id="WaterHex12" fitHeight="138.0" fitWidth="120.0" layoutX="846.0" layoutY="789.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="961.0" layoutY="789.0">
+                        <ImageView fx:id="WaterHex13" fitHeight="138.0" fitWidth="120.0" layoutX="961.0" layoutY="789.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="1076.0" layoutY="788.0">
+                        <ImageView fx:id="WaterHex14" fitHeight="138.0" fitWidth="120.0" layoutX="1076.0" layoutY="788.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="1136.0" layoutY="688.0">
+                        <ImageView fx:id="WaterHex15" fitHeight="138.0" fitWidth="120.0" layoutX="1136.0" layoutY="688.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="1194.0" layoutY="590.0">
+                        <ImageView fx:id="WaterHex16" fitHeight="138.0" fitWidth="120.0" layoutX="1194.0" layoutY="590.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="138.0" fitWidth="120.0" layoutX="1251.0" layoutY="491.0">
+                        <ImageView fx:id="WaterHex17" fitHeight="138.0" fitWidth="120.0" layoutX="1251.0" layoutY="491.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="143.0" fitWidth="129.0" layoutX="1192.0" layoutY="385.0">
+                        <ImageView fx:id="WaterHex18" fitHeight="143.0" fitWidth="129.0" layoutX="1192.0" layoutY="385.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
@@ -591,6 +591,7 @@
                      </font>
                   </Text>
                   <Button fx:id="testDebug" layoutX="1592.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#DEBUG" text="Test" />
+                  <Circle fx:id="CirclePointerHexes" fill="DODGERBLUE" layoutX="972.0" layoutY="357.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" />
                     </children>
                 </AnchorPane>
             </children>

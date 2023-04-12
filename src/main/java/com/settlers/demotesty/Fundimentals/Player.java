@@ -43,7 +43,9 @@ public class Player {
     private  HashMap<String,Integer> resources;
 //    private HashMap<ImageView, List<Point2D>> nearestHexes;
 
-    private List<Polygon> nearestHexes;
+//    private List<Polygon> nearestHexes;
+
+    private  HashMap<String,Polygon[]> nearestHexes;
 
     /**
     * Create a player: assign name, colour and create ArrayLists of cities, settlements, and roads.
@@ -66,8 +68,21 @@ public class Player {
         this.resources.put("wool", 0);
         this.resources.put("wood", 0);
 //        nearestHexes = new HashMap<>();
+        this.nearestHexes = new HashMap<>();
+
 
     }
+    public void printNearestHexes() {
+        System.out.println("Nearest Hexes for player " + playerName + ":");
+        for (String resource : nearestHexes.keySet()) {
+            System.out.println("Resource: " + resource);
+            Polygon[] hexes = nearestHexes.get(resource);
+            for (Polygon hex : hexes) {
+                System.out.println(" - Hex: " + hex);
+            }
+        }
+    }
+
 
     public HashMap<ImageView, Colour> getAddedSettlements() {
         return addedSettlements;
@@ -76,11 +91,13 @@ public class Player {
     public void setAddedSettlements(HashMap<ImageView, Colour> addedSettlements) {
         this.addedSettlements = addedSettlements;
     }
-    public List<Polygon> getNearestHexes() {
+
+
+    public HashMap<String, Polygon[]> getNearestHexes() {
         return nearestHexes;
     }
 
-    public void setNearestHexes(List<Polygon> nearestHexes) {
+    public void setNearestHexes(HashMap<String, Polygon[]> nearestHexes) {
         this.nearestHexes = nearestHexes;
     }
 

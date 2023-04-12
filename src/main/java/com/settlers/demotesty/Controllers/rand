@@ -1,0 +1,100 @@
+private void getResourceForDiceOutcome(int diceOutcome) {
+        List<Text> matchingTextNumbers = new ArrayList<>();
+        for (Text textNumber : TextNumbers) {
+            if (Integer.parseInt(textNumber.getText()) == diceOutcome) {
+                matchingTextNumbers.add(textNumber);
+            }
+        }
+        for (Text textNumber : matchingTextNumbers) {
+            getResource(textNumber);
+        }
+    }
+
+
+    private void getResource(Text textNumber) {
+        double x = textNumber.getLayoutX();
+        double y = textNumber.getLayoutY();
+
+        List<Polygon> nearestHexagons = new ArrayList<>();
+        double minDistance = Double.MAX_VALUE;
+
+        for (Polygon hexagon : hexagonsById.values()) {
+            double hexagonX = hexagon.getLayoutX();
+            double hexagonY = hexagon.getLayoutY();
+
+            double distance = Math.sqrt(Math.pow(hexagonX - x, 2) + Math.pow(hexagonY - y, 2));
+
+            if (distance < minDistance + 1e-6) {
+                minDistance = distance;
+                nearestHexagons.clear();
+                nearestHexagons.add(hexagon);
+            } else if (Math.abs(distance - minDistance) <= 1e-6) {
+                nearestHexagons.add(hexagon);
+            }
+        }
+
+        for (Polygon nearestHexagon : nearestHexagons) {
+            String resourceType = nearestHexagon.getId().replace("Hex", "").toLowerCase();
+
+            List<Player> playersToReceiveResources = getPlayersForTextNumber(textNumber, nearestHexagon);
+
+            for (Player player : playersToReceiveResources) {
+                // Get the resource name for the hexagon and print it
+                String resourceName = hexagonsResources.get(nearestHexagon);
+                System.out.println("Matching hexagon: " + resourceName + " Resource type: " + resourceType);
+                addResourceToPlayer(player, resourceType);
+                updateResourceCounters(player);
+            }
+        }
+
+
+    }
+    private List<Player> getPlayersForTextNumber(Text textNumber, Polygon matchingHexagon) {
+        double x = textNumber.getLayoutX();
+        double y = textNumber.getLayoutY();
+        List<Player> playersToReceiveResources = new ArrayList<>();
+
+        for (Player player : players) {
+            if (isSettlementAdjacentToHexagon(player, matchingHexagon)) {
+                playersToReceiveResources.add(player);
+            }
+        }
+
+        return playersToReceiveResources;
+    }
+
+    private boolean isSettlementAdjacentToHexagon(Player player, Polygon hexagon) {
+        double tolerance = 10.0; // Adjust this value based on your game's scale and layout
+        List<Point2D> adjacentVertices = getAdjacentVertices(hexagon);
+
+        for (ImageView settlement : player.getAddedSettlements().keySet()) {
+            double settlementX = settlement.getLayoutX();
+            double settlementY = settlement.getLayoutY();
+
+            for (Point2D vertex : adjacentVertices) {
+                double distance = vertex.distance(settlementX, settlementY);
+                if (distance < tolerance) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+
+    private List<Point2D> getAdjacentVertices(Polygon hexagon) {
+        List<Point2D> vertices = new ArrayList<>();
+
+        ObservableList<Double> points = hexagon.getPoints();
+        double centerX = hexagon.getLayoutX();
+        double centerY = hexagon.getLayoutY();
+
+        for (int i = 0; i < points.size(); i += 2) {
+            double vertexX = centerX + points.get(i);
+            double vertexY = centerY + points.get(i + 1);
+            vertices.add(new Point2D(vertexX, vertexY));
+        }
+
+        return vertices;
+    }

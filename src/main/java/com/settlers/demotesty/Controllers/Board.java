@@ -7,6 +7,7 @@ import javafx.animation.ScaleTransition;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -18,11 +19,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.util.Pair;
+import javafx.scene.shape.Shape;
 
 import java.net.URL;
 import java.util.*;
@@ -39,6 +42,8 @@ public class Board extends SignUpController  implements Initializable {
     @FXML
     public Text GameCounterID;
     public Button testDebug;
+    @FXML
+    public Circle CirclePointerHexes;
     @FXML
     private ResourceBundle resources;
 
@@ -632,6 +637,60 @@ public class Board extends SignUpController  implements Initializable {
 
     @FXML
     private Rectangle road_1_99;
+
+    @FXML
+    private ImageView WaterHex1;
+
+    @FXML
+    private ImageView WaterHex10;
+
+    @FXML
+    private ImageView WaterHex11;
+
+    @FXML
+    private ImageView WaterHex12;
+
+    @FXML
+    private ImageView WaterHex13;
+
+    @FXML
+    private ImageView WaterHex14;
+
+    @FXML
+    private ImageView WaterHex15;
+
+    @FXML
+    private ImageView WaterHex16;
+
+    @FXML
+    private ImageView WaterHex17;
+
+    @FXML
+    private ImageView WaterHex18;
+
+    @FXML
+    private ImageView WaterHex2;
+
+    @FXML
+    private ImageView WaterHex3;
+
+    @FXML
+    private ImageView WaterHex4;
+
+    @FXML
+    private ImageView WaterHex5;
+
+    @FXML
+    private ImageView WaterHex6;
+
+    @FXML
+    private ImageView WaterHex7;
+
+    @FXML
+    private ImageView WaterHex8;
+
+    @FXML
+    private ImageView WaterHex9;
     //Main Fields that are used
     private HashMap<String, Polygon> hexagonsById = new HashMap<>();
     HashMap<Polygon, String> hexagonsResources = new HashMap<>();
@@ -649,6 +708,8 @@ public class Board extends SignUpController  implements Initializable {
 
     private int gameCounter;
     private DiceController diceController;
+
+    private ArrayList<Polygon> testHex = new ArrayList<>();
 
 
     @Override
@@ -723,6 +784,8 @@ public class Board extends SignUpController  implements Initializable {
         //Desert x 1
         hexagonsResources.put(HexDesert, "desert");
 
+//        hexagonsResources.put(WaterHex1, "Water");
+
 
         Roads.addAll(Arrays.asList(Road_1_2, Road_1_3, Road_1_5, Road_1_6, Road_1_7, Road_1_8, Road_1_9, Road_1_10, Road_1_11,
                 Road_1_12, Road_1_13, Road_1_14, Road_1_15, Road_1_16, Road_1_17, Road_1_18, Road_1_19,
@@ -749,17 +812,11 @@ public class Board extends SignUpController  implements Initializable {
             yCoordText.add(number.getLayoutY());
 
         }
-
-//        hexagons.addAll(Arrays.asList(Hex1, Hex2, Hex3, Hex4, Hex5, Hex6, Hex7, Hex8,
-//                Hex9, Hex10, Hex11, Hex12, Hex13, Hex14,
-//                Hex15, Hex17, Hex18, Hex19, HexDesert));//Add all the Hex's to the ArrayList
         for (Map.Entry<String, Polygon> entry : hexagonsById.entrySet()) {
             Polygon hexagon = entry.getValue();
             xCoordinates.add(hexagon.getLayoutX()); // Add Hex's X-coordinates in the specific array
             yCoordinates.add(hexagon.getLayoutY()); // Add Hex's Y-Coordinates in the specific array
         }
-
-
         ButtonForBuildings.addAll(Arrays.asList(
                 RadioBTN1, RadioBTN2, RadioBTN3, RadioBTN4, RadioBTN5,
                 RadioBTN6, RadioBTN7, RadioBTN8, RadioBTN9, RadioBTN10,
@@ -773,7 +830,6 @@ public class Board extends SignUpController  implements Initializable {
                 RadioBTN46, RadioBTN47, RadioBTN48, RadioBTN49, RadioBTN50,
                 RadioBTN51, RadioBTN52, RadioBTN53, RadioBTN54
         ));
-
         for (RadioButton placeButton : ButtonForBuildings) {
             if (placeButton != null) {
                 xCoordRadioBTN.add(placeButton.getLayoutX());
@@ -800,22 +856,21 @@ public class Board extends SignUpController  implements Initializable {
         hexagonsById.put("Hex8", Hex8);
         hexagonsById.put("Hex9", Hex9);
         hexagonsById.put("HexDesert", HexDesert);
-
         System.out.println("RadioBTN x: " + xCoordRadioBTN);
         System.out.println("RadioBTN y: " + yCoordRadioBTN);
-
         System.out.println("Text x: " + xCoordText);
         System.out.println("Text y: " + yCoordText);
-
         System.out.println("Printing The Hex");
         System.out.println(hexagonsById);
-
         currentPlayerIndex = -1;
+//        shuffleHexagons();//Calls Shuffle method
+        // Get the bounds of the hexagon's filled area
+        // Convert Circle's coordinates to Hexagon's coordinate system
 
 
-        shuffleHexagons();//Calls Shuffle method
-        shuffleNumber();
-//        diceRoll();//Calls Dice Roll
+
+
+//        shuffleNumber();
         for (Rectangle road : Roads) {
             if (road != null) {
                 road.setOnMouseClicked(this::changeRoadColor);
@@ -939,7 +994,7 @@ public class Board extends SignUpController  implements Initializable {
 
     public void roll(MouseEvent mouseEvent) {
         int diceOutcome = diceController.roll();
-        getResourceForDiceOutcome(diceOutcome);
+//        distributeResourcesForDiceOutcome(diceOutcome);
     }
 
 
@@ -993,6 +1048,7 @@ public class Board extends SignUpController  implements Initializable {
             Player currentPlayer = players.get(currentPlayerIndex);
             currentPlayer.setAddSettlement(true);
             addRadioButtonListeners(currentPlayer);
+
         }
     }
 
@@ -1003,40 +1059,10 @@ public class Board extends SignUpController  implements Initializable {
         if (currentPlayer.isAddSettlement()) {
             radioButton.setVisible(false);
             addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
-            storeNearestHexes(currentPlayer, tempX, tempY); // Add this line
+//            storeNearestHexes(currentPlayer, tempX, tempY); // Add this line
         } else {
             AnimationHandler.settlementButtonAnimation((ImageView) SettlementBTN);
         }
-    }
-
-
-    private void storeNearestHexes(Player currentPlayer, double x, double y) {
-        List<Polygon> nearestHexes = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            double minDistance = Double.MAX_VALUE;
-            Polygon nearestHex = null;
-
-            for (Polygon hexagon : hexagonsById.values()) {
-                if (nearestHexes.contains(hexagon)) {
-                    continue;
-                }
-
-                double hexagonX = hexagon.getLayoutX();
-                double hexagonY = hexagon.getLayoutY();
-                double distance = Math.sqrt(Math.pow(hexagonX - x, 2) + Math.pow(hexagonY - y, 2));
-
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    nearestHex = hexagon;
-                }
-            }
-
-            if (nearestHex != null) {
-                nearestHexes.add(nearestHex);
-            }
-        }
-
-        currentPlayer.setNearestHexes(nearestHexes);
     }
 
 
@@ -1066,7 +1092,244 @@ public class Board extends SignUpController  implements Initializable {
         Player currentPlayer = players.get(currentPlayerIndex);
         currentPlayer.getAddedSettlements().put(imageView, currentPlayer.getPlayerColour());
         anchorPane.getChildren().add(imageView);
+
+        // Call the findNearestHexes method after adding the settlement
+        double xx = imageView.getLayoutX();
+        double yy = imageView.getLayoutY();
+
+        findNearestHexes(x, y, currentPlayer,imageView);
     }
+    public void findNearestHexes(double x, double y, Player currentPlayer, ImageView imageView) {
+        double tempX = x + 9;
+        double tempY = y + 9;
+        CirclePointerHexes.setLayoutX(tempX);
+        CirclePointerHexes.setLayoutY(tempY);
+        boolean option1 = false;
+        CirclePointerHexes.setLayoutY(tempY - 45);
+
+        for (Polygon hex : hexagonsResources.keySet()) {
+            Point2D circleCenterInHex = hex.parentToLocal(
+                    CirclePointerHexes.localToParent(
+                            CirclePointerHexes.getBoundsInLocal().getCenterX(),
+                            CirclePointerHexes.getBoundsInLocal().getCenterY()
+                    )
+            );
+
+            boolean isCircleInsideHex = hex.contains(circleCenterInHex);
+
+            if (isCircleInsideHex) {
+                option1 = true;
+                System.out.println(hex);
+                System.out.println("The Circle is inside the Hexagon.");
+                testHex.add(hex);
+                System.out.println("going to the right");
+                OptionOneLeftandRight(tempX, tempY, currentPlayer, "left");
+                System.out.println("going to the left");
+                OptionOneLeftandRight(tempX, tempY, currentPlayer, "right");
+                break;
+            }
+        }
+    }
+
+    private void OptionOneLeftandRight(double tempX, double tempY, Player currentPlayer, String LeftRight) {
+        CirclePointerHexes.setLayoutX(tempX);
+        CirclePointerHexes.setLayoutY(tempY);
+        CirclePointerHexes.setLayoutY(tempY + 35);
+
+        if (LeftRight.equals("right")) {
+            CirclePointerHexes.setLayoutX(tempX + 50);
+        } else if (LeftRight.equals("left")) {
+            CirclePointerHexes.setLayoutX(tempX - 50);
+        }
+
+        for (Polygon hex : hexagonsResources.keySet()) {
+            Point2D circleCenterInHex = hex.parentToLocal(
+                    CirclePointerHexes.localToParent(
+                            CirclePointerHexes.getBoundsInLocal().getCenterX(),
+                            CirclePointerHexes.getBoundsInLocal().getCenterY()
+                    )
+            );
+
+            boolean isCircleInsideHex = hex.contains(circleCenterInHex);
+
+            if (isCircleInsideHex) {
+                testHex.add(hex);
+
+                if (LeftRight.equals("right")) {
+                    System.out.println("YOFIRST");
+                } else if (LeftRight.equals("left")) {
+                    System.out.println("YOSECOND");
+                }
+
+                break;
+            }
+        }
+    }
+
+
+    public void findHexLandR(double x, double y, Player currentPlayer){
+        System.out.println("Checking left and right");
+
+        CirclePointerHexes.setLayoutX(x);
+        CirclePointerHexes.setLayoutY(y);
+        for (Polygon hex : hexagonsResources.keySet()) {
+            Point2D circleCenterInHex = hex.parentToLocal(
+                    CirclePointerHexes.localToParent(
+                            CirclePointerHexes.getBoundsInLocal().getCenterX(),
+                            CirclePointerHexes.getBoundsInLocal().getCenterY()
+                    )
+            );
+
+            boolean isCircleInsideHex = hex.contains(circleCenterInHex);
+
+            if (isCircleInsideHex) {
+
+                System.out.println("The Circle is inside the Hexagon.");
+                System.out.println(                hex.getId()
+                );
+            } else{
+//                findHexLandR(tempX,tempY, currentPlayer);
+                System.out.println("The Circle is outside the Hexagon.");
+                continue;
+            }
+        }
+
+    }
+
+
+    private void printNearestHexes(HashMap<String, Polygon[]> nearestHexes) {
+        System.out.println("Nearest hexes to the settlement:");
+        for (String position : nearestHexes.keySet()) {
+            Polygon[] hexes = nearestHexes.get(position);
+            for (Polygon hex : hexes) {
+                System.out.println("Position: " + position + " - " + hex.toString());
+            }
+        }
+    }
+    private boolean findAndStoreHexes(double x, double y, double yOffset, HashMap<String, Polygon[]> nearestHexes) {
+        boolean foundHex = false;
+
+        double newY = y + yOffset;
+        double newXLeft = x - 20;
+        double newXRight = x + 20;
+
+        Polygon hexUp = getHexAt(newXLeft, newY);
+        if (hexUp != null) {
+            nearestHexes.put("upLeft", new Polygon[] {hexUp});
+            foundHex = true;
+        }
+
+        hexUp = getHexAt(newXRight, newY);
+        if (hexUp != null) {
+            nearestHexes.put("upRight", new Polygon[] {hexUp});
+            foundHex = true;
+        }
+
+        double oppositeYOffset = -yOffset;
+        Polygon hexDown = getHexAt(x, y + oppositeYOffset);
+        if (hexDown != null) {
+            nearestHexes.put("down", new Polygon[] {hexDown});
+            foundHex = true;
+        }
+
+        return foundHex;
+    }
+
+    private Polygon getHexAt(double x, double y) {
+        final double radius = 30; // Adjust this value to define how close a hex should be to be considered "near"
+
+        Circle searchArea = new Circle(x, y, radius);
+        for (Polygon hex : hexagonsResources.keySet()) {
+            double hexCenterX = hex.getBoundsInLocal().getMinX() + hex.getBoundsInLocal().getWidth() / 2;
+            double hexCenterY = hex.getBoundsInLocal().getMinY() + hex.getBoundsInLocal().getHeight() / 2;
+
+            double distance = Math.sqrt(Math.pow(x - hexCenterX, 2) + Math.pow(y - hexCenterY, 2));
+
+            if (distance <= radius) {
+                return hex;
+            }
+        }
+
+        return null;
+    }
+
+
+
+
+
+
+
+    //    public void findNearestHexes(double x, double y, Player currentPlayer) {
+////        double upperY = y + threshold;
+////        double lowerY = y - threshold;
+////        double rightX = x + threshold;
+////        double leftX = x - threshold;
+//        double upperY = y + 10;
+//        double lowerY = y - 10;
+//        double rightX = x + 20;
+//        double leftY = x -20;
+//
+//        // Iterate through the keys of hexagonsResources
+//        for (Polygon hex : hexagonsResources.keySet()) {
+////            double hexX = hexBounds.getCenterX();
+////            double hexY = hexBounds.getCenterY();
+////            if ((hexY >= lowerY && hexY <= upperY) && (hexX >= leftX && hexX <= rightX)) {
+//
+////            if ((hexY >= lowerY )) {
+////                String resource = hexagonsResources.get(hex);
+////                Polygon[] existingHexes = currentPlayer.getNearestHexes().get(resource);
+////
+////                if (existingHexes == null) {
+////                    currentPlayer.getNearestHexes().put(resource, new Polygon[]{hex});
+////                } else {
+////                    Polygon[] updatedHexes = Arrays.copyOf(existingHexes, existingHexes.length + 1);
+////                    updatedHexes[updatedHexes.length - 1] = hex;
+////                    currentPlayer.getNearestHexes().put(resource, updatedHexes);
+////                }
+////            }
+//        }
+//    }
+
+
+
+//    import javafx.geometry.Point2D;
+
+//    public void findNearestHexes(double x, double y, Player currentPlayer, double threshold) {
+//        double thresholdX = threshold * Math.sqrt(3) / 2; // Horizontal distance between hexagon centers
+//        double thresholdY = threshold * 1.5; // Vertical distance between hexagon centers
+//
+//        double upperY = y + thresholdY;
+//        double lowerY = y - thresholdY;
+//        double rightX = x + thresholdX;
+//        double leftX = x - thresholdX;
+//
+//        // Iterate through the keys of hexagonsResources
+//        for (Polygon hex : hexagonsResources.keySet()) {
+//            Bounds hexBounds = hex.getBoundsInParent();
+//            double hexX = hexBounds.getCenterX();
+//            double hexY = hexBounds.getCenterY();
+//            Point2D hexCenter = new Point2D(hexX, hexY);
+//
+//            // Calculate the distance between the current hexagon and the input point (x, y)
+//            Point2D inputPoint = new Point2D(x, y);
+//            double distanceX = Math.abs(inputPoint.getX() - hexCenter.getX());
+//            double distanceY = Math.abs(inputPoint.getY() - hexCenter.getY());
+//
+//            if ((distanceX <= thresholdX) && (distanceY <= thresholdY)) {
+//                String resource = hexagonsResources.get(hex);
+//                Polygon[] existingHexes = currentPlayer.getNearestHexes().get(resource);
+//
+//                if (existingHexes == null) {
+//                    currentPlayer.getNearestHexes().put(resource, new Polygon[]{hex});
+//                } else {
+//                    Polygon[] updatedHexes = Arrays.copyOf(existingHexes, existingHexes.length + 1);
+//                    updatedHexes[updatedHexes.length - 1] = hex;
+//                    currentPlayer.getNearestHexes().put(resource, updatedHexes);
+//                }
+//            }
+//        }
+//    }
+
 
     public void addRoad(MouseEvent mouseEvent) {
         if (currentPlayerIndex == -1) {
@@ -1120,22 +1383,6 @@ public class Board extends SignUpController  implements Initializable {
         double roadY = clickedRoad.getLayoutY();
         double roadAngle = clickedRoad.getRotate();
 
-        String[] nearestResourceTypes = getNearestResourceTypes(roadX, roadY, roadAngle);
-
-        for (String resource : nearestResourceTypes) {
-            if (resource != null && !"desert".equals(resource)) {
-                addResourceToPlayer(currentPlayer, resource);
-                updateResourceCounters(currentPlayer);
-            }
-        }
-
-    }
-
-
-    private void addResourceToPlayer(Player player, String resource) {
-        HashMap<String, Integer> resources = player.getResources();
-        int currentResourceAmount = resources.getOrDefault(resource, 0);
-        resources.put(resource, currentResourceAmount + 1);
     }
 
 
@@ -1160,43 +1407,6 @@ public class Board extends SignUpController  implements Initializable {
             }
         }
 
-    }
-
-
-    private String[] getNearestResourceTypes(double x, double y, double angle) {
-        Polygon nearestHexLeft = null;
-        Polygon nearestHexRight = null;
-        double minDistanceLeft = Double.MAX_VALUE;
-        double minDistanceRight = Double.MAX_VALUE;
-
-        // Go to the left and right by a bit based on the angle
-        double targetLeftX = angle == 60 || angle == -60 ? x : x - 50;
-        double targetRightX = angle == 60 || angle == -60 ? x : x + 50;
-        double targetLeftY = angle == 60 || angle == -60 ? y - 50 : y;
-        double targetRightY = angle == 60 || angle == -60 ? y + 50 : y;
-
-        for (Polygon hexagon : hexagonsById.values()) {
-            double hexagonX = hexagon.getLayoutX();
-            double hexagonY = hexagon.getLayoutY();
-
-            double distanceToLeft = Math.sqrt(Math.pow(hexagonX - targetLeftX, 2) + Math.pow(hexagonY - targetLeftY, 2));
-            double distanceToRight = Math.sqrt(Math.pow(hexagonX - targetRightX, 2) + Math.pow(hexagonY - targetRightY, 2));
-
-            if (distanceToLeft < minDistanceLeft) {
-                minDistanceLeft = distanceToLeft;
-                nearestHexLeft = hexagon;
-            }
-
-            if (distanceToRight < minDistanceRight) {
-                minDistanceRight = distanceToRight;
-                nearestHexRight = hexagon;
-            }
-        }
-
-        String resourceLeft = nearestHexLeft != null ? hexagonsResources.get(nearestHexLeft) : null;
-        String resourceRight = nearestHexRight != null ? hexagonsResources.get(nearestHexRight) : null;
-
-        return new String[]{resourceLeft, resourceRight};
     }
 
 
@@ -1261,6 +1471,15 @@ public class Board extends SignUpController  implements Initializable {
     }
 
 
+    private void updateResourceCounters(Player currentPlayer) {
+        BrickCardCounter.setText(String.valueOf(currentPlayer.getResources().get("brick")));
+        GrainCardCounter.setText(String.valueOf(currentPlayer.getResources().get("grain")));
+        OreCardCounter.setText(String.valueOf(currentPlayer.getResources().get("ore")));
+        WoolCardCounter.setText(String.valueOf(currentPlayer.getResources().get("wool")));
+        WoodCardCounter.setText(String.valueOf(currentPlayer.getResources().get("wood")));
+    }
+
+
     private void hideAllPlayerElements() {
         PlayerOneLongestRoad.setVisible(false);
         PlayerTwoLongestRoad.setVisible(false);
@@ -1291,167 +1510,33 @@ public class Board extends SignUpController  implements Initializable {
     }
 
     public void DEBUG(MouseEvent event) {
-//        System.out.println(players.get(currentPlayerIndex).getResources()
-//        );
-//        System.out.println(        TextNumbers.get(0));
-//        System.out.println(        TextNumbers.get(0).getLayoutX());
-//        System.out.println(        TextNumbers.get(0).getLayoutY());
-        Player currentPlayer = players.get(currentPlayerIndex);
-        System.out.println(        currentPlayer.getNearestHexes()
-        );
-    }
-
-    private void deductResourcesForBuilding(Player player, String buildingType) {
-        HashMap<String, Integer> resources = player.getResources();
-        int[] costs;
-
-        if ("road".equals(buildingType)) {
-            costs = new int[]{1, 1, 0, 0, 0}; // brick, wood, ore, wool, grain
-        } else if ("settlement".equals(buildingType)) {
-            costs = new int[]{1, 1, 0, 1, 1}; // brick, wood, ore, wool, grain
-        } else {
-            throw new IllegalArgumentException("Invalid building type: " + buildingType);
+        System.out.println("///////////////");
+        for (Polygon i : testHex){
+            System.out.println(i);
         }
+//        for (Player player : players) {
+//            System.out.println("Player " + player.getPlayerColour() + "'s settlements and their nearest hexes:");
+//            for (ImageView settlement : player.getAddedSettlements().keySet()) {
+//                double x = settlement.getLayoutX();
+//                double y = settlement.getLayoutY();
+//                System.out.println("Settlement at (" + x + ", " + y + "):");
+//                String key = "Settlement_" + x + "_" + y;
+//                Polygon[] nearestHexes = player.getNearestHexes().get(key);
+//                if (nearestHexes != null) {
+//                    for (int i = 0; i < nearestHexes.length; i++) {
+//                        if (nearestHexes[i] != null) {
+//                            System.out.println("Nearest hex " + (i + 1) + ": " + hexagonsResources.get(nearestHexes[i]));
+//                        }
+//                    }
+//                } else {
+//                    System.out.println("No nearest hexes found for this settlement.");
+//                }
+//            }
+//        }
 
-        String[] resourceNames = {"brick", "wood", "ore", "wool", "grain"};
-
-        for (int i = 0; i < resourceNames.length; i++) {
-            String resourceName = resourceNames[i];
-            int currentResourceAmount = resources.getOrDefault(resourceName, 0);
-            resources.put(resourceName, currentResourceAmount - costs[i]);
-        }
-
-        updateResourceCounters(player);
-    }
-
-    private void updateResourceCounters(Player currentPlayer) {
-        BrickCardCounter.setText(String.valueOf(currentPlayer.getResources().get("brick")));
-        GrainCardCounter.setText(String.valueOf(currentPlayer.getResources().get("grain")));
-        OreCardCounter.setText(String.valueOf(currentPlayer.getResources().get("ore")));
-        WoolCardCounter.setText(String.valueOf(currentPlayer.getResources().get("wool")));
-        WoodCardCounter.setText(String.valueOf(currentPlayer.getResources().get("wood")));
-    }
-    private void getResourceForDiceOutcome(int diceOutcome) {
-        List<Text> matchingTextNumbers = new ArrayList<>();
-        for (Text textNumber : TextNumbers) {
-            if (Integer.parseInt(textNumber.getText()) == diceOutcome) {
-                matchingTextNumbers.add(textNumber);
-            }
-        }
-        for (Text textNumber : matchingTextNumbers) {
-            getResource(textNumber);
-        }
-    }
-private void getResource(Text textNumber) {
-    double x = textNumber.getLayoutX();
-    double y = textNumber.getLayoutY();
-
-    List<Polygon> nearestHexagons = new ArrayList<>();
-    double minDistance = Double.MAX_VALUE;
-
-    for (Polygon hexagon : hexagonsById.values()) {
-        double hexagonX = hexagon.getLayoutX();
-        double hexagonY = hexagon.getLayoutY();
-
-        double distance = Math.sqrt(Math.pow(hexagonX - x, 2) + Math.pow(hexagonY - y, 2));
-
-        if (distance < minDistance + 1e-6) {
-            minDistance = distance;
-            nearestHexagons.clear();
-            nearestHexagons.add(hexagon);
-        } else if (Math.abs(distance - minDistance) <= 1e-6) {
-            nearestHexagons.add(hexagon);
-        }
-    }
-
-
-    List<Player> playersToReceiveResources = getPlayersForTextNumber(textNumber);
-
-    for (Polygon nearestHexagon : nearestHexagons) {
-        String resourceType = nearestHexagon.getId().replace("Hex", "").toLowerCase();
-        for (Player player : playersToReceiveResources) {
-            addResourceToPlayer(player, resourceType);
-            updateResourceCounters(player);
-        }
     }
 }
-    private List<Player> getPlayersForTextNumber(Text textNumber) {
-        double x = textNumber.getLayoutX();
-        double y = textNumber.getLayoutY();
-        List<Player> playersToReceiveResources = new ArrayList<>();
 
-        List<Polygon> nearestHexagons = new ArrayList<>();
-        double minDistance = Double.MAX_VALUE;
-
-        for (Polygon hexagon : hexagonsById.values()) {
-            double hexagonX = hexagon.getLayoutX();
-            double hexagonY = hexagon.getLayoutY();
-
-            double distance = Math.sqrt(Math.pow(hexagonX - x, 2) + Math.pow(hexagonY - y, 2));
-
-            if (distance < minDistance + 1e-6) {
-                minDistance = distance;
-                nearestHexagons.clear();
-                nearestHexagons.add(hexagon);
-            } else if (Math.abs(distance - minDistance) <= 1e-6) {
-                nearestHexagons.add(hexagon);
-            }
-        }
-
-        for (Player player : players) {
-            for (Polygon hexagon : nearestHexagons) {
-                if (isSettlementAdjacentToHexagon(player, hexagon)) {
-                    playersToReceiveResources.add(player);
-                    break;
-                }
-            }
-        }
-        System.out.println("NEAREST");
-        System.out.println(nearestHexagons);
-
-        return playersToReceiveResources;
-    }
-
-    private boolean isSettlementAdjacentToHexagon(Player player, Polygon hexagon) {
-        double tolerance = 10.0; // Adjust this value based on your game's scale and layout
-        List<Point2D> adjacentVertices = getAdjacentVertices(hexagon);
-
-        for (ImageView settlement : player.getAddedSettlements().keySet()) {
-            double settlementX = settlement.getLayoutX();
-            double settlementY = settlement.getLayoutY();
-
-            for (Point2D vertex : adjacentVertices) {
-                double distance = vertex.distance(settlementX, settlementY);
-                if (distance < tolerance) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-
-    private List<Point2D> getAdjacentVertices(Polygon hexagon) {
-        List<Point2D> vertices = new ArrayList<>();
-
-        ObservableList<Double> points = hexagon.getPoints();
-        double centerX = hexagon.getLayoutX();
-        double centerY = hexagon.getLayoutY();
-
-        for (int i = 0; i < points.size(); i += 2) {
-            double vertexX = centerX + points.get(i);
-            double vertexY = centerY + points.get(i + 1);
-            vertices.add(new Point2D(vertexX, vertexY));
-        }
-
-        return vertices;
-    }
-
-
-
-
-}
 
 
 
