@@ -45,7 +45,11 @@ public class Player {
 
 //    private List<Polygon> nearestHexes;
 
-    private  HashMap<String,Polygon[]> nearestHexes;
+//    private  HashMap<String,Polygon> nearestHexes;
+    private HashMap<String, ArrayList<Polygon>> nearestHexes = new HashMap<>();
+//    private HashMap<String, Color> settlementColors = new HashMap<>(); // Add this line to create a new hashmap for storing settlement colors
+
+
 
     /**
     * Create a player: assign name, colour and create ArrayLists of cities, settlements, and roads.
@@ -72,17 +76,25 @@ public class Player {
 
 
     }
-    public void printNearestHexes() {
-        System.out.println("Nearest Hexes for player " + playerName + ":");
-        for (String resource : nearestHexes.keySet()) {
-            System.out.println("Resource: " + resource);
-            Polygon[] hexes = nearestHexes.get(resource);
-            for (Polygon hex : hexes) {
-                System.out.println(" - Hex: " + hex);
-            }
-        }
+//    public void printNearestHexes() {
+//        System.out.println("Nearest Hexes for player " + playerName + ":");
+//        for (String resource : nearestHexes.keySet()) {
+//            System.out.println("Resource: " + resource);
+//            Polygon[] hexes = nearestHexes.get(resource);
+//            for (Polygon hex : hexes) {
+//                System.out.println(" - Hex: " + hex);
+//            }
+//        }
+//    }
+
+
+    public HashMap<String, ArrayList<Polygon>> getNearestHexes() {
+        return nearestHexes;
     }
 
+    public void setNearestHexes(HashMap<String, ArrayList<Polygon>> nearestHexes) {
+        this.nearestHexes = nearestHexes;
+    }
 
     public HashMap<ImageView, Colour> getAddedSettlements() {
         return addedSettlements;
@@ -91,15 +103,21 @@ public class Player {
     public void setAddedSettlements(HashMap<ImageView, Colour> addedSettlements) {
         this.addedSettlements = addedSettlements;
     }
-
-
-    public HashMap<String, Polygon[]> getNearestHexes() {
-        return nearestHexes;
+    public void printNearestHexes() {
+        System.out.println("Nearest Hexes:");
+        for (HashMap.Entry<String, ArrayList<Polygon>> entry : nearestHexes.entrySet()) {
+            String key = entry.getKey();
+            List<Polygon> polygons = entry.getValue();
+            System.out.println("Key: " + key);
+            System.out.println("Polygons:");
+            for (Polygon polygon : polygons) {
+                System.out.println(polygon);
+            }
+        }
     }
 
-    public void setNearestHexes(HashMap<String, Polygon[]> nearestHexes) {
-        this.nearestHexes = nearestHexes;
-    }
+
+
 
     public HashMap<String, Integer> getResources() {
         return resources;
