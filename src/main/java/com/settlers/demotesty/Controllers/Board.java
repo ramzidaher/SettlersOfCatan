@@ -1123,8 +1123,9 @@ public class Board extends SignUpController  implements Initializable {
         CirclePointerHexes.setLayoutX(x + 9);
         CirclePointerHexes.setLayoutY(y + 9);
         HashSet<Polygon> polygons = new HashSet<>();
+        boolean optionOneSuccessful = false;
 
-        CirclePointerHexes.setLayoutY(y - 45);
+        CirclePointerHexes.setLayoutY(y - 40);
         for (Polygon hex : hexagonsResources.keySet()) {
             Point2D circleCenterInHex = hex.parentToLocal(
                     CirclePointerHexes.localToParent(
@@ -1136,6 +1137,8 @@ public class Board extends SignUpController  implements Initializable {
             boolean isCircleInsideHex = hex.contains(circleCenterInHex);
 
             if (isCircleInsideHex) {
+                System.out.println("YO HO");
+
                 polygons.add(hex);
                 Polygon waterHexPolygon = isWaterHexNearby(hex);
                 if (waterHexPolygon != null) {
@@ -1146,22 +1149,28 @@ public class Board extends SignUpController  implements Initializable {
                 }
                 OptionOneLeftandRight(x + 9, y + 9, currentPlayer, "left", polygons);
                 OptionOneLeftandRight(x + 9, y + 9, currentPlayer, "right", polygons);
-            } else {
-                CirclePointerHexes.setLayoutX(x + 9);
-                CirclePointerHexes.setLayoutY(x + 9);
-                System.out.println("HERE");
-                OptionTwoLeftandRight(x + 9, y + 9, currentPlayer, "right", polygons);
-                OptionTwoLeftandRight(x + 9, y + 9, currentPlayer, "left", polygons);
+                optionOneSuccessful = true;
+                break;
             }
         }
+
+        if (!optionOneSuccessful) {
+            CirclePointerHexes.setLayoutX(x + 9);
+            CirclePointerHexes.setLayoutY(x + 9);
+            OptionTwoLeftandRight(x + 9, y + 9, currentPlayer, "down", polygons);
+            OptionTwoLeftandRight(x + 9, y + 9, currentPlayer, "right", polygons);
+            OptionTwoLeftandRight(x + 9, y + 9, currentPlayer, "left", polygons);
+        }
+
         int settlementNumber = currentPlayer.getNearestHexes().size() + 1;
         currentPlayer.getNearestHexes().put("Settlement number: " + settlementNumber, new ArrayList<>(polygons));
     }
 
+
     private void OptionOneLeftandRight(double x, double y, Player currentPlayer, String direction, HashSet<Polygon> polygons) {
         System.out.println("IN OPTION ONE");
         CirclePointerHexes.setLayoutX(x);
-        CirclePointerHexes.setLayoutY(y + 35);
+        CirclePointerHexes.setLayoutY(y + 40);
 
         if (direction.equals("right")) {
             CirclePointerHexes.setLayoutX(x + 50);
@@ -1184,35 +1193,36 @@ public class Board extends SignUpController  implements Initializable {
             }
         }
     }
-
     private void OptionTwoLeftandRight(double x, double y, Player currentPlayer, String direction, HashSet<Polygon> polygons) {
         System.out.println("IN OPTION TWO");
-        CirclePointerHexes.setLayoutX(x);
-        CirclePointerHexes.setLayoutY(y);
-//            CirclePointerHexes.setLayoutX(x + 50);
-//        CirclePointerHexes.setLayoutY(y + 40);
 
-//        if (direction.equals("right")) {
-//            CirclePointerHexes.setLayoutX(x + 50);
-//
-//        } else if (direction.equals("left")) {
-//            CirclePointerHexes.setLayoutX(x - 50);
-//        }
-////
-//        for (Polygon hex : hexagonsResources.keySet()) {
-//            Point2D circleCenterInHex = hex.parentToLocal(
-//                    CirclePointerHexes.localToParent(
-//                            CirclePointerHexes.getBoundsInLocal().getCenterX(),
-//                            CirclePointerHexes.getBoundsInLocal().getCenterY()
-//                    )
-//            );
-//
-//            boolean isCircleInsideHex = hex.contains(circleCenterInHex);
-//            if (isCircleInsideHex && !polygons.contains(hex)) {
-//                polygons.add(hex);
-//            }
-//        }
+        if (direction.equals("right")) {
+            CirclePointerHexes.setLayoutX(x + 50);
+            CirclePointerHexes.setLayoutY(y - 40);
+        } else if (direction.equals("left")) {
+            CirclePointerHexes.setLayoutX(x - 50);
+            CirclePointerHexes.setLayoutY(y - 40);
+        }else if (direction.equals("down")){
+            CirclePointerHexes.setLayoutY(y + 40);
+        }
+
+        for (Polygon hex : hexagonsResources.keySet()) {
+            Point2D circleCenterInHex = hex.parentToLocal(
+                    CirclePointerHexes.localToParent(
+                            CirclePointerHexes.getBoundsInLocal().getCenterX(),
+                            CirclePointerHexes.getBoundsInLocal().getCenterY()
+                    )
+            );
+
+            boolean isCircleInsideHex = hex.contains(circleCenterInHex);
+
+            if (isCircleInsideHex) {
+                System.out.println("YO HO");
+                polygons.add(hex);
+            }
+        }
     }
+
 
 
     public Polygon isWaterHexNearby(Polygon hex) {
@@ -1247,10 +1257,6 @@ public class Board extends SignUpController  implements Initializable {
         return adjacentHexes;
     }
 
-//    private void colorHexes(Polygon hex, Player currentPlayer) {
-//        Color playerColor = currentPlayer.getPl();
-//        hex.setFill(playerColor);
-//    }
 
     public void findHexLandR(double x, double y, Player currentPlayer){
         System.out.println("Checking left and right");
