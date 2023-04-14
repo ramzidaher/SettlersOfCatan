@@ -41,7 +41,7 @@
                             </font>
                         </Button>
                         <Polygon fx:id="Hex9" fill="#26ff1f" layoutX="853.0" layoutY="556.0" points="40.0, 0.0, 20.0, 34.641, -20.0, 34.641, -40.0, 0.0, -20.0, -34.641, 20.0, -34.641" rotate="90.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" stroke="BLACK" strokeType="INSIDE" />
-                        <Polygon fx:id="Hex4" fill="#b98a3f" layoutX="910.0" layoutY="458.0" points="40.0, 0.0, 20.0, 34.641, -20.0, 34.641, -40.0, 0.0, -20.0, -34.641, 20.0, -34.641" rotate="90.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" stroke="BLACK" strokeType="INSIDE" />
+                        <Polygon fx:id="Hex5" fill="#b98a3f" layoutX="910.0" layoutY="458.0" points="40.0, 0.0, 20.0, 34.641, -20.0, 34.641, -40.0, 0.0, -20.0, -34.641, 20.0, -34.641" rotate="90.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" stroke="BLACK" strokeType="INSIDE" />
                         <Polygon fx:id="Hex3" fill="#ff5b1f" layoutX="1080.0" layoutY="360.0" points="40.0, 0.0, 20.0, 34.641, -20.0, 34.641, -40.0, 0.0, -20.0, -34.641, 20.0, -34.641" rotate="90.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" stroke="BLACK" strokeType="INSIDE" />
                         <Polygon fx:id="Hex7" fill="#f8ff1f" layoutX="1135.0" layoutY="459.0" points="40.0, 0.0, 20.0, 34.641, -20.0, 34.641, -40.0, 0.0, -20.0, -34.641, 20.0, -34.641" rotate="90.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" stroke="BLACK" strokeType="INSIDE" />
                         <Polygon fx:id="Hex6" fill="#ff5b1f" layoutX="1022.0" layoutY="458.0" points="40.0, 0.0, 20.0, 34.641, -20.0, 34.641, -40.0, 0.0, -20.0, -34.641, 20.0, -34.641" rotate="90.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" stroke="BLACK" strokeType="INSIDE" />
@@ -50,7 +50,7 @@
                         <Polygon fx:id="Hex17" fill="#b98a3f" layoutX="852.0" layoutY="752.0" points="40.0, 0.0, 20.0, 34.641, -20.0, 34.641, -40.0, 0.0, -20.0, -34.641, 20.0, -34.641" rotate="90.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" stroke="BLACK" strokeType="INSIDE" />
                         <Polygon fx:id="Hex2" fill="#26ff1f" layoutX="966.0" layoutY="360.0" points="40.0, 0.0, 20.0, 34.641, -20.0, 34.641, -40.0, 0.0, -20.0, -34.641, 20.0, -34.641" rotate="90.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" stroke="BLACK" strokeType="INSIDE" />
                         <Polygon fx:id="Hex1" fill="#dadcdd" layoutX="854.0" layoutY="360.0" points="40.0, 0.0, 20.0, 34.641, -20.0, 34.641, -40.0, 0.0, -20.0, -34.641, 20.0, -34.641" rotate="90.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" stroke="BLACK" strokeType="INSIDE" />
-                        <Polygon fx:id="Hex5" fill="#f8ff1f" layoutX="798.0" layoutY="458.0" points="40.0, 0.0, 20.0, 34.641, -20.0, 34.641, -40.0, 0.0, -20.0, -34.641, 20.0, -34.641" rotate="90.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" stroke="BLACK" strokeType="INSIDE" />
+                        <Polygon fx:id="Hex4" fill="#f8ff1f" layoutX="798.0" layoutY="458.0" points="40.0, 0.0, 20.0, 34.641, -20.0, 34.641, -40.0, 0.0, -20.0, -34.641, 20.0, -34.641" rotate="90.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" stroke="BLACK" strokeType="INSIDE" />
                         <Polygon fx:id="Hex10" fill="WHITE" layoutX="965.0" layoutY="556.0" points="40.0, 0.0, 20.0, 34.641, -20.0, 34.641, -40.0, 0.0, -20.0, -34.641, 20.0, -34.641" rotate="90.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" stroke="BLACK" strokeType="INSIDE" />
                         <Polygon fx:id="Hex13" fill="#dadcdd" layoutX="796.0" layoutY="654.0" points="40.0, 0.0, 20.0, 34.641, -20.0, 34.641, -40.0, 0.0, -20.0, -34.641, 20.0, -34.641" rotate="90.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" stroke="BLACK" strokeType="INSIDE" />
                         <Polygon fx:id="Hex15" fill="#ff5b1f" layoutX="1022.0" layoutY="654.0" points="40.0, 0.0, 20.0, 34.641, -20.0, 34.641, -40.0, 0.0, -20.0, -34.641, 20.0, -34.641" rotate="90.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" stroke="BLACK" strokeType="INSIDE" />
@@ -406,7 +406,7 @@
                                 <Font size="32.0" />
                             </font>
                         </Text>
-                        <Text fx:id="Num_3" fill="#f8ff1f" layoutX="1080.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="6">
+                        <Text fx:id="Num_3" fill="#f8ff1f" layoutX="1080.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="6">
                             <font>
                                 <Font size="32.0" />
                             </font>
@@ -436,22 +436,22 @@
                                 <Font size="32.0" />
                             </font>
                         </Text>
-                        <Text fx:id="Num_9" fill="#f8ff1f" layoutX="853.0" layoutY="555.0" strokeType="OUTSIDE" strokeWidth="0.0" text="11">
+                        <Text fx:id="Num_9" fill="#f8ff1f" layoutX="853.0" layoutY="556.0" strokeType="OUTSIDE" strokeWidth="0.0" text="11">
                             <font>
                                 <Font size="32.0" />
                             </font>
                         </Text>
-                        <Text fx:id="Num_10" fill="#f8ff1f" layoutX="965.0" layoutY="555.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4">
+                        <Text fx:id="Num_10" fill="#f8ff1f" layoutX="965.0" layoutY="556.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4">
                             <font>
                                 <Font size="32.0" />
                             </font>
                         </Text>
-                        <Text fx:id="Num_11" fill="#f8ff1f" layoutX="1078.0" layoutY="555.0" strokeType="OUTSIDE" strokeWidth="0.0" text="8">
+                        <Text fx:id="Num_11" fill="#f8ff1f" layoutX="1078.0" layoutY="556.0" strokeType="OUTSIDE" strokeWidth="0.0" text="8">
                             <font>
                                 <Font size="32.0" />
                             </font>
                         </Text>
-                        <Text fx:id="Num_12" fill="#f8ff1f" layoutX="1199.0" layoutY="555.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10">
+                        <Text fx:id="Num_12" fill="#f8ff1f" layoutX="1191.0" layoutY="557.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10">
                             <font>
                                 <Font size="32.0" />
                             </font>
@@ -486,7 +486,7 @@
                                 <Font size="32.0" />
                             </font>
                         </Text>
-                        <Text fx:id="Num_19" fill="#f8ff1f" layoutX="1078.0" layoutY="752.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                        <Text fx:id="Num_19" fill="#f8ff1f" layoutX="1078.0" layoutY="753.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                             <font>
                                 <Font size="32.0" />
                             </font>
@@ -591,7 +591,7 @@
                      </font>
                   </Text>
                   <Button fx:id="testDebug" layoutX="1592.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#DEBUG" text="Test" />
-                  <Circle fx:id="CirclePointerHexes" fill="DODGERBLUE" layoutX="972.0" layoutY="357.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Circle fx:id="CirclePointerHexes" fill="DODGERBLUE" layoutX="972.0" layoutY="357.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                     </children>
                 </AnchorPane>
             </children>

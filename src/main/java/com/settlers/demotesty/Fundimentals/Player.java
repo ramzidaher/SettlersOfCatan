@@ -9,9 +9,7 @@ package com.settlers.demotesty.Fundimentals; /**
  * @version 1.0
  * @author Sean
 */
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
@@ -46,6 +44,7 @@ public class Player {
 //    private List<Polygon> nearestHexes;
 
 //    private  HashMap<String,Polygon> nearestHexes;
+    //                 K        V
     private HashMap<String, ArrayList<Polygon>> nearestHexes = new HashMap<>();
 //    private HashMap<String, Color> settlementColors = new HashMap<>(); // Add this line to create a new hashmap for storing settlement colors
 
@@ -53,7 +52,7 @@ public class Player {
 
     /**
     * Create a player: assign name, colour and create ArrayLists of cities, settlements, and roads.
-    * @param String name, Colour colour
+//    * @param String name, Colour colour
     */
     public Player(String name, Colour colour) {
         playerName = name;
@@ -103,18 +102,22 @@ public class Player {
     public void setAddedSettlements(HashMap<ImageView, Colour> addedSettlements) {
         this.addedSettlements = addedSettlements;
     }
-    public void printNearestHexes() {
-        System.out.println("Nearest Hexes:");
-        for (HashMap.Entry<String, ArrayList<Polygon>> entry : nearestHexes.entrySet()) {
-            String key = entry.getKey();
-            List<Polygon> polygons = entry.getValue();
-            System.out.println("Key: " + key);
-            System.out.println("Polygons:");
-            for (Polygon polygon : polygons) {
-                System.out.println(polygon);
-            }
+public void printNearestHexes() {
+    System.out.println("Nearest Hexes:");
+
+    // Sort the nearestHexes map by keys
+    Map<String, ArrayList<Polygon>> sortedNearestHexes = new TreeMap<>(nearestHexes);
+
+    for (Map.Entry<String, ArrayList<Polygon>> entry : sortedNearestHexes.entrySet()) {
+        String key = entry.getKey();
+        List<Polygon> polygons = entry.getValue();
+        System.out.println("Key: " + key);
+        System.out.println("Polygons:");
+        for (Polygon polygon : polygons) {
+            System.out.println(polygon);
         }
     }
+}
 
 
 
