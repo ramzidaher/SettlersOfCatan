@@ -16,7 +16,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.settlers.demotesty.Controllers.Board">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.settlers.demotesty.Controllers.Board">
+
     <children>
         <GridPane prefHeight="1364.0" prefWidth="1920.0">
             <columnConstraints>
@@ -32,10 +33,10 @@
                             <children>
                                 <Rectangle fx:id="dice1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="136.0" layoutX="110.0" layoutY="99.0" stroke="white" strokeType="INSIDE" width="140.0" />
                                 <Rectangle fx:id="dice2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="136.0" layoutX="251.0" layoutY="99.0" stroke="white" strokeType="INSIDE" width="140.0" />
-                                <Text fx:id="DiceOutCome" layoutX="187.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dice OutCome: " />
+                                <Text fx:id="DiceOutCome" layoutX="182.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dice OutCome: " />
                             </children>
                         </AnchorPane>
-                        <Button layoutX="1566.0" layoutY="810.0" mnemonicParsing="false" onMouseClicked="#roll" text="Roll Dice">
+                        <Button layoutX="1566.0" layoutY="810.0" mnemonicParsing="false" onMouseClicked="#roll" styleClass="button-modern" text="Roll Dice">
                             <font>
                                 <Font name="DejaVu Serif Condensed Bold" size="26.0" />
                             </font>
@@ -560,7 +561,7 @@
                                 <Image url="@../../../Images%20for%20the%20game/Building%20cost%20card.png" />
                             </image>
                         </ImageView>
-                        <Button fx:id="NextTurn" layoutX="1510.0" layoutY="904.0" mnemonicParsing="false" onMouseClicked="#NextPlayer" prefHeight="80.0" prefWidth="263.0" text="NextTurn" />
+                        <Button fx:id="NextTurn" layoutX="1499.0" layoutY="898.0" mnemonicParsing="false" onMouseClicked="#NextPlayer" prefHeight="80.0" prefWidth="263.0" styleClass="button-modern" text="Next Turn" />
                         <ImageView fx:id="CityBTN" fitHeight="90.0" fitWidth="105.0" layoutX="1023.0" layoutY="941.0" onMouseClicked="#addCity" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Black%20city%20BTN.png" />
@@ -592,6 +593,7 @@
                   </Text>
                   <Button fx:id="testDebug" layoutX="1592.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#DEBUG" text="Test" />
                   <Circle fx:id="CirclePointerHexes" fill="DODGERBLUE" layoutX="972.0" layoutY="357.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                        <Button fx:id="QuitGame" layoutX="1724.0" layoutY="166.0" mnemonicParsing="false" onAction="#handleQuitGame" styleClass="exit-button" text="Quit Game" />
                     </children>
                 </AnchorPane>
             </children>

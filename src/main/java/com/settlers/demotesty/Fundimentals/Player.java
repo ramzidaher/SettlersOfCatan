@@ -70,21 +70,11 @@ public class Player {
         this.resources.put("ore", 0);
         this.resources.put("wool", 0);
         this.resources.put("wood", 0);
-//        nearestHexes = new HashMap<>();
         this.nearestHexes = new HashMap<>();
 
 
     }
-//    public void printNearestHexes() {
-//        System.out.println("Nearest Hexes for player " + playerName + ":");
-//        for (String resource : nearestHexes.keySet()) {
-//            System.out.println("Resource: " + resource);
-//            Polygon[] hexes = nearestHexes.get(resource);
-//            for (Polygon hex : hexes) {
-//                System.out.println(" - Hex: " + hex);
-//            }
-//        }
-//    }
+
 
 
     public HashMap<String, ArrayList<Polygon>> getNearestHexes() {
