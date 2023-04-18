@@ -36,6 +36,7 @@ javafx {
 
 dependencies {
 
+    implementation 'org.jfxcore:javafx-media:18-ea+1'
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
