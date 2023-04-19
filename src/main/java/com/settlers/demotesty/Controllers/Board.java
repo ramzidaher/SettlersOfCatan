@@ -2,6 +2,7 @@ package com.settlers.demotesty.Controllers;
 
 import com.settlers.demotesty.Fundimentals.Colour;
 import com.settlers.demotesty.Fundimentals.Player;
+import com.settlers.demotesty.Fundimentals.ResourceDeck;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
@@ -25,7 +27,8 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.*;
-
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 /**
@@ -44,6 +47,11 @@ public class Board extends SignUpController  implements Initializable {
     public Button QuitGame;
     public ImageView RoberImage;
     public Text changeRobberMsg;
+    public Text pickPlayerMsg;
+    public Text PlayerOneResourceCounter;
+    public Text PlayerTwoResourceCounter;
+    public Text PlayerThreeResourceCounter;
+    public Text PlayerFourResourceCounter;
     @FXML
     private Text BrickCardCounter;
     @FXML
@@ -694,11 +702,15 @@ public class Board extends SignUpController  implements Initializable {
     ArrayList<Double> xCoordRadioBTN = new ArrayList<>();
     ArrayList<Double> yCoordRadioBTN = new ArrayList<>();
     private int currentPlayerIndex = -1;
+    private boolean isRobberMoveAllowed = false;
+
 
     private int gameCounter;
     private DiceController diceController;
 
     private ArrayList<Polygon> testHex = new ArrayList<>();
+    private ResourceDeck resourceDeck = new ResourceDeck();
+
 
 
     @Override
@@ -895,10 +907,9 @@ public class Board extends SignUpController  implements Initializable {
         diceController = new DiceController(dice1, dice2, DiceOutCome);
         assignPlayer();//TODO change the position of it put it back on top
         //Put Robber
-        RoberImage.setLayoutX(HexDesert.getLayoutX()-30);
-        RoberImage.setLayoutY(HexDesert.getLayoutY()-43);
+        RoberImage.setLayoutX(HexDesert.getLayoutX() - 30);
+        RoberImage.setLayoutY(HexDesert.getLayoutY() - 43);
     }
-
 
 
     //This method assigns player names to the respective PlayerID labels
@@ -1027,14 +1038,18 @@ public class Board extends SignUpController  implements Initializable {
         // Add a print statement when the diceOutcome is 7
         if (diceOutcome == 7) {
             System.out.println("Lucky number 7! Player gets to change Robber Position.");
+            isRobberMoveAllowed = true;
             changeRobberPosition(RoberImage);
+        } else {
+            // Set isRobberMoveAllowed to false when dice outcome is not 7
+            isRobberMoveAllowed = false;
         }
 
         checksHexandNumberForCurrentPlayer(tempTexts, players.get(currentPlayerIndex));
 
         updateResourceCounters(players.get(currentPlayerIndex));
+//        showPlayerElements(currentPlayerIndex,players.get(currentPlayerIndex));
     }
-//    ArrayList<Text> TextNumbers = new ArrayList<>();
 
     private void changeRobberPosition(ImageView robberImage) {
         changeRobberMsg.setVisible(true);
@@ -1057,16 +1072,19 @@ public class Board extends SignUpController  implements Initializable {
     }
 
     private void elementPressed(Object element) {
+        if (!isRobberMoveAllowed) {
+            return;
+        }
         if (element instanceof Polygon) {
             System.out.println("Polygon pressed: " + element);
             double x = ((Polygon) element).getLayoutX();
             double y = ((Polygon) element).getLayoutY();
-            moveRobber(x,y);
+            moveRobber(x, y);
         } else if (element instanceof Text) {
             System.out.println("Hex/Numbers is pressed");
             double x = ((Text) element).getLayoutX();
             double y = ((Text) element).getLayoutY();
-            moveRobber(x,y);
+            moveRobber(x, y);
         }
     }
 
@@ -1075,7 +1093,6 @@ public class Board extends SignUpController  implements Initializable {
         RoberImage.setLayoutY(y - 43);
         changeRobberMsg.setVisible(false);
         for (Polygon hex : hexagonsResources.keySet()) {
-
             Point2D robber = hex.parentToLocal(
                     RoberImage.localToParent(
                             RoberImage.getBoundsInLocal().getCenterX(),
@@ -1086,40 +1103,92 @@ public class Board extends SignUpController  implements Initializable {
             boolean robberInsideHex = hex.contains(robber);
             if (robberInsideHex) {
                 System.out.println("Robber is on the  " + hex.getId());
+                ArrayList<Player> playersWithSettlementOnHex = new ArrayList<>();
                 for (Player currentPlayer : players) {
                     for (Map.Entry<String, ArrayList<Polygon>> entry : currentPlayer.getNearestHexes().entrySet()) {
                         ArrayList<Polygon> polygons = entry.getValue();
-                        boolean resourceStolen = false;
                         for (Polygon polygon : polygons) {
                             if (polygon.equals(hex)) {
                                 System.out.println("Found the hex in " + currentPlayer.getPlayerName() + " resource deck");
-                                for (Map.Entry<Polygon, String> entry1 : hexagonsResources.entrySet()) {
-                                    Polygon hexPolygon = entry1.getKey();
-                                    String hexResource = entry1.getValue();
-                                    if (polygon.equals(hexPolygon)) {
-                                        // Call stealResourcesFromPlayer with the hex resource
-                                        stealResourcesFromPlayer(currentPlayer, hexResource);
-                                        resourceStolen = true;
-                                        break;
-                                    }
-                                }
-                                if (resourceStolen) {
-                                    break;
-                                }
+                                playersWithSettlementOnHex.add(currentPlayer);
+                                break;
                             }
-                        }
-                        if (resourceStolen) {
-                            break;
                         }
                     }
                 }
+
+                if (playersWithSettlementOnHex.size() > 1) {
+                    System.out.println("There are multiple players with settlements on this hex. Choose which player to steal from.");
+                    pickPlayerMsg.setVisible(true);
+                    // Call getUserChoice with a callback that will be executed when a player is chosen
+                    getUserChoice(playersWithSettlementOnHex, chosenPlayer -> {
+                        stealResourcesFromHex(chosenPlayer, hex);
+                    });
+                } else if (playersWithSettlementOnHex.size() == 1) {
+                    stealResourcesFromHex(playersWithSettlementOnHex.get(0), hex);
+                }
             }
         }
+        isRobberMoveAllowed = false;
+
+    }
+
+    public interface PlayerChoiceCallback {
+        void onPlayerChosen(Player player);
+    }
+
+    private void getUserChoice(ArrayList<Player> playersWithSettlementOnHex, PlayerChoiceCallback callback) {
+        // Set up event handlers for each player's tag box
+        PlayerOneTagBox.setOnMouseClicked(event -> {
+            if (playersWithSettlementOnHex.contains(players.get(0))) {
+                callback.onPlayerChosen(players.get(0));
+            }
+        });
+
+        PlayerTwoTagBox.setOnMouseClicked(event -> {
+            if (playersWithSettlementOnHex.contains(players.get(1))) {
+                callback.onPlayerChosen(players.get(1));
+            }
+        });
+
+        PlayerThreeTagBox.setOnMouseClicked(event -> {
+            if (playersWithSettlementOnHex.contains(players.get(2))) {
+                callback.onPlayerChosen(players.get(2));
+            }
+        });
+
+        PlayerFoursTagBox.setOnMouseClicked(event -> {
+            if (playersWithSettlementOnHex.contains(players.get(3))) {
+                callback.onPlayerChosen(players.get(3));
+            }
+        });
     }
 
 
+    private void stealResourcesFromHex(Player cp, Polygon hex) {
+        if (cp == null || hex == null) return;
+
+        String hexResource = hexagonsResources.get(hex);
+        if (hexResource == null) {
+            System.out.println("Resource type not found for the given hex parameter.");
+            return;
+        }
+        System.out.println("Resource type for hex: " + hexResource);
+
+        stealResourcesFromPlayer(cp, hexResource);
+    }
+
     private void stealResourcesFromPlayer(Player cp, String hexResource) {
         System.out.println("Stealing Resources from " + cp.getPlayerName());
+        //TODO fix today
+//        int index = players.indexOf(cp);
+//        System.out.println(index);
+//        switch (index) {
+//            case 0 -> PlayerOneTagBoxColor.setStroke(Color.BLACK);
+//            case 1 -> PlayerTwoTagBoxColor.setStroke(Color.BLACK);
+//            case 2 -> PlayerThreeTagBoxColor.setStroke(Color.BLACK);
+//            case 3 -> PlayerFourTagBoxColor.setStroke(Color.BLACK);
+//        }
 
         // Get the resource type for the given hex parameter
         String resourceType = hexResource;
@@ -1155,11 +1224,11 @@ public class Board extends SignUpController  implements Initializable {
                 break; // Exit the loop since the resource type is found
             }
         }
+//        PlayerOneTagBoxColor.setStroke(Color.WHITE);
+//        PlayerTwoTagBoxColor.setStroke(Color.WHITE);
+//        PlayerThreeTagBoxColor.setStroke(Color.WHITE);
+//        PlayerFourTagBoxColor.setStroke(Color.WHITE);
     }
-
-
-
-
 
 
     //Checks the numbers being passed into and the corresponding resources
@@ -1185,7 +1254,7 @@ public class Board extends SignUpController  implements Initializable {
                         if (hexagonsResources.get(polygon) == null) {
                             continue; // Skip the current iteration of the loop
                         }
-                        passedHexToResource(currentPlayer, polygon);
+                        passedHexToResource(currentPlayer, polygon, resourceDeck);
                         System.out.println("FOUND ONE");
 
                         if (TextOne.getText().equals("7")) {
@@ -1201,7 +1270,7 @@ public class Board extends SignUpController  implements Initializable {
                         if (hexagonsResources.get(polygon) == null) {
                             continue; // Skip the current iteration of the loop
                         }
-                        passedHexToResource(currentPlayer, polygon);
+                        passedHexToResource(currentPlayer, polygon, resourceDeck);
                         System.out.println("FOUND ONE");
 
                         if (TextTwo.getText().equals("7")) {
@@ -1221,8 +1290,9 @@ public class Board extends SignUpController  implements Initializable {
         WoolCardCounter.setText(String.valueOf(currentPlayer.getResources().get("wool")));
         WoodCardCounter.setText(String.valueOf(currentPlayer.getResources().get("wood")));
     }
+
     //changes the resources of the player depending on the dice roll outcome
-    private void passedHexToResource(Player allPlayers, Polygon polygon) {
+    private void passedHexToResource(Player allPlayers, Polygon polygon, ResourceDeck resourceDeck) {
         System.out.println("??????????");
         System.out.println(allPlayers.getPlayerName());
 
@@ -1252,6 +1322,7 @@ public class Board extends SignUpController  implements Initializable {
         System.out.println("Dice Out Come" + diceOutcome);
 
     }
+
     //Mouse Handler that switch players, each time changing the resource counter for each player's resources that he has
     public void NextPlayer(MouseEvent mouseEvent) {
         if (players.isEmpty()) {
@@ -1289,6 +1360,7 @@ public class Board extends SignUpController  implements Initializable {
         showPlayerElements(currentPlayerIndex, currentPlayer);
         addRadioButtonListeners(currentPlayer);
     }
+
     //Radio buttons listeners loop through all of them
     private void addRadioButtonListeners(Player currentPlayer) {
         for (RadioButton BTN : ButtonForBuildings) {
@@ -1303,11 +1375,19 @@ public class Board extends SignUpController  implements Initializable {
         } else {
             PickATurnNote.setVisible(false);
             Player currentPlayer = players.get(currentPlayerIndex);
-            currentPlayer.setAddSettlement(true);
-            addRadioButtonListeners(currentPlayer);
 
+            // Check settlement resources when the game counter is greater than or equal to 3
+            if (gameCounter >= 3) {
+                checkResourcesForBuilding("Settlement", currentPlayer);
+            } else {
+                currentPlayer.setAddSettlement(true);
+            }
+
+            addRadioButtonListeners(currentPlayer);
         }
     }
+
+
     //Handler for every radio button so each time one is pressed it replaces it by a settlement
     private void handleRadioButtonSettlementAction(MouseEvent event, RadioButton BTN, Player currentPlayer) {
         RadioButton radioButton = (RadioButton) event.getSource();
@@ -1319,7 +1399,10 @@ public class Board extends SignUpController  implements Initializable {
         } else {
             AnimationHandler.settlementButtonAnimation((ImageView) SettlementBTN);
         }
+        showPlayerElements(currentPlayerIndex,currentPlayer);
     }
+
+
     //Main method handler when adding a settlement it gives resources depending on that
     public void addImageSettlement(Colour colour, double x, double y) {
         Image image;
@@ -1357,62 +1440,64 @@ public class Board extends SignUpController  implements Initializable {
     private void addResourcesFromSettlement(Player currentPlayer, ArrayList<Polygon> polygons) {
         if (gameCounter == 2) {
             for (Polygon polygon : polygons) {
-                passedHexToResource(currentPlayer, polygon);
+                passedHexToResource(currentPlayer, polygon, resourceDeck);
             }
             updateResourceCounters(currentPlayer);
         }
     }
+
     //Main method to find the nearest hex it calls option one,two,three and four
     public void findNearestHexes(double x, double y, Player currentPlayer, ImageView imageView) {
+        CirclePointerHexes.setLayoutX(x + 9);
+        CirclePointerHexes.setLayoutY(y + 9);
+        HashSet<Polygon> polygons = new HashSet<>();
+        boolean optionOneSuccessful = false;
+
+        CirclePointerHexes.setLayoutY(y - 40);
+        for (Polygon hex : hexagonsResources.keySet()) {
+            Point2D circleCenterInHex = hex.parentToLocal(
+                    CirclePointerHexes.localToParent(
+                            CirclePointerHexes.getBoundsInLocal().getCenterX(),
+                            CirclePointerHexes.getBoundsInLocal().getCenterY()
+                    )
+            );
+
+            boolean isCircleInsideHex = hex.contains(circleCenterInHex);
+
+            if (isWaterHex(CirclePointerHexes)) {
+                System.out.println("The circle is in bounds of a water hex ImageView.");
+
+            } else {
+                System.out.println("The circle is not in bounds of a water hex ImageView.");
+            }
+            if (isCircleInsideHex) {
+
+                polygons.add(hex);
+
+                OptionOneLeftandRight(x + 9, y + 9, currentPlayer, "up", polygons);
+                OptionOneLeftandRight(x + 9, y + 9, currentPlayer, "left", polygons);
+                OptionOneLeftandRight(x + 9, y + 9, currentPlayer, "right", polygons);
+                optionOneSuccessful = true;
+                break;
+            }
+        }
+
+        if (!optionOneSuccessful) {
             CirclePointerHexes.setLayoutX(x + 9);
-            CirclePointerHexes.setLayoutY(y + 9);
-            HashSet<Polygon> polygons = new HashSet<>();
-            boolean optionOneSuccessful = false;
+            CirclePointerHexes.setLayoutY(x + 9);
+            OptionTwoLeftandRight(x + 9, y + 9, currentPlayer, "down", polygons);
+            OptionTwoLeftandRight(x + 9, y + 9, currentPlayer, "right", polygons);
+            OptionTwoLeftandRight(x + 9, y + 9, currentPlayer, "left", polygons);
+        }
 
-            CirclePointerHexes.setLayoutY(y - 40);
-            for (Polygon hex : hexagonsResources.keySet()) {
-                Point2D circleCenterInHex = hex.parentToLocal(
-                        CirclePointerHexes.localToParent(
-                                CirclePointerHexes.getBoundsInLocal().getCenterX(),
-                                CirclePointerHexes.getBoundsInLocal().getCenterY()
-                        )
-                );
+        int settlementNumber = currentPlayer.getNearestHexes().size() + 1;
+        ArrayList<Polygon> polygonsList = new ArrayList<>(polygons);
+        currentPlayer.getNearestHexes().put("Settlement number: " + settlementNumber, polygonsList);
 
-                boolean isCircleInsideHex = hex.contains(circleCenterInHex);
-
-                if (isWaterHex(CirclePointerHexes)) {
-                    System.out.println("The circle is in bounds of a water hex ImageView.");
-
-                } else {
-                    System.out.println("The circle is not in bounds of a water hex ImageView.");
-                }
-                if (isCircleInsideHex) {
-
-                    polygons.add(hex);
-
-                    OptionOneLeftandRight(x + 9, y + 9, currentPlayer, "up", polygons);
-                    OptionOneLeftandRight(x + 9, y + 9, currentPlayer, "left", polygons);
-                    OptionOneLeftandRight(x + 9, y + 9, currentPlayer, "right", polygons);
-                    optionOneSuccessful = true;
-                    break;
-                }
-            }
-
-            if (!optionOneSuccessful) {
-                CirclePointerHexes.setLayoutX(x + 9);
-                CirclePointerHexes.setLayoutY(x + 9);
-                OptionTwoLeftandRight(x + 9, y + 9, currentPlayer, "down", polygons);
-                OptionTwoLeftandRight(x + 9, y + 9, currentPlayer, "right", polygons);
-                OptionTwoLeftandRight(x + 9, y + 9, currentPlayer, "left", polygons);
-            }
-
-            int settlementNumber = currentPlayer.getNearestHexes().size() + 1;
-            ArrayList<Polygon> polygonsList = new ArrayList<>(polygons);
-            currentPlayer.getNearestHexes().put("Settlement number: " + settlementNumber, polygonsList);
-
-            addResourcesFromSettlement(currentPlayer, polygonsList);
+        addResourcesFromSettlement(currentPlayer, polygonsList);
 
     }
+
     //Option one for checking the nearest Hex by going left and right
     private void OptionOneLeftandRight(double x, double y, Player currentPlayer, String direction, HashSet<Polygon> polygons) {
         System.out.println("IN OPTION ONE");
@@ -1443,6 +1528,7 @@ public class Board extends SignUpController  implements Initializable {
             }
         }
     }
+
     //Option two for checking the nearest Hex by going left and right
     private void OptionTwoLeftandRight(double x, double y, Player currentPlayer, String direction, HashSet<Polygon> polygons) {
         System.out.println("IN OPTION TWO");
@@ -1473,6 +1559,7 @@ public class Board extends SignUpController  implements Initializable {
             }
         }
     }
+
     //Checks if there is a water hex near the settlment
     public boolean isWaterHex(Circle circle) {
         for (ImageView waterHexImageView : waterHex.keySet()) {
@@ -1485,16 +1572,63 @@ public class Board extends SignUpController  implements Initializable {
         }
         return false;
     }
+
     //Mouse Handler when pressing the road button
     public void addRoad(MouseEvent mouseEvent) {
         if (currentPlayerIndex == -1) {
             PickATurnNote.setVisible(true);
+            return;
+        }
+
+        PickATurnNote.setVisible(false);
+        Player currentPlayer = players.get(currentPlayerIndex);
+
+        if (!currentPlayer.isPlaying()) {
+            return;
+        }
+
+        currentPlayer.setAddRoad(true);
+
+        if (gameCounter >= 3) {
+            checkResourcesForBuilding("Road", currentPlayer);
+        }
+    }
+
+
+    private void checkResourcesForBuilding(String building, Player currentPlayer) {
+        switch (building) {
+            case "Road":
+                checkRoadResources(currentPlayer);
+            case "Settlement":
+                checkSettlementResources(currentPlayer);
+            case "City":
+                checkCityResources(currentPlayer);
+        }
+
+    }
+
+    private void checkCityResources(Player currentPlayer) {
+    }
+
+    private void checkSettlementResources(Player currentPlayer) {
+        if (currentPlayer.getResources().get("wood") >= 1 && currentPlayer.getResources().get("brick") >= 1
+                && currentPlayer.getResources().get("grain") >= 1 && currentPlayer.getResources().get("wool") >= 1) {
+            currentPlayer.setAddSettlement(true);
+            System.out.println("You have enough resources to build a settlement!");
         } else {
-            PickATurnNote.setVisible(false);
-            Player currentPlayer = players.get(currentPlayerIndex);
-            if (currentPlayer.isPlaying()) {
-                currentPlayer.setAddRoad(true);
-            }
+            currentPlayer.setAddSettlement(false);
+            System.out.println("You don't have enough resources to build a settlement.");
+        }
+    }
+
+
+    public static void checkRoadResources(Player currentPlayer) {
+        if (currentPlayer.getResources().get("wood") >= 1 && currentPlayer.getResources().get("brick") >= 1) {
+            currentPlayer.setAddRoad(true);
+            System.out.println("You have enough resources to build a road!");
+        } else {
+            currentPlayer.setAddRoad(false);
+            System.out.println("You don't have enough resources to build a road.");
         }
     }
     //Mouse handler so each time a player adds a road it chages colour to the players colour
@@ -1513,8 +1647,6 @@ public class Board extends SignUpController  implements Initializable {
         //TODO Add checker for the amount of resources
         // Set the rectangle's fill color to the current player's color
         clickedRoad.setFill(currentPlayer.getPlayerColour().getFxColor());
-
-
         currentPlayer.setRoads();
         // Set the UserData of the rectangle to "used" to mark it as used
         clickedRoad.setUserData("used");
@@ -1529,9 +1661,7 @@ public class Board extends SignUpController  implements Initializable {
             PlayerFourLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
         }
     }
-
-
-    //Mouse hanlder for when adding a city
+    //Mouse handler for when adding a city
     public void addCity(MouseEvent mouseEvent) {
         if (currentPlayerIndex == -1) {
             PickATurnNote.setVisible(true);
@@ -1554,7 +1684,6 @@ public class Board extends SignUpController  implements Initializable {
         }
 
     }
-
     //Handler for when adding a city, changes the settlement to an image
     private void addCityHandler(MouseEvent event, ImageView image, Player currentPlayer) {
         System.out.println("HI works");
@@ -1598,8 +1727,6 @@ public class Board extends SignUpController  implements Initializable {
         // Add the image to the AnchorPane
         anchorPane.getChildren().add(imageView);
     }
-
-
     //Simple animation for the buttons
     public void hoverEnter(MouseEvent mouseEvent) {
         ImageView imageView = (ImageView) mouseEvent.getSource();
@@ -1610,8 +1737,6 @@ public class Board extends SignUpController  implements Initializable {
         ImageView imageView = (ImageView) mouseEvent.getSource();
         AnimationHandler.hoverExit(imageView);
     }
-
-
     public void roadAnimation() {
         ImageView imageView = (ImageView) RoadBTN;
         AnimationHandler.roadAnimation(imageView);
@@ -1624,30 +1749,47 @@ public class Board extends SignUpController  implements Initializable {
         PlayerThreeLongestRoad.setVisible(false);
         PlayerFourLongestRoad.setVisible(false);
     }
-
     //Handles all the changes that happens to the player TagBox
     private void showPlayerElements(int playerIndex, Player currentPlayer) {
         switch (playerIndex) {
             case 0 -> {
                 PlayerOneLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
                 PlayerOneLongestRoad.setVisible(true);
+                int totalResources = currentPlayer.getResources().entrySet().stream().filter(entry -> !entry.getKey().equalsIgnoreCase("desert")).mapToInt(entry -> entry.getValue()).sum(); System.out.println(totalResources); PlayerThreeResourceCounter.setText(String.valueOf(totalResources));
+                System.out.println(totalResources);
+                PlayerOneResourceCounter.setText(String.valueOf(totalResources));
+
             }
             case 1 -> {
                 PlayerTwoLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
                 PlayerTwoLongestRoad.setVisible(true);
+                int totalResources = currentPlayer.getResources().entrySet().stream().filter(entry -> !entry.getKey().equalsIgnoreCase("desert")).mapToInt(entry -> entry.getValue()).sum(); System.out.println(totalResources); PlayerThreeResourceCounter.setText(String.valueOf(totalResources));
+                System.out.println(totalResources);
+                PlayerTwoResourceCounter.setText(String.valueOf(totalResources));
             }
             case 2 -> {
                 PlayerThreeLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
                 PlayerThreeLongestRoad.setVisible(true);
+                int totalResources = currentPlayer.getResources().entrySet().stream().filter(entry -> !entry.getKey().equalsIgnoreCase("desert")).mapToInt(entry -> entry.getValue()).sum(); System.out.println(totalResources); PlayerThreeResourceCounter.setText(String.valueOf(totalResources));
+                System.out.println(totalResources);
+                PlayerThreeResourceCounter.setText(String.valueOf(totalResources));
             }
             case 3 -> {
                 PlayerFourLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
                 PlayerFourLongestRoad.setVisible(true);
+                int totalResources = currentPlayer.getResources().entrySet().stream().filter(entry -> !entry.getKey().equalsIgnoreCase("desert")).mapToInt(entry -> entry.getValue()).sum(); System.out.println(totalResources); PlayerThreeResourceCounter.setText(String.valueOf(totalResources));
+                System.out.println(totalResources);
+                PlayerFourResourceCounter.setText(String.valueOf(totalResources));
             }
             default -> throw new IllegalArgumentException("Invalid player index: " + playerIndex);
         }
     }
-
+    //Handler to quit the game
+    @FXML
+    private void handleQuitGame(ActionEvent event) {
+        Stage stage = (Stage) QuitGame.getScene().getWindow();
+        stage.close();
+    }
     //Only to debug
     public void DEBUG(MouseEvent event) {
         System.out.println("///////////////");
@@ -1661,18 +1803,7 @@ public class Board extends SignUpController  implements Initializable {
                 System.out.println(resources + " " + valueOfResource);
             }
         }
-    }
-//        distributeResources(7);
-
-
-
-
-
-    //Handler to quit the game
-    @FXML
-    private void handleQuitGame(ActionEvent event) {
-        Stage stage = (Stage) QuitGame.getScene().getWindow();
-        stage.close();
+        System.out.println(resourceDeck.getCount("wood"));
     }
 }
 
