@@ -710,7 +710,7 @@ public class Board extends SignUpController  implements Initializable {
 
     private ArrayList<Polygon> testHex = new ArrayList<>();
     private ResourceDeck resourceDeck = new ResourceDeck();
-
+    private boolean currentPlayerNumberFound = false;
 
 
     @Override
@@ -1045,7 +1045,8 @@ public class Board extends SignUpController  implements Initializable {
             isRobberMoveAllowed = false;
         }
 
-        checksHexandNumberForCurrentPlayer(tempTexts, players.get(currentPlayerIndex));
+        checksHexandNumber(tempTexts);
+//        checksHexandNumberForCurrentPlayer(tempTexts, players.get(currentPlayerIndex));
 
         updateResourceCounters(players.get(currentPlayerIndex));
 //        showPlayerElements(currentPlayerIndex,players.get(currentPlayerIndex));
@@ -1229,9 +1230,62 @@ public class Board extends SignUpController  implements Initializable {
 //        PlayerThreeTagBoxColor.setStroke(Color.WHITE);
 //        PlayerFourTagBoxColor.setStroke(Color.WHITE);
     }
+    public void checksHexandNumber(Text[] tempTexts) {
+        Text TextOne = tempTexts[0];
+        Text TextTwo = tempTexts[1];
+        if (TextOne == null && TextTwo == null) {
+            return; // Both texts are null, no need to continue
+        }
 
+//        double TextOneX = TextOne.getLayoutX();
+//        double TextOneY = TextOne.getLayoutY();
+//        double TextTwoX = TextTwo.getLayoutX();
+//        double TextTwoY = TextTwo.getLayoutY();
 
-    //Checks the numbers being passed into and the corresponding resources
+        for (Player allPlayers : players) {
+            for (Map.Entry<String, ArrayList<Polygon>> entry : allPlayers.getNearestHexes().entrySet()) {
+                ArrayList<Polygon> polygons = entry.getValue();
+                for (Polygon polygon : polygons) {
+                    System.out.println(polygon);
+                    if (TextOne != null) {
+                        System.out.println("TXT ONE");
+                        System.out.println(TextOne.getText());
+                        double TextOneX = TextOne.getLayoutX();
+                        double TextOneY = TextOne.getLayoutY();
+                        if ((polygon.getLayoutX() == TextOneX) && (polygon.getLayoutY() == TextOneY)) {
+                            if (hexagonsResources.get(polygon) == null) {
+                                continue; // Skip the current iteration of the loop
+                            }
+                            passedHexToResource(allPlayers, polygon);
+                            System.out.println("FOUND ONE");
+
+                            if (TextOne.getText().equals("7")) {
+                                System.out.println("Robber Class");
+                            }
+
+                        }
+                    }
+
+                    if (TextTwo != null) {
+                        double TextTwoX = TextTwo.getLayoutX();
+                        double TextTwoY = TextTwo.getLayoutY();
+                        if ((polygon.getLayoutX() == TextTwoX) && (polygon.getLayoutY() == TextTwoY)) {
+                            if (hexagonsResources.get(polygon) == null) {
+                                continue; // Skip the current iteration of the loop
+                            }
+                            passedHexToResource(allPlayers, polygon);
+                            System.out.println("FOUND ONE");
+
+                            if (TextTwo.getText().equals("7")) {
+                                System.out.println("Robber Class");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public void checksHexandNumberForCurrentPlayer(Text[] tempTexts, Player currentPlayer) {
         Text TextOne = tempTexts[0];
         Text TextTwo = tempTexts[1];
@@ -1246,20 +1300,14 @@ public class Board extends SignUpController  implements Initializable {
                 System.out.println(polygon);
                 // process each polygon here
                 if (TextOne != null) {
-                    System.out.println("TXT ONE");
-                    System.out.println(TextOne.getText());
                     double TextOneX = TextOne.getLayoutX();
                     double TextOneY = TextOne.getLayoutY();
                     if ((polygon.getLayoutX() == TextOneX) && (polygon.getLayoutY() == TextOneY)) {
                         if (hexagonsResources.get(polygon) == null) {
                             continue; // Skip the current iteration of the loop
                         }
-                        passedHexToResource(currentPlayer, polygon, resourceDeck);
+                        passedHexToResource(currentPlayer, polygon);
                         System.out.println("FOUND ONE");
-
-                        if (TextOne.getText().equals("7")) {
-                            System.out.println("Robber Class");
-                        }
                     }
                 }
 
@@ -1270,17 +1318,65 @@ public class Board extends SignUpController  implements Initializable {
                         if (hexagonsResources.get(polygon) == null) {
                             continue; // Skip the current iteration of the loop
                         }
-                        passedHexToResource(currentPlayer, polygon, resourceDeck);
+                        passedHexToResource(currentPlayer, polygon);
                         System.out.println("FOUND ONE");
-
-                        if (TextTwo.getText().equals("7")) {
-                            System.out.println("Robber Class");
-                        }
                     }
                 }
             }
         }
     }
+
+
+    //Checks the numbers being passed into and the corresponding resources
+//    public void checksHexandNumberForCurrentPlayer(Text[] tempTexts, Player currentPlayer) {
+//        Text TextOne = tempTexts[0];
+//        Text TextTwo = tempTexts[1];
+//
+//        if (TextOne == null && TextTwo == null) {
+//            return; // Both texts are null, no need to continue
+//        }
+//
+//        for (Map.Entry<String, ArrayList<Polygon>> entry : currentPlayer.getNearestHexes().entrySet()) {
+//            ArrayList<Polygon> polygons = entry.getValue();
+//            for (Polygon polygon : polygons) {
+//                System.out.println(polygon);
+//                // process each polygon here
+//                if (TextOne != null) {
+//                    System.out.println("TXT ONE");
+//                    System.out.println(TextOne.getText());
+//                    double TextOneX = TextOne.getLayoutX();
+//                    double TextOneY = TextOne.getLayoutY();
+//                    if ((polygon.getLayoutX() == TextOneX) && (polygon.getLayoutY() == TextOneY)) {
+//                        if (hexagonsResources.get(polygon) == null) {
+//                            continue; // Skip the current iteration of the loop
+//                        }
+//                        passedHexToResource(currentPlayer, polygon, resourceDeck);
+//                        System.out.println("FOUND ONE");
+//
+//                        if (TextOne.getText().equals("7")) {
+//                            System.out.println("Robber Class");
+//                        }
+//                    }
+//                }
+//
+//                if (TextTwo != null) {
+//                    double TextTwoX = TextTwo.getLayoutX();
+//                    double TextTwoY = TextTwo.getLayoutY();
+//                    if ((polygon.getLayoutX() == TextTwoX) && (polygon.getLayoutY() == TextTwoY)) {
+//                        if (hexagonsResources.get(polygon) == null) {
+//                            continue; // Skip the current iteration of the loop
+//                        }
+//                        passedHexToResource(currentPlayer, polygon, resourceDeck);
+//                        System.out.println("FOUND ONE");
+//
+//                        if (TextTwo.getText().equals("7")) {
+//                            System.out.println("Robber Class");
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     //Updates the Reosurce GUI counter
     private void updateResourceCounters(Player currentPlayer) {
@@ -1292,7 +1388,7 @@ public class Board extends SignUpController  implements Initializable {
     }
 
     //changes the resources of the player depending on the dice roll outcome
-    private void passedHexToResource(Player allPlayers, Polygon polygon, ResourceDeck resourceDeck) {
+    private void passedHexToResource(Player allPlayers, Polygon polygon) {
         System.out.println("??????????");
         System.out.println(allPlayers.getPlayerName());
 
@@ -1440,7 +1536,7 @@ public class Board extends SignUpController  implements Initializable {
     private void addResourcesFromSettlement(Player currentPlayer, ArrayList<Polygon> polygons) {
         if (gameCounter == 2) {
             for (Polygon polygon : polygons) {
-                passedHexToResource(currentPlayer, polygon, resourceDeck);
+                passedHexToResource(currentPlayer, polygon);
             }
             updateResourceCounters(currentPlayer);
         }
@@ -1806,7 +1902,6 @@ public class Board extends SignUpController  implements Initializable {
         System.out.println(resourceDeck.getCount("wood"));
     }
 }
-
 
 
 
