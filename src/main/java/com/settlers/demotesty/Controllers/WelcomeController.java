@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,4 +35,13 @@ public class WelcomeController {
 
     }
 
+    public void Start(MouseEvent mouseEvent) throws IOException {
+        System.out.println("Works");
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/com/settlers/demotesty/SignUpPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(WelcomeController.class.getResource("/com/settlers/demotesty/SignUpPage.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) startBTN.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+    }
 }

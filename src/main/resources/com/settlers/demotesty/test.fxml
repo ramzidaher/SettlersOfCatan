@@ -243,7 +243,7 @@
                         <Rectangle fx:id="Road_1_18" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="736.0" layoutY="428.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
                         <Rectangle fx:id="Road_1_64" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="1101.0" layoutY="772.0" rotate="60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
                         <Rectangle fx:id="Road_1_67" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="989.0" layoutY="771.0" rotate="60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
-                        <Rectangle fx:id="Road_1_51" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="1159.0" layoutY="672.0" onMouseClicked="#click" rotate="60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
+                        <Rectangle fx:id="Road_1_51" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="1159.0" layoutY="672.0" rotate="60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
                         <Rectangle fx:id="Road_1_33" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="1215.0" layoutY="575.0" rotate="60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
                         <Rectangle fx:id="Road_1_61" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="762.0" layoutY="673.0" rotate="-60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
                         <Rectangle fx:id="Road_1_48" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="707.0" layoutY="476.0" rotate="60.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
@@ -357,7 +357,7 @@
                         <RadioButton fx:id="RadioBTN13" layoutX="787.0" layoutY="513.0" mnemonicParsing="false" />
                         <RadioButton fx:id="RadioBTN14" layoutX="786.0" layoutY="581.0" mnemonicParsing="false" />
                         <RadioButton fx:id="RadioBTN15" layoutX="899.0" layoutY="580.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="RadioBTN16" layoutX="955.0" layoutY="610.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN16" layoutX="956.0" layoutY="610.0" mnemonicParsing="false" />
                         <RadioButton fx:id="RadioBTN17" layoutX="1012.0" layoutY="582.0" mnemonicParsing="false" />
                         <RadioButton fx:id="RadioBTN18" layoutX="1069.0" layoutY="613.0" mnemonicParsing="false" />
                         <RadioButton fx:id="RadioBTN19" layoutX="1125.0" layoutY="581.0" mnemonicParsing="false" />
@@ -384,11 +384,11 @@
                         <RadioButton fx:id="RadioBTN40" layoutX="731.0" layoutY="482.0" mnemonicParsing="false" />
                         <RadioButton fx:id="RadioBTN41" layoutX="675.0" layoutY="516.0" mnemonicParsing="false" />
                         <RadioButton fx:id="RadioBTN42" layoutX="674.0" layoutY="579.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="RadioBTN43" layoutX="727.0" layoutY="613.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN43" layoutX="730.0" layoutY="610.0" mnemonicParsing="false" />
                         <RadioButton fx:id="RadioBTN44" layoutX="729.0" layoutY="678.0" mnemonicParsing="false" />
                         <RadioButton fx:id="RadioBTN45" layoutX="785.0" layoutY="710.0" mnemonicParsing="false" />
                         <RadioButton fx:id="RadioBTN46" layoutX="842.0" layoutY="805.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="RadioBTN47" layoutX="954.0" layoutY="803.0" mnemonicParsing="false" />
+                        <RadioButton fx:id="RadioBTN47" layoutX="955.0" layoutY="805.0" mnemonicParsing="false" />
                         <RadioButton fx:id="RadioBTN48" layoutX="1068.0" layoutY="805.0" mnemonicParsing="false" />
                         <RadioButton fx:id="RadioBTN49" layoutX="1123.0" layoutY="777.0" mnemonicParsing="false" />
                         <RadioButton fx:id="RadioBTN50" layoutX="1238.0" layoutY="581.0" mnemonicParsing="false" />
@@ -594,6 +594,14 @@
                   <Button fx:id="testDebug" layoutX="1592.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#DEBUG" text="Test" />
                   <Circle fx:id="CirclePointerHexes" fill="DODGERBLUE" layoutX="972.0" layoutY="357.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                         <Button fx:id="QuitGame" layoutX="1724.0" layoutY="166.0" mnemonicParsing="false" onAction="#handleQuitGame" styleClass="exit-button" text="Quit Game" />
+                  <ImageView fx:id="RoberImage" fitHeight="80.0" fitWidth="46.0" layoutX="941.0" layoutY="515.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images%20for%20the%20game/Untitled-removebg-preview%20(1).png" />
+                     </image>
+                  </ImageView>
+                        <Text layoutX="1759.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="activity-title" text="Activity" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutX="1698.0" layoutY="249.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+                  <Text fx:id="changeRobberMsg" fill="#ff7777" layoutX="1715.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Change the position of the robber by clicking on the designated Hex" visible="false" wrappingWidth="166.2509765625" />
                     </children>
                 </AnchorPane>
             </children>
