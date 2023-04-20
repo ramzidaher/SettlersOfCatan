@@ -19,7 +19,7 @@ public class Main extends Application {
             scene.getRoot().setScaleX(0.75);
             scene.getRoot().setScaleY(0.75);
         }
-        stage.setTitle("Welcome To Settlers!!!");
+        stage.setTitle("Welcome To Settlers!");
         stage.setScene(scene);
         stage.setResizable(false); // Prevent the window from being resized
         stage.show();

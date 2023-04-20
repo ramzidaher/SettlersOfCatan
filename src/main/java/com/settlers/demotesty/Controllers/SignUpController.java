@@ -19,9 +19,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class SignUpController  implements Initializable {
+public class SignUpController implements Initializable {
 
-
+    public Button Human_BTN;
+    public Button AI_BTN;
     @FXML
     private ResourceBundle resources;
 
@@ -47,8 +48,7 @@ public class SignUpController  implements Initializable {
     public Text ColourPickWarning;
     public Text PlayerNameNotEntered;
 
-     static ArrayList<Player> players = new ArrayList<>();
-
+    static ArrayList<Player> players = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,58 +60,75 @@ public class SignUpController  implements Initializable {
         );
     }
 
-@FXML
-void submitBTN(MouseEvent event) throws IOException {
-    System.out.println("Works Submit");
-    String tempPlayerName = PlayerNameTextField.getText();
-    Colour tempPlayerColour = PlayerColourDropDownList.getValue();
-    if (tempPlayerName.trim().isEmpty()) {
-        System.out.println("Please enter a player name");
-        PlayerNameNotEntered.setVisible(true);
-        return; // Exit the method if no player name is entered
-    }
-    // Check for duplicate player names
-    for (Player player : players) {
+    @FXML
+    void addPlayerHuman(MouseEvent event) throws IOException {
+        System.out.println("addPlayerHuman called");
 
-        if (player.getPlayerName().equals(tempPlayerName)) {
-            System.out.println("Player name already exists");
-            PlayerNameWarning.setVisible(true);
-            return; // Exit the method if duplicate name is found
-        }
+        addPlayer(false);
     }
-    if (PlayerColourDropDownList.getSelectionModel().isEmpty()) {
-        System.out.println("Please select a colour");
-        ColourPickWarning.setVisible(true);
-        return; // Exit the method if no colour is selected
-    }else {
-        players.add(new Player(tempPlayerName, tempPlayerColour));//TODO FIX this as it creates a
-    }
-
-    PlayerNameWarning.setVisible(false);
-    ColourPickWarning.setVisible(false);
-    PlayerNameNotEntered.setVisible(false);
-    PlayerNameTextField.setText("");//Resets the Text filed to empty
-    for (Player player : players) {
-        System.out.println("Players in the Game: "+ player.getPlayerName() + " (" + player.getPlayerColour() + ")");
-    }
-    PlayerColourDropDownList.getItems().remove(tempPlayerColour);
-    if (PlayerColourDropDownList.getItems().isEmpty()){
-        FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/com/settlers/demotesty/test.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) submitButton.getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-    }
-}
 
     @FXML
-    void initialize() {
-        assert PlayerColour != null : "fx:id=\"PlayerColour\" was not injected: check your FXML file 'signuppagecatan (1).fxml'.";
-        assert PlayerColourDropDownList != null : "fx:id=\"PlayerColourDropDwonList\" was not injected: check your FXML file 'signuppagecatan (1).fxml'.";
-        assert PlayerName != null : "fx:id=\"PlayerName\" was not injected: check your FXML file 'signuppagecatan (1).fxml'.";
-        assert PlayerNameTextField != null : "fx:id=\"PlayerNameTextField\" was not injected: check your FXML file 'signuppagecatan (1).fxml'.";
-        assert submitButton != null : "fx:id=\"submitButton\" was not injected: check your FXML file 'signuppagecatan (1).fxml'.";
+    void addPlayerAI(MouseEvent event) throws IOException {
+        System.out.println("addPlayerAI called");
 
+        addPlayer(true);
     }
 
+    private void addPlayer(boolean isAI) throws IOException {
+        System.out.println("Works Submit");
+        String tempPlayerName = PlayerNameTextField.getText();
+        Colour tempPlayerColour = PlayerColourDropDownList.getValue();
+
+        if (!isAI && tempPlayerName.trim().isEmpty()) {
+            System.out.println("Please enter a player name");
+            PlayerNameNotEntered.setVisible(true);
+            return;
+        }
+
+        if (isAI) {
+            tempPlayerName += " (AI)";
+        }
+
+        for (Player player : players) {
+            if (player.getPlayerName().equals(tempPlayerName)) {
+                System.out.println("Player name already exists");
+                PlayerNameWarning.setVisible(true);
+                return;
+            }
+        }
+
+        if (PlayerColourDropDownList.getSelectionModel().isEmpty()) {
+            System.out.println("Please select a colour");
+            ColourPickWarning.setVisible(true);
+            return;
+        } else {
+            Player newPlayer = new Player(tempPlayerName, tempPlayerColour);
+            newPlayer.setAi(isAI);
+            players.add(newPlayer);
+        }
+
+        PlayerNameWarning.setVisible(false);
+        ColourPickWarning.setVisible(false);
+        PlayerNameNotEntered.setVisible(false);
+        PlayerNameTextField.setText(""); // Resets the Text field to empty, regardless of player type (human or AI)
+
+//        if (!isAI) {
+//            PlayerNameTextField.setText("");
+//        }
+        for (Player player : players) {
+            System.out.println("Players in the Game: " + player.getPlayerName() + " (" + player.getPlayerColour() + ")");
+        }
+        PlayerColourDropDownList.getItems().remove(tempPlayerColour);
+    }
+
+    public void submitBTN(MouseEvent event) throws IOException {
+            FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/com/settlers/demotesty/test.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) submitButton.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+        System.out.println("submitBTN called");
+
+        System.out.println(players.size());
+    }
 }

@@ -22,42 +22,36 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class Player {
+    private boolean isAi;
 
     //Default starting amounts for players
-    private  int CITIES = 0;
-    private  int SETTLEMENTS = 0;
-    private  int ROADS = 0;
+    private int CITIES = 0;
+    private int SETTLEMENTS = 0;
+    private int ROADS = 0;
     //Player fields
     private Colour playerColour;
     private String playerName;
     private int Roads;
+    private int Settlements;
 
     private boolean addCity;
     private boolean addSettlement;
     private boolean addRoad;
     private boolean isPlaying;
-    private HashMap<ImageView,Colour> addedSettlements;
-    private HashMap<ImageView,Colour> addedCities;
-    private  HashMap<String,Integer> resources;
-//    private HashMap<ImageView, List<Point2D>> nearestHexes;
+    private HashMap<ImageView, Colour> addedSettlements;
+    private HashMap<ImageView, Colour> addedCities;
+    private HashMap<String, Integer> resources;
 
-//    private List<Polygon> nearestHexes;
-
-//    private  HashMap<String,Polygon> nearestHexes;
-    //                 K        V
     private HashMap<String, ArrayList<Polygon>> nearestHexes = new HashMap<>();
-//    private HashMap<String, Color> settlementColors = new HashMap<>(); // Add this line to create a new hashmap for storing settlement colors
-
-
 
     /**
-    * Create a player: assign name, colour and create ArrayLists of cities, settlements, and roads.
-//    * @param String name, Colour colour
-    */
+     * Create a player: assign name, colour and create ArrayLists of cities, settlements, and roads.
+     * //    * @param String name, Colour colour
+     */
     public Player(String name, Colour colour) {
         playerName = name;
         playerColour = colour;
-        Roads =0;
+        Roads = 0;
         addRoad = false;
         addCity = false;
         addSettlement = false;
@@ -71,11 +65,28 @@ public class Player {
         this.resources.put("wool", 0);
         this.resources.put("wood", 0);
         this.nearestHexes = new HashMap<>();
+        isAi = false;
 
 
     }
 
+    public int getSettlements() {
+        return Settlements;
+    }
 
+    public void setSettlements() {
+        if (Settlements != 14) {
+            Settlements++;
+        }
+    }
+
+    public boolean isAi() {
+        return isAi;
+    }
+
+    public void setAi(boolean ai) {
+        isAi = ai;
+    }
 
     public HashMap<String, ArrayList<Polygon>> getNearestHexes() {
         return nearestHexes;
@@ -92,24 +103,23 @@ public class Player {
     public void setAddedSettlements(HashMap<ImageView, Colour> addedSettlements) {
         this.addedSettlements = addedSettlements;
     }
-public void printNearestHexes() {
-    System.out.println("Nearest Hexes:");
 
-    // Sort the nearestHexes map by keys
-    Map<String, ArrayList<Polygon>> sortedNearestHexes = new TreeMap<>(nearestHexes);
+    public void printNearestHexes() {
+        System.out.println("Nearest Hexes:");
 
-    for (Map.Entry<String, ArrayList<Polygon>> entry : sortedNearestHexes.entrySet()) {
-        String key = entry.getKey();
-        List<Polygon> polygons = entry.getValue();
-        System.out.println("Key: " + key);
-        System.out.println("Polygons:");
-        for (Polygon polygon : polygons) {
-            System.out.println(polygon);
+        // Sort the nearestHexes map by keys
+        Map<String, ArrayList<Polygon>> sortedNearestHexes = new TreeMap<>(nearestHexes);
+
+        for (Map.Entry<String, ArrayList<Polygon>> entry : sortedNearestHexes.entrySet()) {
+            String key = entry.getKey();
+            List<Polygon> polygons = entry.getValue();
+            System.out.println("Key: " + key);
+            System.out.println("Polygons:");
+            for (Polygon polygon : polygons) {
+                System.out.println(polygon);
+            }
         }
     }
-}
-
-
 
 
     public HashMap<String, Integer> getResources() {
@@ -160,12 +170,13 @@ public void printNearestHexes() {
         return addSettlement;
     }
 
-    public void setRoads(){
+    public void setRoads() {
         if (Roads != 14) {
             Roads++;
         }
     }
-    public int getRoads(){
+
+    public int getRoads() {
         return Roads;
     }
 
@@ -175,63 +186,14 @@ public void printNearestHexes() {
     public String getPlayerName() {
         return playerName;
     }
+
     /**
      * Get player colour
+     *
      * @return Colour colour
      */
     public Colour getPlayerColour() {
         return playerColour;
     }
-
-    /**
-     * @return cities.size()
-     */
-//    public int getNumCities() {
-//        return cities.size();
-//    }
-//    /**
-//     * @return settlements.size()
-//     */
-//    public int getNumSettlements() {
-//        return settlements.size();
-//    }
-//
-//    /**
-//     * @return roads.size()
-//     */
-//    public int getNumRoads() {
-//        return roads.size();
-//    }
-
-    /**
-     * Place road along edge of tile
-     * @param
-     */
-//    public void placeRoad() {
-//        roads.remove(0);
-//    }
-//    /**x
-//     * Place settlement on vertex of tile
-//     * @param
-//     */
-//    public void placeSettlement() {
-//        settlements.remove(0);
-//    }
-//    /**
-//     * Place city on vertex of tile (ie. Upgrade settlement)
-//     * @param
-//     */
-//    public void placeCity() {
-//        cities.remove(0);
-//    }
-//    /**
-//     * Get player score
-//     */
-//    public int getScore() {
-//        int score = 0;
-//        score += (CITIES - getNumCities()) * 2;
-//        score += SETTLEMENTS - getNumSettlements();
-//        return score;
-//    }
 }
 

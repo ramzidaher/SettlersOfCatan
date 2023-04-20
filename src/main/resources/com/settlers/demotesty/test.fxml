@@ -282,7 +282,7 @@
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fx:id="WaterHex2" fitHeight="138.0" fitWidth="120.0" layoutX="1079.0" layoutY="186.0">
+                        <ImageView fx:id="WaterHex2" fitHeight="138.0" fitWidth="120.0" layoutX="1077.0" layoutY="188.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
@@ -621,13 +621,13 @@
                         <Button fx:id="QuitGame" layoutX="1724.0" layoutY="166.0" mnemonicParsing="false" onAction="#handleQuitGame" styleClass="exit-button" text="Quit Game" />
                   <ImageView fx:id="RoberImage" fitHeight="80.0" fitWidth="46.0" layoutX="941.0" layoutY="515.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Images%20for%20the%20game/Untitled-removebg-preview%20(1).png" />
+                        <Image url="@../../../Images%20for%20the%20game/Untitled-removebg-preview.png" />
                      </image>
                   </ImageView>
                   <Group layoutX="1698.0" layoutY="222.2919921875">
                      <children>
-                              <Text layoutX="61.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="activity-title" text="Activity" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutY="26.7080078125" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+                              <Text layoutX="76.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="activity-title" text="Activity" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutX="1.0" layoutY="28.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
                         <Text fx:id="changeRobberMsg" fill="#ff7777" layoutX="17.0" layoutY="39.7080078125" strokeType="OUTSIDE" strokeWidth="0.0" text="Change the position of the robber by clicking on the designated Hex" visible="false" wrappingWidth="166.2509765625" />
                         <Text fx:id="pickPlayerMsg" fill="#ff7777" layoutX="16.0" layoutY="100.64111328125" strokeType="OUTSIDE" strokeWidth="0.0" text="There are multiple players with settlements on this hex. Choose which player to steal from" visible="false" wrappingWidth="166.2509765625" />
                      </children>
