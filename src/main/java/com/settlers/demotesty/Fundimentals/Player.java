@@ -1,14 +1,5 @@
-package com.settlers.demotesty.Fundimentals; /**
+package com.settlers.demotesty.Fundimentals;
 
-* Class to represent a Player in the Settlers game.
- * --- to finish:
- * --- getScore()
- * --- placeRoad()
- * --- placeSettlement()
- * --- placeCity()
- * @version 1.0
- * @author Sean
-*/
 import java.util.*;
 
 import javafx.geometry.Point2D;
@@ -21,19 +12,17 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+/**
+ * Class to represent a Player in the Settlers game.
+ * @version 1.0
+ * @author Sean
+ */
 public class Player {
     private boolean isAi;
-
-    //Default starting amounts for players
-    private int CITIES = 0;
-    private int SETTLEMENTS = 0;
-    private int ROADS = 0;
-    //Player fields
     private Colour playerColour;
     private String playerName;
     private int Roads;
     private int Settlements;
-
     private boolean addCity;
     private boolean addSettlement;
     private boolean addRoad;
@@ -41,13 +30,8 @@ public class Player {
     private HashMap<ImageView, Colour> addedSettlements;
     private HashMap<ImageView, Colour> addedCities;
     private HashMap<String, Integer> resources;
+    private HashMap<String, ArrayList<Polygon>> nearestHexes;
 
-    private HashMap<String, ArrayList<Polygon>> nearestHexes = new HashMap<>();
-
-    /**
-     * Create a player: assign name, colour and create ArrayLists of cities, settlements, and roads.
-     * //    * @param String name, Colour colour
-     */
     public Player(String name, Colour colour) {
         playerName = name;
         playerColour = colour;
@@ -58,16 +42,14 @@ public class Player {
         isPlaying = false;
         addedSettlements = new HashMap<>();
         addedCities = new HashMap<>();
-        this.resources = new HashMap<>();
-        this.resources.put("brick", 0);
-        this.resources.put("grain", 0);
-        this.resources.put("ore", 0);
-        this.resources.put("wool", 0);
-        this.resources.put("wood", 0);
-        this.nearestHexes = new HashMap<>();
+        resources = new HashMap<>();
+        resources.put("brick", 0);
+        resources.put("grain", 0);
+        resources.put("ore", 0);
+        resources.put("wool", 0);
+        resources.put("wood", 0);
+        nearestHexes = new HashMap<>();
         isAi = false;
-
-
     }
 
     public int getSettlements() {
@@ -106,8 +88,6 @@ public class Player {
 
     public void printNearestHexes() {
         System.out.println("Nearest Hexes:");
-
-        // Sort the nearestHexes map by keys
         Map<String, ArrayList<Polygon>> sortedNearestHexes = new TreeMap<>(nearestHexes);
 
         for (Map.Entry<String, ArrayList<Polygon>> entry : sortedNearestHexes.entrySet()) {
@@ -120,7 +100,6 @@ public class Player {
             }
         }
     }
-
 
     public HashMap<String, Integer> getResources() {
         return resources;
@@ -196,4 +175,5 @@ public class Player {
         return playerColour;
     }
 }
+
 

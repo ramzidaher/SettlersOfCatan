@@ -3,6 +3,7 @@ package com.settlers.demotesty.Controllers;
 import com.settlers.demotesty.Fundimentals.Colour;
 import com.settlers.demotesty.Fundimentals.Player;
 import com.settlers.demotesty.Fundimentals.ResourceDeck;
+import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,11 +26,14 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static com.settlers.demotesty.Controllers.AnimationHandler.roadAnimation;
 
 
 /**
@@ -53,6 +57,7 @@ public class Board extends SignUpController  implements Initializable {
     public Text PlayerTwoResourceCounter;
     public Text PlayerThreeResourceCounter;
     public Text PlayerFourResourceCounter;
+    public ImageView CityBTN;
     @FXML
     private Text BrickCardCounter;
     @FXML
@@ -1134,6 +1139,15 @@ public class Board extends SignUpController  implements Initializable {
 
     }
 
+    public void Trade(MouseEvent event) {
+    }
+
+    public void hoverEnter(MouseEvent event) {
+    }
+
+    public void hoverExit(MouseEvent event) {
+    }
+
     public interface PlayerChoiceCallback {
         void onPlayerChosen(Player player);
     }
@@ -1370,6 +1384,8 @@ public class Board extends SignUpController  implements Initializable {
         WoolCardCounter.setText("0");
         WoodCardCounter.setText("0");
         updateResourceCounters(players.get(currentPlayerIndex));
+        changeRobberMsg.setVisible(false);
+        pickPlayerMsg.setVisible(false);
     }
 
     //does updates for each player, for when pressing the radio button and showing/hiding players
@@ -1392,24 +1408,23 @@ public class Board extends SignUpController  implements Initializable {
         }
     }
 //    //Settlement button
-    public void addSettlement(MouseEvent mouseEvent) {
-        if (currentPlayerIndex == -1) {
-            PickATurnNote.setVisible(true);
+public void addSettlement(MouseEvent mouseEvent) {
+    if (currentPlayerIndex == -1) {
+        PickATurnNote.setVisible(true);
+    } else {
+        PickATurnNote.setVisible(false);
+        Player currentPlayer = players.get(currentPlayerIndex);
+
+        // Check settlement resources when the game counter is greater than or equal to 3
+        if (gameCounter >= 3) {
+            checkResourcesForBuilding("Settlement", currentPlayer);
         } else {
-            PickATurnNote.setVisible(false);
-            Player currentPlayer = players.get(currentPlayerIndex);
-
-            // Check settlement resources when the game counter is greater than or equal to 3
-            if (gameCounter >= 3) {
-                checkResourcesForBuilding("Settlement", currentPlayer);
-            } else {
-                currentPlayer.setAddSettlement(true);
-            }
-
-            addRadioButtonListeners(currentPlayer);
+            currentPlayer.setAddSettlement(true);
         }
-    }
 
+        addRadioButtonListeners(currentPlayer);
+    }
+}
 
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -1418,56 +1433,31 @@ public class Board extends SignUpController  implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-
-
-
-
     //Handler for every radio button so each time one is pressed it replaces it by a settlement
-    private Map<Integer, Integer> settlementsAddedInRound = new HashMap<>();
-
-
-
-
-
-
-
-
     private void handleRadioButtonSettlementAction(MouseEvent event, RadioButton BTN, Player currentPlayer) {
-        if (gameCounter == 1 || gameCounter == 2) {
-            int currentSettlementsAdded = settlementsAddedInRound.getOrDefault(currentPlayerIndex, 0);
-            if (currentSettlementsAdded < 1) {
-                RadioButton radioButton = (RadioButton) event.getSource();
-                double tempX = BTN.getLayoutX();
-                double tempY = BTN.getLayoutY();
-                if (currentPlayer.isAddSettlement()) {
-                    radioButton.setVisible(false);
-                    addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
-                    settlementsAddedInRound.put(currentPlayerIndex, currentSettlementsAdded + 1);
-                    currentPlayer.setSettlements(); // Increase the number of settlements for the current player
-                } else {
-                    AnimationHandler.settlementButtonAnimation((ImageView) SettlementBTN);
-                }
-                showPlayerElements(currentPlayerIndex, currentPlayer);
-                updateRCounter(currentPlayer);
-            }
+        RadioButton radioButton = (RadioButton) event.getSource();
+        double tempX = BTN.getLayoutX();
+        double tempY = BTN.getLayoutY();
+        if (currentPlayer.isAddSettlement()) {
+            radioButton.setVisible(false);
+            addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
         } else {
-            RadioButton radioButton = (RadioButton) event.getSource();
-            double tempX = BTN.getLayoutX();
-            double tempY = BTN.getLayoutY();
-            if (currentPlayer.isAddSettlement()) {
-                radioButton.setVisible(false);
-                addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
-                currentPlayer.setSettlements(); // Increase the number of settlements for the current player
-            } else {
-                AnimationHandler.settlementButtonAnimation((ImageView) SettlementBTN);
-            }
-            showPlayerElements(currentPlayerIndex, currentPlayer);
-            updateRCounter(currentPlayer);
+            ImageView settlementButton = (ImageView) SettlementBTN;
+            playSettlementAnimation(settlementButton);
         }
+        showPlayerElements(currentPlayerIndex,currentPlayer);
     }
 
-
+    private void playSettlementAnimation(ImageView settlementButton) {
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(300), settlementButton);
+        scaleTransition.setFromX(1);
+        scaleTransition.setFromY(1);
+        scaleTransition.setToX(1.2);
+        scaleTransition.setToY(1.2);
+        scaleTransition.setAutoReverse(true);
+        scaleTransition.setCycleCount(2);
+        scaleTransition.play();
+    }
 
 
     //Main method handler when adding a settlement it gives resources depending on that
@@ -1501,7 +1491,29 @@ public class Board extends SignUpController  implements Initializable {
         double yy = imageView.getLayoutY();
 
         findNearestHexes(x, y, currentPlayer, imageView);
+
+        // Decrement resources if gameCounter is 3 or above
+        if (gameCounter >= 3) {
+            int currentWood = currentPlayer.getResources().get("wood");
+            int currentBrick = currentPlayer.getResources().get("brick");
+            int currentGrain = currentPlayer.getResources().get("grain");
+            int currentWool = currentPlayer.getResources().get("wool");
+
+            if (currentWood >= 1 && currentBrick >= 1 && currentGrain >= 1 && currentWool >= 1) {
+                currentPlayer.getResources().put("wood", currentWood - 1);
+                currentPlayer.getResources().put("brick", currentBrick - 1);
+                currentPlayer.getResources().put("grain", currentGrain - 1);
+                currentPlayer.getResources().put("wool", currentWool - 1);
+                System.out.println("Wood, brick, grain, and wool resources decremented by 1.");
+            } else {
+                System.out.println("Cannot decrement resources. Not enough wood, brick, grain, or wool resources.");
+            }
+        }
+
+        updateRCounter(currentPlayer);
+        updateResourceCounters(currentPlayer);
     }
+
 
     //Gives resources to player when he adds a settlement only in round two
     private void addResourcesFromSettlement(Player currentPlayer, ArrayList<Polygon> polygons) {
@@ -1641,6 +1653,7 @@ public class Board extends SignUpController  implements Initializable {
     }
 
     //Mouse Handler when pressing the road button
+    //Mouse Handler when pressing the road button
     public void addRoad(MouseEvent mouseEvent) {
         if (currentPlayerIndex == -1) {
             PickATurnNote.setVisible(true);
@@ -1675,17 +1688,31 @@ public class Board extends SignUpController  implements Initializable {
     }
 
     private void checkCityResources(Player currentPlayer) {
+        if (hasCityResources(currentPlayer)) {
+            currentPlayer.setAddCity(true);
+            System.out.println("You have enough resources to build a city!");
+        } else {
+            currentPlayer.setAddCity(false);
+            System.out.println("You don't have enough resources to build a city.");
+        }
     }
 
+    private boolean hasCityResources(Player currentPlayer) {
+        return currentPlayer.getResources().get("grain") >= 2 && currentPlayer.getResources().get("ore") >= 3;
+    }
     private void checkSettlementResources(Player currentPlayer) {
-        if (currentPlayer.getResources().get("wood") >= 1 && currentPlayer.getResources().get("brick") >= 1
-                && currentPlayer.getResources().get("grain") >= 1 && currentPlayer.getResources().get("wool") >= 1) {
+        if (hasSettlementResources(currentPlayer)) {
             currentPlayer.setAddSettlement(true);
             System.out.println("You have enough resources to build a settlement!");
         } else {
             currentPlayer.setAddSettlement(false);
             System.out.println("You don't have enough resources to build a settlement.");
         }
+    }
+
+    private boolean hasSettlementResources(Player currentPlayer) {
+        return currentPlayer.getResources().get("wood") >= 1 && currentPlayer.getResources().get("brick") >= 1
+                && currentPlayer.getResources().get("grain") >= 1 && currentPlayer.getResources().get("wool") >= 1;
     }
 
 
@@ -1706,15 +1733,18 @@ public class Board extends SignUpController  implements Initializable {
             return;
         }
         Player currentPlayer = players.get(currentPlayerIndex);
-        if (!currentPlayer.isPlaying() || !currentPlayer.isAddRoad()) {
-            roadAnimation();
+
+        // Check if setAddRoad is true for the current player
+        if (!currentPlayer.isAddRoad()) {
+            System.out.println("setAddRoad is not true for the current player");
             return;
         }
-        int maxRoadsPerRound = gameCounter % 2 == 1 ? 1 : 2;
-        if (currentPlayer.getRoads() >= maxRoadsPerRound) {
-            // If the player has already placed the allowed number of roads in this round, don't allow them to place another one
+
+        if (!currentPlayer.isPlaying()) {
+            playRoadAnimation((ImageView) RoadBTN);
             return;
         }
+
         clickedRoad.setFill(currentPlayer.getPlayerColour().getFxColor());
 
         clickedRoad.setUserData("used");
@@ -1722,7 +1752,38 @@ public class Board extends SignUpController  implements Initializable {
         updateLongestRoadLabel(currentPlayer);
 
         currentPlayer.setRoads();
+
+        // Decrement wood and brick if the player has placed 3 or more roads
+        if (currentPlayer.getRoads() >= 3) {
+            int currentWood = currentPlayer.getResources().get("wood");
+            int currentBrick = currentPlayer.getResources().get("brick");
+
+            if (currentWood >= 1 && currentBrick >= 1) {
+                currentPlayer.getResources().put("wood", currentWood - 1);
+                currentPlayer.getResources().put("brick", currentBrick - 1);
+                System.out.println("Wood and brick resources decremented by 1.");
+            } else {
+                System.out.println("Cannot decrement resources. Not enough wood or brick resources.");
+            }
+        }
+        updateRCounter(currentPlayer);
+        updateResourceCounters(currentPlayer);
     }
+
+
+    private void playRoadAnimation(ImageView roadButton) {
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(300), roadButton);
+        scaleTransition.setFromX(1);
+        scaleTransition.setFromY(1);
+        scaleTransition.setToX(1.2);
+        scaleTransition.setToY(1.2);
+        scaleTransition.setAutoReverse(true);
+        scaleTransition.setCycleCount(2);
+        scaleTransition.play();
+    }
+
+
+
     private void updateLongestRoadLabel(Player currentPlayer) {
         if (currentPlayerIndex == 0) {
             PlayerOneLongestRoad.setText("Longest Road: " + String.valueOf(currentPlayer.getRoads()));
@@ -1735,6 +1796,7 @@ public class Board extends SignUpController  implements Initializable {
         }
     }
 
+
     //Mouse handler for when adding a city
     public void addCity(MouseEvent mouseEvent) {
         if (currentPlayerIndex == -1) {
@@ -1745,19 +1807,50 @@ public class Board extends SignUpController  implements Initializable {
             Player currentPlayer = players.get(currentPlayerIndex);
             System.out.println(currentPlayer.getPlayerName() + currentPlayer.getAddedSettlements());
             System.out.println(currentPlayer.getPlayerName() + currentPlayer.getAddedCities());
-            for (Map.Entry<ImageView, Colour> entry : currentPlayer.getAddedSettlements().entrySet()) {
-                ImageView image = entry.getKey();
-                Colour colour = entry.getValue();
-                currentPlayer.setAddSettlement(true);
-                if (entry.getValue().equals(currentPlayer.getPlayerColour())) {
-                    image.setOnMouseClicked(event -> addCityHandler(event, image, currentPlayer));
-                } else {
-                    System.out.println("Not the right colour player");
+
+            // Check if the game counter is 3 or above before checking resources and allowing a city to be built
+            if (gameCounter >= 3) {
+                checkCityResources(currentPlayer);
+
+                for (Map.Entry<ImageView, Colour> entry : currentPlayer.getAddedSettlements().entrySet()) {
+                    ImageView image = entry.getKey();
+                    Colour colour = entry.getValue();
+                    currentPlayer.setAddSettlement(true);
+                    if (entry.getValue().equals(currentPlayer.getPlayerColour())) {
+                        image.setOnMouseClicked(event -> {
+                            // Check if the player is allowed to build a city before proceeding
+                            if (currentPlayer.isAddCity()) {
+                                addCityHandler(event, image, currentPlayer);
+
+                                // Decrement 2 grains and 3 ores
+                                int currentGrain = currentPlayer.getResources().get("grain");
+                                int currentOre = currentPlayer.getResources().get("ore");
+
+                                if (currentGrain >= 2 && currentOre >= 3) {
+                                    currentPlayer.getResources().put("grain", currentGrain - 2);
+                                    currentPlayer.getResources().put("ore", currentOre - 3);
+                                    System.out.println("Grain and ore resources decremented.");
+                                    updateRCounter(currentPlayer);
+                                    updateResourceCounters(currentPlayer);
+                                } else {
+                                    System.out.println("Cannot decrement resources. Not enough grain or ore resources.");
+                                }
+                            } else {
+                                System.out.println("Not enough resources to build a city.");
+                            }
+                        });
+                    } else {
+                        System.out.println("Not the right colour player");
+                    }
                 }
+            } else {
+                System.out.println("You can only build a city starting from round 3.");
             }
         }
-
     }
+
+
+
     //Handler for when adding a city, changes the settlement to an image
     private void addCityHandler(MouseEvent event, ImageView image, Player currentPlayer) {
         System.out.println("HI works");
@@ -1768,9 +1861,10 @@ public class Board extends SignUpController  implements Initializable {
             image.setVisible(false);
             addImageCity(currentPlayer.getPlayerColour(), tempX, tempY);
         } else {
-            AnimationHandler.settlementButtonAnimation((ImageView) SettlementBTN);
+            playSettlementAnimation((ImageView) SettlementBTN);
         }
     }
+
     //Adds a city image  in the position of the settlement
     private void addImageCity(Colour colour, double x, double y) {
         Image image;
@@ -1802,19 +1896,19 @@ public class Board extends SignUpController  implements Initializable {
         anchorPane.getChildren().add(imageView);
     }
     //Simple animation for the buttons
-    public void hoverEnter(MouseEvent mouseEvent) {
-        ImageView imageView = (ImageView) mouseEvent.getSource();
-        AnimationHandler.hoverEnter(imageView);
-    }
-
-    public void hoverExit(MouseEvent mouseEvent) {
-        ImageView imageView = (ImageView) mouseEvent.getSource();
-        AnimationHandler.hoverExit(imageView);
-    }
-    public void roadAnimation() {
-        ImageView imageView = (ImageView) RoadBTN;
-        AnimationHandler.roadAnimation(imageView);
-    }
+//    public void hoverEnter(MouseEvent mouseEvent) {
+//        ImageView imageView = (ImageView) mouseEvent.getSource();
+//        AnimationHandler.hoverEnter(imageView);
+//    }
+//
+//    public void hoverExit(MouseEvent mouseEvent) {
+//        ImageView imageView = (ImageView) mouseEvent.getSource();
+//        AnimationHandler.hoverExit(imageView);
+//    }
+//    public void roadAnimation() {
+//        ImageView imageView = (ImageView) RoadBTN;
+//        AnimationHandler.roadAnimation(imageView);
+//    }
 
     //Hide elements for each player
     private void hideAllPlayerElements() {
