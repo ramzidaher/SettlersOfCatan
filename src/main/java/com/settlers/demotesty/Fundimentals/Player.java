@@ -51,7 +51,27 @@ public class Player {
         nearestHexes = new HashMap<>();
         isAi = false;
     }
+//    public ArrayList<Card> getResourceCard() {
+//        ArrayList<Card> resourceCards = new ArrayList<>();
+//        for (Map.Entry<String, Integer> entry : resources.entrySet()) {
+//            String key = entry.getKey();
+//            int value = entry.getValue();
+//            for (int i = 0; i < value; i++) {
+//                resourceCards.add(new Card(key));
+//            }
+//        }
+//        return resourceCards;
+//    }
 
+    public Card getResourceCard(String type) {
+        Integer count = resources.get(type);
+        Card card = null;
+        if (count != 0) {
+            resources.put(type, count - 1);
+            card = new Card(type);
+        }
+        return card;
+    }
     public int getSettlements() {
         return Settlements;
     }

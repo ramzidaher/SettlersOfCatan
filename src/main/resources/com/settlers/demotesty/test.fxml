@@ -36,7 +36,7 @@
                                 <Text fx:id="DiceOutCome" layoutX="182.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dice OutCome: " />
                             </children>
                         </AnchorPane>
-                        <Button layoutX="1566.0" layoutY="810.0" mnemonicParsing="false" onMouseClicked="#roll" styleClass="button-modern" text="Roll Dice">
+                        <Button fx:id="DiceRollBTN" layoutX="1566.0" layoutY="810.0" mnemonicParsing="false" onMouseClicked="#roll" styleClass="button-modern" text="Roll Dice">
                             <font>
                                 <Font name="DejaVu Serif Condensed Bold" size="26.0" />
                             </font>

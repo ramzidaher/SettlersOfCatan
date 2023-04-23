@@ -131,4 +131,8 @@ public class SignUpController implements Initializable {
 
         System.out.println(players.size());
     }
+    public static ArrayList<Player> getPlayers() {
+        return players;
+    }
+
 }

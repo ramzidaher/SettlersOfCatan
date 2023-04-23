@@ -7,10 +7,13 @@ import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
@@ -25,9 +28,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
@@ -58,6 +63,8 @@ public class Board extends SignUpController  implements Initializable {
     public Text PlayerThreeResourceCounter;
     public Text PlayerFourResourceCounter;
     public ImageView CityBTN;
+    public Button TradeBTN;
+    public Button DiceRollBTN;
     @FXML
     private Text BrickCardCounter;
     @FXML
@@ -707,7 +714,7 @@ public class Board extends SignUpController  implements Initializable {
     ArrayList<Double> yCoordText = new ArrayList<>();
     ArrayList<Double> xCoordRadioBTN = new ArrayList<>();
     ArrayList<Double> yCoordRadioBTN = new ArrayList<>();
-    private int currentPlayerIndex = -1;
+    private static int currentPlayerIndex = -1;
     private boolean isRobberMoveAllowed = false;
 
 
@@ -972,7 +979,9 @@ public class Board extends SignUpController  implements Initializable {
             yCoordinatesCopy.remove(randomIndex);
         }
     }
-
+//    public static ArrayList<Player> getPlayers() {
+//        return players;
+//    }
 
     private double getHexDesertX() {
         return hexagonsById.get("HexDesert").getLayoutX();
@@ -1139,7 +1148,19 @@ public class Board extends SignUpController  implements Initializable {
 
     }
 
-    public void Trade(MouseEvent event) {
+    public void Trade(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(WelcomeController.class.getResource("/com/settlers/demotesty/tradeNew.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+
+        Stage newStage = new Stage();
+        newStage.setScene(scene);
+        newStage.initModality(Modality.APPLICATION_MODAL); // set modality to block input events to other windows
+        newStage.show();
+    }
+
+    public static int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
     }
 
     public void hoverEnter(MouseEvent event) {
@@ -1363,6 +1384,7 @@ public class Board extends SignUpController  implements Initializable {
 
     //Mouse Handler that switch players, each time changing the resource counter for each player's resources that he has
     public void NextPlayer(MouseEvent mouseEvent) {
+        System.out.println(currentPlayerIndex);
         if (players.isEmpty()) {
             System.out.println("The players list is empty!");
             return;

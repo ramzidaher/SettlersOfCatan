@@ -1,0 +1,42 @@
+#offers {
+    -fx-padding: 10 0;
+    -fx-alignment: center-left;
+    -fx-background-color: #f2f2f2;
+}
+
+#offers Text {
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+}
+
+#offers ImageView {
+    -fx-padding: 0 10;
+}
+
+.grid-pane {
+    -fx-padding: 20;
+    -fx-hgap: 20;
+    -fx-vgap: 20;
+    -fx-background-color: #f2f2f2;
+}
+
+#p1, #p2, #p3 {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+}
+
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-pref-width: 131;
+}
+
+#playerOneAcceptButton, #playerTwoAcceptButton, #playerThreeAcceptButton {
+    -fx-background-color: #4CAF50;
+}
+
+#playerOneRejectButton, #playerTwoRejectButton, #playerThreeRejectButton {
+    -fx-background-color: #f44336;
+}

@@ -14,35 +14,23 @@
 // * @version 1.0 13.04.2023
 // */
 //public class Trade {
-//    private int currentPlayer; // current player is the one making the trade
-//    private List<Player> players;
+//    private Player currentPlayer; // current player is the one making the trade
+//    private List<Player> accepting;
 //    private List<Card> requestedCards;
 //    private List<Card> offeredCards;
-//    private List<Player> acceptedPlayers;
-//    private int complete;
 //
 //    /**
 //     * Construct a trade between players
-//     * @param currentPlayerIndex - player making the offer
-//     * @param players - players
+//     * @param offering - player making the offer
+//     * @param accepting - player accepting the offer
 //     * @param requested - cards requested by the player
 //     * @param offered - cards offer by the player
 //     */
-//    public Trade(int currentPlayerIndex, ArrayList<Player> players, List<Card> requested, List<Card> offered) {
-//        this.currentPlayer = currentPlayerIndex;
-//        this.players = players;
+//    public Trade(Player offering, ArrayList<Player> accepting, List<Card> requested, List<Card> offered) {
+//        this.currentPlayer = offering;
+//        this.accepting = accepting;
 //        this.requestedCards = requested;
 //        this.offeredCards = offered;
-//        this.acceptedPlayers = new ArrayList<>();
-//    }
-//
-//    /**
-//     * Method to add players who accept the trade to a list
-//     * @param accepted - player who accepted the trade
-//     */
-//    public void accept(Player accepted) {
-//        acceptedPlayers.add(accepted);
-//        complete++;
 //    }
 //
 //    /**
@@ -51,26 +39,19 @@
 //     */
 //    public void tradeCards() {
 //        // if at least one player accepted
-//        if (acceptedPlayers.size() > 0) {
+//        if (accepting.size() > 0) {
+//            // take resource cards from accepted player
+//            for (Card request : requestedCards) {
+//                accepting.get(0).getResourceCard(request.toString());
+//            }
 //            // player making offer receives cards from other player
 //            for (Card card : requestedCards) {
-//                players.get(currentPlayer).addResCard(card);
+//                currentPlayer.addResourceCard(card);
 //            }
 //            // player accepting offer receives cards from other player
 //            for (Card card : offeredCards) {
-//                acceptedPlayers.get(0).addResCard(card);
+//                accepting.get(0).addResourceCard(card);
 //            }
 //        }
 //    }
-//
-//    /**
-//     * If player rejects offer increment complete counter,
-//     * - for checking if all players have made a decision
-//     */
-//    public void reject() {
-//        complete++;
-//        //TODO update for GUI
-//        System.out.println("Offer rejected.");
-//    }
-//
 //}
