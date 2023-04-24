@@ -1,6 +1,5 @@
 package com.settlers.demotesty.Controllers;
 
-import com.settlers.demotesty.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

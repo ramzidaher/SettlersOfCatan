@@ -1,24 +1,32 @@
 package com.settlers.demotesty.Controllers;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import com.settlers.demotesty.Fundimentals.Player;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
 public class TradeController{
 
+
+    public FlowPane flowpane1;
     @FXML
     private ResourceBundle resources;
 
@@ -27,6 +35,9 @@ public class TradeController{
 
     @FXML
     private Text OfferBrickCounter;
+
+    @FXML
+    private FlowPane OfferFlowPane;
 
     @FXML
     private Text OfferGrainCounter;
@@ -77,25 +88,19 @@ public class TradeController{
     private Button TradeBTN;
 
     @FXML
-    private ImageView b1;
+    private ImageView brick;
 
     @FXML
-    private ImageView b2;
+    private ImageView brick1;
 
     @FXML
-    private ImageView g1;
+    private ImageView grain;
 
     @FXML
-    private ImageView g2;
+    private ImageView grain1;
 
     @FXML
     private Pane main;
-
-    @FXML
-    private ImageView o1;
-
-    @FXML
-    private ImageView o2;
 
     @FXML
     private ImageView offerImage1;
@@ -113,42 +118,86 @@ public class TradeController{
     private ImageView offerImage5;
 
     @FXML
+    private ImageView ore;
+
+    @FXML
+    private ImageView ore1;
+
+    @FXML
     private Label requestMessage;
 
     @FXML
     private Label requestMessage1;
 
     @FXML
-    private ImageView w1;
+    private ImageView wood;
 
     @FXML
-    private ImageView w2;
+    private ImageView wood1;
 
     @FXML
-    private ImageView wl1;
+    private ImageView wool;
 
     @FXML
-    private ImageView wl2;
+    private ImageView wool1;
+    static HashMap<ImageView, String> imageResourceTypeOffer = new HashMap<>();
+    HashMap<ImageView, String> imageResourceTypeRequest = new HashMap<>();
 
 
     @FXML
     void Reset(MouseEvent event) {
-
+        returnResourcesToPlayer();
+        resetOfferImages();
+        updateOfferImages();
     }
+
+    private void returnResourcesToPlayer() {
+        Player currentPlayer = players.get(Board.getCurrentPlayerIndex());
+        HashMap<String, Integer> resources = currentPlayer.getResources();
+
+        for (ImageView offerImage : OfferImages) {
+            if (offerImage.isVisible() && offerImage.getImage() != null) {
+                String resourceType = getResourceTypeFromImage(offerImage.getImage());
+                if (resourceType != null) {
+                    resources.put(resourceType, resources.get(resourceType) + 1);
+                }
+            }
+        }
+    }
+
+    private String getResourceTypeFromImage(Image image) {
+        if (image == null) return null;
+
+        for (Map.Entry<ImageView, String> entry : imageResourceTypeOffer.entrySet()) {
+            if (entry.getKey().getImage().equals(image)) {
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
     ArrayList<Player> players = SignUpController.getPlayers();
     private ArrayList<ImageView> OfferImages = new ArrayList<>();
+    private ArrayList<ImageView> RequestImage = new ArrayList<>();
     private ArrayList<ImageView> ResourceOfferImages = new ArrayList<>();
+    HashMap<ImageView, String> imageRequestType = new HashMap<>();
 
+    private ArrayList<ImageView> RequestImages = new ArrayList<>();
+    ArrayList<ImageView> ResourceRequestImages = new ArrayList<>();
 
-
-//    @FXML
-//    void TradeRequest(MouseEvent event) {
-//        System.out.println(players.get(0).getResources().get("Brick"));
-//    }
+    static ArrayList<ImageView> requestedImages = new ArrayList<>();
+    static ArrayList<ImageView> offeredImages = new ArrayList<>();
+    private void resetOfferImages() {
+        for (ImageView offerImage : OfferImages) {
+            offerImage.setVisible(false);
+            offerImage.setImage(null);
+        }
+    }
 
     @FXML
     void initialize() {
         assert OfferBrickCounter != null : "fx:id=\"OfferBrickCounter\" was not injected: check your FXML file 'tradeNew.fxml'.";
+        assert OfferFlowPane != null : "fx:id=\"OfferFlowPane\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert OfferGrainCounter != null : "fx:id=\"OfferGrainCounter\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert OfferOreCounter != null : "fx:id=\"OfferOreCounter\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert OfferWoodCounter != null : "fx:id=\"OfferWoodCounter\" was not injected: check your FXML file 'tradeNew.fxml'.";
@@ -165,66 +214,140 @@ public class TradeController{
         assert RequestWoolCounter != null : "fx:id=\"RequestWoolCounter\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert ResetBTN != null : "fx:id=\"ResetBTN\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert TradeBTN != null : "fx:id=\"TradeBTN\" was not injected: check your FXML file 'tradeNew.fxml'.";
-        assert b1 != null : "fx:id=\"b1\" was not injected: check your FXML file 'tradeNew.fxml'.";
-        assert b2 != null : "fx:id=\"b2\" was not injected: check your FXML file 'tradeNew.fxml'.";
-        assert g1 != null : "fx:id=\"g1\" was not injected: check your FXML file 'tradeNew.fxml'.";
-        assert g2 != null : "fx:id=\"g2\" was not injected: check your FXML file 'tradeNew.fxml'.";
+        assert brick != null : "fx:id=\"brick\" was not injected: check your FXML file 'tradeNew.fxml'.";
+        assert brick1 != null : "fx:id=\"brick1\" was not injected: check your FXML file 'tradeNew.fxml'.";
+        assert grain != null : "fx:id=\"grain\" was not injected: check your FXML file 'tradeNew.fxml'.";
+        assert grain1 != null : "fx:id=\"grain1\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert main != null : "fx:id=\"main\" was not injected: check your FXML file 'tradeNew.fxml'.";
-        assert o1 != null : "fx:id=\"o1\" was not injected: check your FXML file 'tradeNew.fxml'.";
-        assert o2 != null : "fx:id=\"o2\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert offerImage1 != null : "fx:id=\"offerImage1\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert offerImage2 != null : "fx:id=\"offerImage2\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert offerImage3 != null : "fx:id=\"offerImage3\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert offerImage4 != null : "fx:id=\"offerImage4\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert offerImage5 != null : "fx:id=\"offerImage5\" was not injected: check your FXML file 'tradeNew.fxml'.";
+        assert ore != null : "fx:id=\"ore\" was not injected: check your FXML file 'tradeNew.fxml'.";
+        assert ore1 != null : "fx:id=\"ore1\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert requestMessage != null : "fx:id=\"requestMessage\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert requestMessage1 != null : "fx:id=\"requestMessage1\" was not injected: check your FXML file 'tradeNew.fxml'.";
-        assert w1 != null : "fx:id=\"w1\" was not injected: check your FXML file 'tradeNew.fxml'.";
-        assert w2 != null : "fx:id=\"w2\" was not injected: check your FXML file 'tradeNew.fxml'.";
-        assert wl1 != null : "fx:id=\"wl1\" was not injected: check your FXML file 'tradeNew.fxml'.";
-        assert wl2 != null : "fx:id=\"wl2\" was not injected: check your FXML file 'tradeNew.fxml'.";
+        assert wood != null : "fx:id=\"wood\" was not injected: check your FXML file 'tradeNew.fxml'.";
+        assert wood1 != null : "fx:id=\"wood1\" was not injected: check your FXML file 'tradeNew.fxml'.";
+        assert wool != null : "fx:id=\"wool\" was not injected: check your FXML file 'tradeNew.fxml'.";
+        assert wool1 != null : "fx:id=\"wool1\" was not injected: check your FXML file 'tradeNew.fxml'.";
+
+        updateOfferImages();
 
         //////////////////////////////
-        OfferBrickCounter.setText(String.valueOf(players.get(Board.getCurrentPlayerIndex()).getResources().get("brick")));
-        OfferGrainCounter.setText(String.valueOf(players.get(Board.getCurrentPlayerIndex()).getResources().get("grain")));
-        OfferOreCounter.setText(String.valueOf(players.get(Board.getCurrentPlayerIndex()).getResources().get("ore")));
-        OfferWoodCounter.setText(String.valueOf(players.get(Board.getCurrentPlayerIndex()).getResources().get("wood")));
-        OfferWoolCounter.setText(String.valueOf(players.get(Board.getCurrentPlayerIndex()).getResources().get("wool")));
+
 
         OfferImages.add(offerImage1);
         OfferImages.add(offerImage2);
         OfferImages.add(offerImage3);
         OfferImages.add(offerImage4);
         OfferImages.add(offerImage5);
-        for (ImageView idk:OfferImages){
+        for (ImageView idk : OfferImages) {
             idk.setVisible(false);
         }
         setupResourceOfferImages();
-
-//        ResourceOfferImages.add(b1);
-//        ResourceOfferImages.add(g1);
-//        ResourceOfferImages.add(w1);
-//        ResourceOfferImages.add(o1);
-//        ResourceOfferImages.add(wl1);
-
-
-
+        RequestImage.add(RequestImage1);
+        RequestImage.add(RequestImage2);
+        RequestImage.add(RequestImage3);
+        RequestImage.add(RequestImage4);
+        RequestImage.add(RequestImage5);
+        for (ImageView test : RequestImage) {
+            test.setVisible(false);
+        }
+        setupResourceRequestImages();
 
     }
 
 
+    private void updateOfferImages() {
+        OfferBrickCounter.setText(String.valueOf(players.get(Board.getCurrentPlayerIndex()).getResources().get("brick")));
+        OfferGrainCounter.setText(String.valueOf(players.get(Board.getCurrentPlayerIndex()).getResources().get("grain")));
+        OfferOreCounter.setText(String.valueOf(players.get(Board.getCurrentPlayerIndex()).getResources().get("ore")));
+        OfferWoodCounter.setText(String.valueOf(players.get(Board.getCurrentPlayerIndex()).getResources().get("wood")));
+        OfferWoolCounter.setText(String.valueOf(players.get(Board.getCurrentPlayerIndex()).getResources().get("wool")));
+    }
 
+    private void setupResourceRequestImages() {
+        ArrayList<ImageView> ResourceOfferImages = new ArrayList<>();
 
+        ResourceOfferImages.add(brick1);
+        ResourceOfferImages.add(grain1);
+        ResourceOfferImages.add(wood1);
+        ResourceOfferImages.add(ore1);
+        ResourceOfferImages.add(wool1);
+
+        imageResourceTypeRequest.put(brick1, "brick");
+        imageResourceTypeRequest.put(grain1, "grain");
+        imageResourceTypeRequest.put(wood1, "wood");
+        imageResourceTypeRequest.put(ore1, "ore");
+        imageResourceTypeRequest.put(wool1, "wool");
+
+        EventHandler<MouseEvent> imageViewClickHandler1 = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    ImageView clickedImageView = (ImageView) event.getSource();
+                    System.out.println("ImageView clicked: " + clickedImageView.getId());
+
+                    String resourceType = imageResourceTypeOffer.get(clickedImageView);
+                    Player currentPlayer = players.get(Board.getCurrentPlayerIndex());
+
+//                    if (currentPlayer.getResources().get(resourceType) > 0) {
+                    ImageView nextAvailableOfferImage = getNextAvailableRequestImage();
+                    if (nextAvailableOfferImage != null) {
+                        nextAvailableOfferImage.setImage(clickedImageView.getImage());
+                        nextAvailableOfferImage.setVisible(true);
+                        requestedImages.add(nextAvailableOfferImage);
+//                        addRequestedImage(nextAvailableOfferImage);
+
+//                            currentPlayer.getResources().put(resourceType, currentPlayer.getResources().get(resourceType) - 1);
+                    }
+                    updateOfferImages();
+                } else {
+                    System.out.println("Player does not have enough resources of type: ");
+                }
+            }
+
+        };
+
+        for (ImageView imageView : ResourceOfferImages) {
+            imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, imageViewClickHandler1);
+        }
+    }
+    public void addRequestedImage(ImageView imageView) {
+        requestedImages.add(imageView);
+    }
+
+    // Add a method to add an offered image
+    public void addOfferedImage(ImageView imageView) {
+        offeredImages.add(imageView);
+    }
+
+    // Add a method to get the requested images list
+    public ArrayList<ImageView> getRequestedImages() {
+        return requestedImages;
+    }
+
+    // Add a method to get the offered images list
+    public ArrayList<ImageView> getOfferedImages() {
+        return offeredImages;
+    }
 
     private void setupResourceOfferImages() {
         ArrayList<ImageView> ResourceOfferImages = new ArrayList<>();
-        HashMap<ImageView, Integer> imageClickCount = new HashMap<>();
 
-        ResourceOfferImages.add(b1);
-        ResourceOfferImages.add(g1);
-        ResourceOfferImages.add(w1);
-        ResourceOfferImages.add(o1);
-        ResourceOfferImages.add(wl1);
+        ResourceOfferImages.add(brick);
+        ResourceOfferImages.add(grain);
+        ResourceOfferImages.add(wood);
+        ResourceOfferImages.add(ore);
+        ResourceOfferImages.add(wool);
+
+        imageResourceTypeOffer.put(brick, "brick");
+        imageResourceTypeOffer.put(grain, "grain");
+        imageResourceTypeOffer.put(wood, "wood");
+        imageResourceTypeOffer.put(ore, "ore");
+        imageResourceTypeOffer.put(wool, "wool");
 
         EventHandler<MouseEvent> imageViewClickHandler = new EventHandler<MouseEvent>() {
             @Override
@@ -233,47 +356,20 @@ public class TradeController{
                     ImageView clickedImageView = (ImageView) event.getSource();
                     System.out.println("ImageView clicked: " + clickedImageView.getId());
 
-                    // Increment the click count for the clicked image
-                    imageClickCount.put(clickedImageView, imageClickCount.getOrDefault(clickedImageView, 0) + 1);
+                    String resourceType = imageResourceTypeOffer.get(clickedImageView);
+                    Player currentPlayer = players.get(Board.getCurrentPlayerIndex());
 
-                    // Replace the appropriate offerImage depending on the click count
-                    int clickCount = imageClickCount.get(clickedImageView);
-                    switch (clickedImageView.getId()) {
-                        case "b1":
-                            if (clickCount <= OfferImages.size()) {
-                                ImageView offerImage = OfferImages.get(clickCount - 1);
-                                offerImage.setImage(clickedImageView.getImage());
-                                offerImage.setVisible(true);
-                            }
-                            break;
-                        case "g1":
-                            if (clickCount <= OfferImages.size()) {
-                                ImageView offerImage = OfferImages.get(clickCount - 1);
-                                offerImage.setImage(clickedImageView.getImage());
-                                offerImage.setVisible(true);
-                            }
-                            break;
-                        case "w1":
-                            if (clickCount <= OfferImages.size()) {
-                                ImageView offerImage = OfferImages.get(clickCount - 1);
-                                offerImage.setImage(clickedImageView.getImage());
-                                offerImage.setVisible(true);
-                            }
-                            break;
-                        case "o1":
-                            if (clickCount <= OfferImages.size()) {
-                                ImageView offerImage = OfferImages.get(clickCount - 1);
-                                offerImage.setImage(clickedImageView.getImage());
-                                offerImage.setVisible(true);
-                            }
-                            break;
-                        case "wl1":
-                            if (clickCount <= OfferImages.size()) {
-                                ImageView offerImage = OfferImages.get(clickCount - 1);
-                                offerImage.setImage(clickedImageView.getImage());
-                                offerImage.setVisible(true);
-                            }
-                            break;
+                    if (currentPlayer.getResources().get(resourceType) > 0) {
+                        ImageView nextAvailableOfferImage = getNextAvailableOfferImage();
+                        if (nextAvailableOfferImage != null) {
+                            nextAvailableOfferImage.setImage(clickedImageView.getImage());
+                            nextAvailableOfferImage.setVisible(true);
+                            addOfferedImage(nextAvailableOfferImage);
+                            currentPlayer.getResources().put(resourceType, currentPlayer.getResources().get(resourceType) - 1);
+                        }
+                        updateOfferImages();
+                    } else {
+                        System.out.println("Player does not have enough resources of type: " + resourceType);
                     }
                 }
             }
@@ -284,14 +380,50 @@ public class TradeController{
         }
     }
 
-    public void TradeRequest(MouseEvent event) {
+// TradeController.java
+
+    // Add these methods to the TradeController class
+//    public List<ImageView> getRequestedImages() {
+//        return requestedImages;
+//    }
+//
+//    public List<ImageView> getOfferedImages() {
+//        return offeredImages;
+//    }
+
+    private ImageView getNextAvailableOfferImage() {
+        for (ImageView offerImage : OfferImages) {
+            if (!offerImage.isVisible()) {
+                return offerImage;
+            }
+        }
+        return null;
+    }
+
+    private ImageView getNextAvailableRequestImage() {
+        for (ImageView offerImage : RequestImage) {
+            if (!offerImage.isVisible()) {
+                return offerImage;
+            }
+        }
+        return null;
+    }
+
+    public void TradeRequest(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(WelcomeController.class.getResource("/com/settlers/demotesty/ACCREJTrade.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+
+        Stage newStage = new Stage();
+        newStage.setScene(scene);
+        newStage.initModality(Modality.APPLICATION_MODAL); // set modality to block input events to other windows
+        newStage.show();
         System.out.println(Board.getCurrentPlayerIndex());
         ArrayList<Player> players = SignUpController.getPlayers();
         for (Player player : players) {
             System.out.println(player.getPlayerName());
         }
     }
-
 
 
 }

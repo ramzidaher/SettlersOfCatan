@@ -19,27 +19,27 @@
                <children>
                   <HBox prefHeight="91.0" prefWidth="307.0">
                      <children>
-                        <ImageView fx:id="b1" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="brick" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../Images%20for%20the%20game/Brick_Card_-removebg-preview.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="g1" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="grain" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../Images%20for%20the%20game/Grain_card-removebg-preview.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="w1" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="wood" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../Images%20for%20the%20game/Wood_card-removebg-preview.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="o1" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="ore" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../Images%20for%20the%20game/Ore_card-removebg-preview%20(1).png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="wl1" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="wool" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../Images%20for%20the%20game/Wool_card-removebg-preview.png" />
                            </image>
@@ -47,7 +47,7 @@
                      </children>
                   </HBox>
                   <Label layoutX="110.0" layoutY="112.0" styleClass="text-modern" text="OFFERS" />
-                  <FlowPane id="offers" layoutX="78.0" layoutY="138.0" prefHeight="36.0" prefWidth="145.0">
+                  <FlowPane id="offers" fx:id="OfferFlowPane" layoutX="78.0" layoutY="138.0" prefHeight="36.0" prefWidth="145.0">
                      <children>
                         <ImageView fx:id="offerImage1" fitHeight="42.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -92,27 +92,27 @@
                <children>
                   <HBox prefHeight="91.0" prefWidth="307.0">
                      <children>
-                        <ImageView fx:id="b2" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="brick1" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../Images%20for%20the%20game/Brick_Card_-removebg-preview.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="g2" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="grain1" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../Images%20for%20the%20game/Grain_card-removebg-preview.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="w2" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="wood1" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../Images%20for%20the%20game/Wood_card-removebg-preview.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="o2" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="ore1" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../Images%20for%20the%20game/Ore_card-removebg-preview%20(1).png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="wl2" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="wool1" fitHeight="100.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../Images%20for%20the%20game/Wool_card-removebg-preview.png" />
                            </image>
@@ -121,7 +121,7 @@
                   </HBox>
                   <Label layoutX="101.0" layoutY="111.0" styleClass="text-modern" text="REQUESTS" />
                   <Label fx:id="requestMessage1" layoutX="11.0" layoutY="204.0" prefHeight="17.0" prefWidth="281.0" />
-                  <FlowPane id="offers" layoutX="86.0" layoutY="138.0" prefHeight="36.0" prefWidth="145.0">
+                  <FlowPane id="offers" fx:id="flowpane1" layoutX="86.0" layoutY="138.0" prefHeight="36.0" prefWidth="145.0">
                      <children>
                         <ImageView fx:id="RequestImage1" fitHeight="42.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -150,11 +150,6 @@
                         </ImageView>
                      </children>
                   </FlowPane>
-                  <Text fx:id="RequestBrickCounter" layoutX="26.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-                  <Text fx:id="RequestGrainCounter" layoutX="87.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-                  <Text fx:id="RequestWoodCounter" layoutX="148.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-                  <Text fx:id="RequestOreCounter" layoutX="209.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-                  <Text fx:id="RequestWoolCounter" layoutX="270.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
                </children>
             </AnchorPane>
          </items>

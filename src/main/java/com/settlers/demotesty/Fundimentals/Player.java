@@ -23,6 +23,8 @@ public class Player {
     private String playerName;
     private int Roads;
     private int Settlements;
+    private int City;
+    private int VP;
     private boolean addCity;
     private boolean addSettlement;
     private boolean addRoad;

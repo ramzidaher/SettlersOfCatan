@@ -357,7 +357,7 @@
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
                         </ImageView>
-                        <ImageView fx:id="WaterHex17" fitHeight="138.0" fitWidth="120.0" layoutX="1251.0" layoutY="491.0">
+                        <ImageView fx:id="WaterHex17" fitHeight="143.0" fitWidth="129.0" layoutX="1248.0" layoutY="487.0">
                             <image>
                                 <Image url="@../../../Images%20for%20the%20game/Hex4-Water.png" />
                             </image>
