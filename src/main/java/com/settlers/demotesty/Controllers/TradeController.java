@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,10 +24,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class TradeController{
-
-
-    public FlowPane flowpane1;
+public class TradeController {
+    public Button DoneTrading;
     @FXML
     private ResourceBundle resources;
 
@@ -52,12 +51,6 @@ public class TradeController{
     private Text OfferWoolCounter;
 
     @FXML
-    private Text RequestBrickCounter;
-
-    @FXML
-    private Text RequestGrainCounter;
-
-    @FXML
     private ImageView RequestImage1;
 
     @FXML
@@ -73,15 +66,6 @@ public class TradeController{
     private ImageView RequestImage5;
 
     @FXML
-    private Text RequestOreCounter;
-
-    @FXML
-    private Text RequestWoodCounter;
-
-    @FXML
-    private Text RequestWoolCounter;
-
-    @FXML
     private Button ResetBTN;
 
     @FXML
@@ -92,6 +76,9 @@ public class TradeController{
 
     @FXML
     private ImageView brick1;
+
+    @FXML
+    private FlowPane flowpane1;
 
     @FXML
     private ImageView grain;
@@ -140,6 +127,50 @@ public class TradeController{
 
     @FXML
     private ImageView wool1;
+
+    @FXML
+    private Button AcceptBTN1;
+
+    @FXML
+    private Button AcceptBTN2;
+
+    @FXML
+    private Button AcceptBTN3;
+
+    @FXML
+    private Text PlayerFourName;
+
+    @FXML
+    private Text PlayerThreeName;
+
+    @FXML
+    private Text PlayerTwoName;
+
+    @FXML
+    private Button RejectBTN1;
+
+    @FXML
+    private Button RejectBTN2;
+
+    @FXML
+    private Button RejectBTN3;
+
+    @FXML
+    private Label labelOne;
+
+    @FXML
+    private Label labelThree;
+
+    @FXML
+    private Label labelTwo;
+
+
+    @FXML
+    private FlowPane offerFlowPane;
+
+    @FXML
+    private FlowPane requestFlowPane;
+
     static HashMap<ImageView, String> imageResourceTypeOffer = new HashMap<>();
     HashMap<ImageView, String> imageResourceTypeRequest = new HashMap<>();
 
@@ -184,9 +215,12 @@ public class TradeController{
 
     private ArrayList<ImageView> RequestImages = new ArrayList<>();
     ArrayList<ImageView> ResourceRequestImages = new ArrayList<>();
+    //change the requestedImages and offeredImages to HashMap with Player as key and ArrayList<ImageView> as value
 
-    static ArrayList<ImageView> requestedImages = new ArrayList<>();
-    static ArrayList<ImageView> offeredImages = new ArrayList<>();
+
+    static HashMap<ImageView, Player> requestedImages = new HashMap<>();
+    static HashMap<ImageView, Player> offeredImages = new HashMap<>();
+
     private void resetOfferImages() {
         for (ImageView offerImage : OfferImages) {
             offerImage.setVisible(false);
@@ -202,20 +236,16 @@ public class TradeController{
         assert OfferOreCounter != null : "fx:id=\"OfferOreCounter\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert OfferWoodCounter != null : "fx:id=\"OfferWoodCounter\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert OfferWoolCounter != null : "fx:id=\"OfferWoolCounter\" was not injected: check your FXML file 'tradeNew.fxml'.";
-        assert RequestBrickCounter != null : "fx:id=\"RequestBrickCounter\" was not injected: check your FXML file 'tradeNew.fxml'.";
-        assert RequestGrainCounter != null : "fx:id=\"RequestGrainCounter\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert RequestImage1 != null : "fx:id=\"RequestImage1\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert RequestImage2 != null : "fx:id=\"RequestImage2\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert RequestImage3 != null : "fx:id=\"RequestImage3\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert RequestImage4 != null : "fx:id=\"RequestImage4\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert RequestImage5 != null : "fx:id=\"RequestImage5\" was not injected: check your FXML file 'tradeNew.fxml'.";
-        assert RequestOreCounter != null : "fx:id=\"RequestOreCounter\" was not injected: check your FXML file 'tradeNew.fxml'.";
-        assert RequestWoodCounter != null : "fx:id=\"RequestWoodCounter\" was not injected: check your FXML file 'tradeNew.fxml'.";
-        assert RequestWoolCounter != null : "fx:id=\"RequestWoolCounter\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert ResetBTN != null : "fx:id=\"ResetBTN\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert TradeBTN != null : "fx:id=\"TradeBTN\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert brick != null : "fx:id=\"brick\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert brick1 != null : "fx:id=\"brick1\" was not injected: check your FXML file 'tradeNew.fxml'.";
+        assert flowpane1 != null : "fx:id=\"flowpane1\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert grain != null : "fx:id=\"grain\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert grain1 != null : "fx:id=\"grain1\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert main != null : "fx:id=\"main\" was not injected: check your FXML file 'tradeNew.fxml'.";
@@ -232,9 +262,22 @@ public class TradeController{
         assert wood1 != null : "fx:id=\"wood1\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert wool != null : "fx:id=\"wool\" was not injected: check your FXML file 'tradeNew.fxml'.";
         assert wool1 != null : "fx:id=\"wool1\" was not injected: check your FXML file 'tradeNew.fxml'.";
-
-        updateOfferImages();
-
+        assert AcceptBTN1 != null : "fx:id=\"AcceptBTN1\" was not injected: check your FXML file 'ACCREJTrade.fxml'.";
+        assert AcceptBTN2 != null : "fx:id=\"AcceptBTN2\" was not injected: check your FXML file 'ACCREJTrade.fxml'.";
+        assert AcceptBTN3 != null : "fx:id=\"AcceptBTN3\" was not injected: check your FXML file 'ACCREJTrade.fxml'.";
+        assert PlayerFourName != null : "fx:id=\"PlayerFourName\" was not injected: check your FXML file 'ACCREJTrade.fxml'.";
+        assert PlayerThreeName != null : "fx:id=\"PlayerThreeName\" was not injected: check your FXML file 'ACCREJTrade.fxml'.";
+        assert PlayerTwoName != null : "fx:id=\"PlayerTwoName\" was not injected: check your FXML file 'ACCREJTrade.fxml'.";
+        assert RejectBTN1 != null : "fx:id=\"RejectBTN1\" was not injected: check your FXML file 'ACCREJTrade.fxml'.";
+        assert RejectBTN2 != null : "fx:id=\"RejectBTN2\" was not injected: check your FXML file 'ACCREJTrade.fxml'.";
+        assert RejectBTN3 != null : "fx:id=\"RejectBTN3\" was not injected: check your FXML file 'ACCREJTrade.fxml'.";
+        assert labelOne != null : "fx:id=\"labelOne\" was not injected: check your FXML file 'ACCREJTrade.fxml'.";
+        assert labelThree != null : "fx:id=\"labelThree\" was not injected: check your FXML file 'ACCREJTrade.fxml'.";
+        assert labelTwo != null : "fx:id=\"labelTwo\" was not injected: check your FXML file 'ACCREJTrade.fxml'.";
+        assert main != null : "fx:id=\"main\" was not injected: check your FXML file 'ACCREJTrade.fxml'.";
+        assert offerFlowPane != null : "fx:id=\"offerFlowPane\" was not injected: check your FXML file 'ACCREJTrade.fxml'.";
+        assert requestFlowPane != null : "fx:id=\"requestFlowPane\" was not injected: check your FXML file 'ACCREJTrade.fxml'.";        updateOfferImages();
+//        updatePlayerNames();
         //////////////////////////////
 
 
@@ -258,6 +301,10 @@ public class TradeController{
         setupResourceRequestImages();
 
     }
+
+
+
+
 
 
     private void updateOfferImages() {
@@ -298,7 +345,7 @@ public class TradeController{
                     if (nextAvailableOfferImage != null) {
                         nextAvailableOfferImage.setImage(clickedImageView.getImage());
                         nextAvailableOfferImage.setVisible(true);
-                        requestedImages.add(nextAvailableOfferImage);
+                        requestedImages.put(nextAvailableOfferImage,currentPlayer);
 //                        addRequestedImage(nextAvailableOfferImage);
 
 //                            currentPlayer.getResources().put(resourceType, currentPlayer.getResources().get(resourceType) - 1);
@@ -315,23 +362,21 @@ public class TradeController{
             imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, imageViewClickHandler1);
         }
     }
-    public void addRequestedImage(ImageView imageView) {
-        requestedImages.add(imageView);
-    }
 
-    // Add a method to add an offered image
-    public void addOfferedImage(ImageView imageView) {
-        offeredImages.add(imageView);
-    }
-
-    // Add a method to get the requested images list
-    public ArrayList<ImageView> getRequestedImages() {
+    public static HashMap<ImageView, Player> getRequestedImages() {
         return requestedImages;
     }
 
-    // Add a method to get the offered images list
-    public ArrayList<ImageView> getOfferedImages() {
+    public static void setRequestedImages(HashMap<ImageView, Player> requestedImages) {
+        TradeController.requestedImages = requestedImages;
+    }
+
+    public static HashMap<ImageView, Player> getOfferedImages() {
         return offeredImages;
+    }
+
+    public static void setOfferedImages(HashMap<ImageView, Player> offeredImages) {
+        TradeController.offeredImages = offeredImages;
     }
 
     private void setupResourceOfferImages() {
@@ -364,7 +409,7 @@ public class TradeController{
                         if (nextAvailableOfferImage != null) {
                             nextAvailableOfferImage.setImage(clickedImageView.getImage());
                             nextAvailableOfferImage.setVisible(true);
-                            addOfferedImage(nextAvailableOfferImage);
+                            offeredImages.put(nextAvailableOfferImage,currentPlayer);
                             currentPlayer.getResources().put(resourceType, currentPlayer.getResources().get(resourceType) - 1);
                         }
                         updateOfferImages();
@@ -379,17 +424,6 @@ public class TradeController{
             imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, imageViewClickHandler);
         }
     }
-
-// TradeController.java
-
-    // Add these methods to the TradeController class
-//    public List<ImageView> getRequestedImages() {
-//        return requestedImages;
-//    }
-//
-//    public List<ImageView> getOfferedImages() {
-//        return offeredImages;
-//    }
 
     private ImageView getNextAvailableOfferImage() {
         for (ImageView offerImage : OfferImages) {
@@ -409,21 +443,41 @@ public class TradeController{
         return null;
     }
 
+
     public void TradeRequest(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(WelcomeController.class.getResource("/com/settlers/demotesty/ACCREJTrade.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
+        TradeACCREQ tradeController = loader.getController();
 
         Stage newStage = new Stage();
         newStage.setScene(scene);
         newStage.initModality(Modality.APPLICATION_MODAL); // set modality to block input events to other windows
+
+        // Pass newStage to the showTradeACCREQWindow method
+        tradeController.showTradeACCREQWindow(newStage, requestedImages, offeredImages);
+        tradeController.setCurrentPlayer(players.get(Board.getCurrentPlayerIndex()));
         newStage.show();
-        System.out.println(Board.getCurrentPlayerIndex());
         ArrayList<Player> players = SignUpController.getPlayers();
         for (Player player : players) {
             System.out.println(player.getPlayerName());
         }
+
+        // Close the current window
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.close();
     }
+
+
+
+
+    public void yo(MouseEvent event) {
+    }
+
+
+
+
+
 
 
 }

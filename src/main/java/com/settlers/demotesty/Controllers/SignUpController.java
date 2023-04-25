@@ -122,14 +122,16 @@ public class SignUpController implements Initializable {
     }
 
     public void submitBTN(MouseEvent event) throws IOException {
+        if (players.size() == 4) {
             FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/com/settlers/demotesty/test.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) submitButton.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-        System.out.println("submitBTN called");
+            System.out.println("submitBTN called");
 
-        System.out.println(players.size());
+            System.out.println(players.size());
+        }
     }
     public static ArrayList<Player> getPlayers() {
         return players;
