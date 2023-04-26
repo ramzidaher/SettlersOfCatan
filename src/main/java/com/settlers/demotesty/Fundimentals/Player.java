@@ -78,6 +78,11 @@ public class Player {
         return Settlements;
     }
 
+    public void setSettlements() {
+        if (Settlements != 14) {
+            Settlements++;
+        }
+    }
 
     public boolean isAi() {
         return isAi;
@@ -167,7 +172,7 @@ public class Player {
     }
 
     public void setRoads() {
-        if (Roads != 15) {
+        if (Roads != 14) {
             Roads++;
         }
     }
@@ -191,42 +196,6 @@ public class Player {
     public Colour getPlayerColour() {
         return playerColour;
     }
-
-    /**
-     * Add resource card to resources data structure
-     * It takes a card as parameter and gets the card type from it
-     * @param card
-     */
-    public void addResourceCard(Card card) {
-        String type = card.toString();
-        Integer count = resources.get(type);
-        resources.put(type, count+1);
-    }
-    public int getVP() {
-        return VP;
-    }
-
-    public int getCity() {
-        return City;
-    }
-
-    public void setCity() {
-        if (City != 4) {
-            City++;
-        }
-    }
-
-    public void setSettlements() {
-        if (Settlements != 5) {
-            Settlements++;
-        }
-    }
-
-    public int setVP() {
-        int SettleVp = 1*getSettlements();
-        int CityVp = 2*getCity();
-        VP = SettleVp+CityVp;
-        return VP;
-    }
 }
+
 
