@@ -1,0 +1,18 @@
+.modern-button {
+    -fx-background-color: #FFBF00;
+    -fx-border-color: #000;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #000;
+    -fx-font-weight: bold;
+}
+
+.modern-button:hover {
+    -fx-background-color: #FFD700;
+}
+
+.welcome-text {
+    -fx-font-family: "Gill Sans Ultra Bold";
+    -fx-font-size: 80px;
+    -fx-text-fill: #1ba0a5;
+}

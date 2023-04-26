@@ -31,6 +31,13 @@
 .button-modern:pressed {
     -fx-background-color: #3A7DC4;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 0, 2);
+}.button-modern1:hover {
+    -fx-background-color: #7b4d91;
+}
+
+.button-modern:pressed {
+    -fx-background-color: #3A7DC4;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 0, 2);
 }
 /* Modern text */
 .text-modern {

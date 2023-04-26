@@ -47,35 +47,7 @@
                      </children>
                   </HBox>
                   <Label layoutX="110.0" layoutY="112.0" styleClass="text-modern" text="OFFERS" />
-                  <FlowPane id="offers" fx:id="OfferFlowPane" layoutX="78.0" layoutY="138.0" prefHeight="36.0" prefWidth="145.0">
-                     <children>
-                        <ImageView fx:id="offerImage1" fitHeight="42.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../Images%20for%20the%20game/Grain_card-removebg-preview.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="offerImage2" fitHeight="42.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../Images%20for%20the%20game/Grain_card-removebg-preview.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="offerImage3" fitHeight="42.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../Images%20for%20the%20game/Grain_card-removebg-preview.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="offerImage4" fitHeight="42.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../Images%20for%20the%20game/Grain_card-removebg-preview.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="offerImage5" fitHeight="42.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../Images%20for%20the%20game/Grain_card-removebg-preview.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </FlowPane>
+                  <FlowPane id="offers" fx:id="OfferFlowPane" layoutX="78.0" layoutY="138.0" prefHeight="36.0" prefWidth="145.0" />
                   <Label fx:id="requestMessage" layoutX="11.0" layoutY="204.0" prefHeight="17.0" prefWidth="281.0" />
                   <Text fx:id="OfferBrickCounter" layoutX="26.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
                   <Text fx:id="OfferGrainCounter" layoutX="87.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
@@ -121,40 +93,13 @@
                   </HBox>
                   <Label layoutX="101.0" layoutY="111.0" styleClass="text-modern" text="REQUESTS" />
                   <Label fx:id="requestMessage1" layoutX="11.0" layoutY="204.0" prefHeight="17.0" prefWidth="281.0" />
-                  <FlowPane id="offers" fx:id="flowpane1" layoutX="86.0" layoutY="138.0" prefHeight="36.0" prefWidth="145.0">
-                     <children>
-                        <ImageView fx:id="RequestImage1" fitHeight="42.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../Images%20for%20the%20game/Grain_card-removebg-preview.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="RequestImage2" fitHeight="42.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../Images%20for%20the%20game/Grain_card-removebg-preview.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="RequestImage3" fitHeight="42.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../Images%20for%20the%20game/Grain_card-removebg-preview.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="RequestImage4" fitHeight="42.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../Images%20for%20the%20game/Grain_card-removebg-preview.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="RequestImage5" fitHeight="42.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../Images%20for%20the%20game/Grain_card-removebg-preview.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </FlowPane>
+                  <FlowPane id="offers" fx:id="RequestFlowPane" layoutX="86.0" layoutY="138.0" prefHeight="36.0" prefWidth="145.0" />
                </children>
             </AnchorPane>
          </items>
       </SplitPane>
       <Button fx:id="TradeBTN" layoutX="306.0" layoutY="237.0" mnemonicParsing="false" onMouseClicked="#TradeRequest" prefHeight="30.0" prefWidth="307.0" styleClass="button-modern" text="Trade" />
       <Button fx:id="ResetBTN" layoutY="237.0" mnemonicParsing="false" onMouseClicked="#Reset" prefHeight="30.0" prefWidth="307.0" styleClass="button-modern" text="Reset" />
+      <Pane layoutX="-749.0" layoutY="-206.0" prefHeight="200.0" prefWidth="200.0" />
    </children>
 </Pane>

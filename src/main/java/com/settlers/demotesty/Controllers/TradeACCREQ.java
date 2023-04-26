@@ -1,13 +1,12 @@
 package com.settlers.demotesty.Controllers;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import com.settlers.demotesty.Fundimentals.Player;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -46,11 +45,16 @@ public class TradeACCREQ extends TradeController {
         this.playerIndex = playerIndex;
 //        updatePlayerNames();
     }
+    private Player getCP(){
+        return players.get(Board.getCurrentPlayerIndex());
+    }
 
     @FXML
     void initialize() {
+//        players.get(playerIndex).getPlayerName();
+        System.out.println("ghguiuyuyfyiuoyur");
+        System.out.println(getCP().getPlayerName());
         updatePlayerNames();
-
         AcceptBTN1.setOnAction(event -> handleAcceptButtonAction(AcceptBTN1));
         AcceptBTN2.setOnAction(event -> handleAcceptButtonAction(AcceptBTN2));
         AcceptBTN3.setOnAction(event -> handleAcceptButtonAction(AcceptBTN3));
@@ -60,6 +64,17 @@ public class TradeACCREQ extends TradeController {
         RejectBTN3.setOnAction(event -> handleRejectButtonAction(RejectBTN3));
 
         DoneTrading.setOnAction(event -> handleDoneTradingAction());
+        HashMap<ImageView, Player> offerImages = getImagesInFlowPane(offerFlowPane, offeredImages);
+        HashMap<ImageView, Player> requestImages = getImagesInFlowPane(requestFlowPane, requestedImages);
+
+//        System.out.println("Offer Images: " + offerImages.length);
+        //print offerImages and requestImages
+        System.out.println("Offered Images:");
+        printImages(offerImages);
+
+        System.out.println("Requested Images:");
+        printImages(requestImages);
+
     }
 
     public void createRequestedImages(HashMap<ImageView, Player> requestedImages) {
@@ -67,10 +82,57 @@ public class TradeACCREQ extends TradeController {
             requestFlowPane.getChildren().add(image);
         }
     }
+    public void printFlowPaneImages() {
+        HashMap<ImageView, Player> offerImages = getImagesInFlowPane(offerFlowPane, offeredImages);
+        HashMap<ImageView, Player> requestImages = getImagesInFlowPane(requestFlowPane, requestedImages);
+
+        System.out.println("Offered Images:");
+        printImages(offerImages);
+
+        System.out.println("Requested Images:");
+        printImages(requestImages);
+        countResources(offerImages,requestImages);
+    }
+    private static HashMap<String, Integer> countResources(HashMap<ImageView, Player> offerImages, HashMap<ImageView, Player> requestImages) {
+        HashMap<String, Integer> resources = new HashMap<>();
+
+        // Initialize resources map with 0 counts
+        resources.put("brick", 0);
+        resources.put("wood", 0);
+        resources.put("wool", 0);
+        resources.put("grain", 0);
+        resources.put("ore", 0);
+
+        // Count occurrences in offerImages
+        for (ImageView imageView : offerImages.keySet()) {
+            String resourceId = imageView.getId();
+            if (resources.containsKey(resourceId)) {
+                resources.put(resourceId, resources.get(resourceId) + 1);
+            }
+        }
+
+        // Count occurrences in requestImages
+        for (ImageView imageView : requestImages.keySet()) {
+            String resourceId = imageView.getId();
+            if (resources.containsKey(resourceId)) {
+                resources.put(resourceId, resources.get(resourceId) + 1);
+            }
+        }
+
+        return resources;
+    }
+
 
     public void createOfferedImages(HashMap<ImageView, Player> offeredImages) {
         for (ImageView image : offeredImages.keySet()) {
             offerFlowPane.getChildren().add(image);
+        }
+    }
+    public void printImages(HashMap<ImageView, Player> imagesMap) {
+        for (Map.Entry<ImageView, Player> entry : imagesMap.entrySet()) {
+            ImageView imageView = entry.getKey();
+            Player player = entry.getValue();
+            System.out.println("ImageView: " + imageView.getId() + ", Player: " + player);
         }
     }
 
@@ -91,7 +153,10 @@ public class TradeACCREQ extends TradeController {
 
         createRequestedImages(requestedImages);
         createOfferedImages(offeredImages);
+
+        printFlowPaneImages(); // Add this line here
     }
+
 
 
     private void updatePlayerNames() {
@@ -145,25 +210,106 @@ public class TradeACCREQ extends TradeController {
         stage.close();
     }
 
+
+
+    public HashMap<ImageView, Player> getImagesInFlowPane(FlowPane flowPane, HashMap<ImageView, Player> imagesMap) {
+        HashMap<ImageView, Player> filteredImagesMap = new HashMap<>();
+
+        for (Node node : flowPane.getChildren()) {
+            if (node instanceof ImageView && imagesMap.containsKey(node)) {
+                filteredImagesMap.put((ImageView) node, imagesMap.get(node));
+
+            }
+        }
+        return filteredImagesMap;
+    }
     private void handleAcceptButtonAction(Button sourceButton) {
+        String playerName = "";
+
         if (sourceButton == AcceptBTN1) {
-            System.out.println("Accept Button 1 Pressed");
+            playerName = PlayerTwoName.getText();
+            checkPlayer(playerName);
         } else if (sourceButton == AcceptBTN2) {
-            System.out.println("Accept Button 2 Pressed");
+            playerName = PlayerThreeName.getText();
+            checkPlayer(playerName);
         } else if (sourceButton == AcceptBTN3) {
-            System.out.println("Accept Button 3 Pressed");
+            playerName = PlayerFourName.getText();
+            checkPlayer(playerName);
+
+        }
+
+        if (!playerName.isEmpty()) {
+            System.out.println("Accept Button Pressed for Player: " + playerName);
+        }
+    }
+
+    private void checkPlayer(String pName) {
+        for (Player i : players) {
+            if (i.getPlayerName().equals(pName)) {
+                HashMap<ImageView, Player> offerImages = getImagesInFlowPane(offerFlowPane, offeredImages);
+                HashMap<ImageView, Player> requestImages = getImagesInFlowPane(requestFlowPane, requestedImages);
+                HashMap<String, Integer> resourceCounts = countResources(offerImages, requestImages);
+
+                // Offer trade (current player loses resources)
+                for (String resource : resourceCounts.keySet()) {
+                    int currentCount = getCP().getResources().get(resource);
+                    getCP().getResources().put(resource, Math.max(0, currentCount - resourceCounts.get(resource)));
+                }
+
+                // Request trade (current player gains resources)
+                for (String resource : resourceCounts.keySet()) {
+                    int currentCount = getCP().getResources().get(resource);
+                    getCP().getResources().put(resource, currentCount + resourceCounts.get(resource));
+                }
+
+                // Update resources for the accepting player
+                for (String resource : resourceCounts.keySet()) {
+                    int currentCount = i.getResources().get(resource);
+                    i.getResources().put(resource, Math.max(0, currentCount + resourceCounts.get(resource) - (2 * resourceCounts.get(resource))));
+                }
+
+                break;
+            }
+        }
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    private void offerMainTrade(HashMap<String, Integer> resourceCounts) {
+        for (String resource : resourceCounts.keySet()) {
+            int currentCount = getCP().getResources().get(resource);
+            getCP().getResources().put(resource, Math.max(0, currentCount - resourceCounts.get(resource)));
+        }
+    }
+
+    private void requestMainTrade(HashMap<String, Integer> resourceCounts) {
+        for (String resource : resourceCounts.keySet()) {
+            int currentCount = getCP().getResources().get(resource);
+            getCP().getResources().put(resource, currentCount + resourceCounts.get(resource));
         }
     }
 
     private void handleRejectButtonAction(Button sourceButton) {
+        String playerName = "";
+
         if (sourceButton == RejectBTN1) {
-            System.out.println("Reject Button 1 Pressed");
+            playerName = PlayerTwoName.getText();
+
         } else if (sourceButton == RejectBTN2) {
-            System.out.println("Reject Button 2 Pressed");
+            playerName = PlayerThreeName.getText();
         } else if (sourceButton == RejectBTN3) {
-            System.out.println("Reject Button 3 Pressed");
+            playerName = PlayerFourName.getText();
+        }
+
+        if (!playerName.isEmpty()) {
+            System.out.println("Reject Button Pressed for Player: " + playerName);
         }
     }
+
+
+
 
     private void handleDoneTradingAction() {
         System.out.println("Done Trading Button Pressed");

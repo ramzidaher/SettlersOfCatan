@@ -1,6 +1,7 @@
 module com.settlers.demotesty {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
 
 
     opens com.settlers.demotesty to javafx.fxml;
