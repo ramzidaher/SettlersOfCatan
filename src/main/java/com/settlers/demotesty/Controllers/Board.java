@@ -5,7 +5,6 @@ import com.settlers.demotesty.Fundimentals.Player;
 import com.settlers.demotesty.Fundimentals.ResourceDeck;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,11 +18,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
@@ -31,14 +30,16 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javax.swing.JPanel;
+
+import javax.swing.*;
+import java.awt.*;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
-
-import static com.settlers.demotesty.Controllers.AnimationHandler.roadAnimation;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -49,7 +50,7 @@ import static com.settlers.demotesty.Controllers.AnimationHandler.roadAnimation;
 public class Board extends SignUpController  implements Initializable {
 
 
-    public Group PlayerOneTagBox,PlayerTwoTagBox,PlayerThreeTagBox,PlayerFoursTagBox;
+    public Group PlayerOneTagBox, PlayerTwoTagBox, PlayerThreeTagBox, PlayerFoursTagBox;
     @FXML
     private AnchorPane anchorPane;
 
@@ -308,7 +309,7 @@ public class Board extends SignUpController  implements Initializable {
                 System.out.println("Road is null!");
             }
         }
-        //TODO remove later as its used for testing
+//        //TODO remove later as its used for testing
         Player player1 = new Player("Ramzi", Colour.RED);
         Player player2 = new Player("Ahmad", Colour.BLUE);
         Player player3 = new Player("Shelly", Colour.YELLOW);
@@ -317,12 +318,72 @@ public class Board extends SignUpController  implements Initializable {
         players.add(player2);
         players.add(player3);
         players.add(player4);
+        player1.setAi(true);
+
         diceController = new DiceController(dice1, dice2, DiceOutCome);
         assignPlayer();//TODO change the position of it put it back on top
         //Put Robber
         RoberImage.setLayoutX(HexDesert.getLayoutX() - 30);
         RoberImage.setLayoutY(HexDesert.getLayoutY() - 43);
+        if (players.get(0).isAi()) {
+            simulateMouseEvent();
+        }
+
     }
+
+    public void simulateMouseEvent() {
+        double x = 100; // X coordinate of the event
+        double y = 100; // Y coordinate of the event
+        MouseButton button = MouseButton.PRIMARY; // MouseButton.PRIMARY represents a left-click event
+        int clickCount = 1; // Number of clicks (1 for single click, 2 for double click, etc.)
+
+        MouseEvent fakeMouseEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, x, y, x, y, button, clickCount, false, false, false, false, true, false, false, true, false, false, null);
+
+        NextPlayer(fakeMouseEvent);
+        AIMain();
+//        changeRoadColor(fakeMouseEvent);
+
+
+    }
+
+    public void simulateMouseEventSettlementBTN() {
+        double x = 100; // X coordinate of the event
+        double y = 100; // Y coordinate of the event
+        MouseButton button = MouseButton.PRIMARY; // MouseButton.PRIMARY represents a left-click event
+        int clickCount = 1; // Number of clicks (1 for single click, 2 for double click, etc.)
+
+        MouseEvent fakeMouseEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, x, y, x, y, button, clickCount, false, false, false, false, true, false, false, true, false, false, null);
+        addSettlement(fakeMouseEvent);
+    }
+    public void simulateMouseEventRadioBTN(RadioButton randomVisibleButton) {
+        double x = 100; // X coordinate of the event
+        double y = 100; // Y coordinate of the event
+        MouseButton button = MouseButton.PRIMARY; // MouseButton.PRIMARY represents a left-click event
+        int clickCount = 1; // Number of clicks (1 for single click, 2 for double click, etc.)
+
+        MouseEvent fakeMouseEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, x, y, x, y, button, clickCount, false, false, false, false, true, false, false, true, false, false, null);
+
+        handleRadioButtonSettlementActions(fakeMouseEvent, randomVisibleButton, players.get(currentPlayerIndex));
+    }
+
+    private void handleRadioButtonSettlementActions(MouseEvent event, RadioButton BTN, Player currentPlayer) {
+        if (players.get(currentPlayerIndex).getSettlements() != 5) {
+
+            double tempX = BTN.getLayoutX();
+            double tempY = BTN.getLayoutY();
+            if (currentPlayer.isAddSettlement()) {
+                BTN.setVisible(false);
+                addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
+            } else {
+                ImageView settlementButton = (ImageView) SettlementBTN;
+                playSettlementAnimation(settlementButton);
+            }
+            showPlayerElements(currentPlayerIndex, currentPlayer);
+        } else {
+            showError("Cant add any Settlement");
+        }
+    }
+
 
 
     //This method assigns player names to the respective PlayerID labels
@@ -424,6 +485,7 @@ public class Board extends SignUpController  implements Initializable {
             } while (!validPosition);
         }
     }
+
 
     //Main checker for the dice outcome
     public void distributeResources(int diceOutcome) {
@@ -782,23 +844,39 @@ public class Board extends SignUpController  implements Initializable {
 
     }
 
+    //MouseEvent simulation (AI)
+
+
+
+
+
+
     //Mouse Handler that switch players, each time changing the resource counter for each player's resources that he has
     public void NextPlayer(MouseEvent mouseEvent) {
-        System.out.println(currentPlayerIndex);
         if (players.isEmpty()) {
             System.out.println("The players list is empty!");
             return;
         }
+
         currentPlayerIndex++;
-        if (NextTurn.getText().equals("Start Game")) {
-            gameCounter = 1;
-            GameCounterID.setText("1");
-            NextTurn.setText("Next Turn");
-        } else if (currentPlayerIndex >= players.size()) {
+        if (currentPlayerIndex >= players.size()) {
             currentPlayerIndex = 0;
             gameCounter++;
             GameCounterID.setText(String.valueOf(gameCounter));
         }
+
+        if (players.get(currentPlayerIndex).isAi()) {
+            AIMain();
+        }
+
+        System.out.println(currentPlayerIndex);
+
+        if (NextTurn.getText().equals("Start Game")) {
+            gameCounter = 1;
+            GameCounterID.setText("1");
+            NextTurn.setText("Next Turn");
+        }
+
         updateCurrentPlayer();
         BrickCardCounter.setText("0");
         GrainCardCounter.setText("0");
@@ -809,6 +887,28 @@ public class Board extends SignUpController  implements Initializable {
         changeRobberMsg.setVisible(false);
         pickPlayerMsg.setVisible(false);
     }
+
+
+    private void AIMain() {
+        Random random = new Random();
+        if (gameCounter == 1) {
+            simulateMouseEventSettlementBTN();
+            int randomIndex = random.nextInt(ButtonForBuildings.size());
+            RadioButton randomVisibleButton = ButtonForBuildings.get(randomIndex);
+            while (!randomVisibleButton.isVisible()) {
+                randomIndex = random.nextInt(ButtonForBuildings.size());
+                randomVisibleButton = ButtonForBuildings.get(randomIndex);
+            }
+            simulateMouseEventRadioBTN(randomVisibleButton);
+        }
+    }
+
+
+
+
+
+
+
 
     //does updates for each player, for when pressing the radio button and showing/hiding players
     private void updateCurrentPlayer() {
@@ -829,24 +929,25 @@ public class Board extends SignUpController  implements Initializable {
             BTN.setOnMouseClicked(event -> handleRadioButtonSettlementAction(event, BTN, currentPlayer));
         }
     }
-//    //Settlement button
-public void addSettlement(MouseEvent mouseEvent) {
-    if (currentPlayerIndex == -1) {
-        PickATurnNote.setVisible(true);
-    } else {
-        PickATurnNote.setVisible(false);
-        Player currentPlayer = players.get(currentPlayerIndex);
 
-        // Check settlement resources when the game counter is greater than or equal to 3
-        if (gameCounter >= 3) {
-            checkResourcesForBuilding("Settlement", currentPlayer);
+    //    //Settlement button
+    public void addSettlement(MouseEvent mouseEvent) {
+        if (currentPlayerIndex == -1) {
+            PickATurnNote.setVisible(true);
         } else {
-            currentPlayer.setAddSettlement(true);
-        }
+            PickATurnNote.setVisible(false);
+            Player currentPlayer = players.get(currentPlayerIndex);
 
-        addRadioButtonListeners(currentPlayer);
+            // Check settlement resources when the game counter is greater than or equal to 3
+            if (gameCounter >= 3) {
+                checkResourcesForBuilding("Settlement", currentPlayer);
+            } else {
+                currentPlayer.setAddSettlement(true);
+            }
+
+            addRadioButtonListeners(currentPlayer);
+        }
     }
-}
 
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -855,19 +956,38 @@ public void addSettlement(MouseEvent mouseEvent) {
         alert.setContentText(message);
         alert.showAndWait();
     }
+//    public void simulateMouseEventRadioBTN() {
+//        double x = 100; // X coordinate of the event
+//        double y = 100; // Y coordinate of the event
+//        MouseButton button = MouseButton.PRIMARY; // MouseButton.PRIMARY represents a left-click event
+//        int clickCount = 1; // Number of clicks (1 for single click, 2 for double click, etc.)
+//
+//        MouseEvent fakeMouseEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, x, y, x, y, button, clickCount, false, false, false, false, true, false, false, true, false, false, null);
+//
+//        handleRadioButtonSettlementAction(fakeMouseEvent);
+//    }
+
     //Handler for every radio button so each time one is pressed it replaces it by a settlement
     private void handleRadioButtonSettlementAction(MouseEvent event, RadioButton BTN, Player currentPlayer) {
-        RadioButton radioButton = (RadioButton) event.getSource();
-        double tempX = BTN.getLayoutX();
-        double tempY = BTN.getLayoutY();
-        if (currentPlayer.isAddSettlement()) {
-            radioButton.setVisible(false);
-            addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
-        } else {
-            ImageView settlementButton = (ImageView) SettlementBTN;
-            playSettlementAnimation(settlementButton);
+        if (players.get(currentPlayerIndex).getSettlements() != 5) {
+
+            RadioButton radioButton = (RadioButton) event.getSource();
+            double tempX = BTN.getLayoutX();
+            double tempY = BTN.getLayoutY();
+            if (currentPlayer.isAi()) {
+                addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
+            } else if (currentPlayer.isAddSettlement()) {
+                radioButton.setVisible(false);
+                addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
+            } else {
+                ImageView settlementButton = (ImageView) SettlementBTN;
+                playSettlementAnimation(settlementButton);
+            }
+            showPlayerElements(currentPlayerIndex, currentPlayer);
+
+        }else {
+            showError("Cant add any Settlement");
         }
-        showPlayerElements(currentPlayerIndex,currentPlayer);
     }
 
     private void playSettlementAnimation(ImageView settlementButton) {
@@ -906,6 +1026,7 @@ public void addSettlement(MouseEvent mouseEvent) {
         AnchorPane.setLeftAnchor(imageView, x - 10);
         Player currentPlayer = players.get(currentPlayerIndex);
         currentPlayer.getAddedSettlements().put(imageView, currentPlayer.getPlayerColour());
+        currentPlayer.setSettlements();
         anchorPane.getChildren().add(imageView);
 
         // Call the findNearestHexes method after adding the settlement
@@ -928,12 +1049,14 @@ public void addSettlement(MouseEvent mouseEvent) {
                 currentPlayer.getResources().put("wool", currentWool - 1);
                 System.out.println("Wood, brick, grain, and wool resources decremented by 1.");
             } else {
-                System.out.println("Cannot decrement resources. Not enough wood, brick, grain, or wool resources.");
+                showError("Not enough wood, brick, grain, or wool resources.");
+//                    System.out.println("Cannot decrement resources. Not enough wood, brick, grain, or wool resources.");
             }
         }
 
         updateRCounter(currentPlayer);
         updateResourceCounters(currentPlayer);
+
     }
 
 
@@ -1114,6 +1237,7 @@ public void addSettlement(MouseEvent mouseEvent) {
             currentPlayer.setAddCity(true);
             System.out.println("You have enough resources to build a city!");
         } else {
+            showError("You don't have enough resources to build a city.");
             currentPlayer.setAddCity(false);
             System.out.println("You don't have enough resources to build a city.");
         }
@@ -1122,11 +1246,13 @@ public void addSettlement(MouseEvent mouseEvent) {
     private boolean hasCityResources(Player currentPlayer) {
         return currentPlayer.getResources().get("grain") >= 2 && currentPlayer.getResources().get("ore") >= 3;
     }
+
     private void checkSettlementResources(Player currentPlayer) {
         if (hasSettlementResources(currentPlayer)) {
             currentPlayer.setAddSettlement(true);
             System.out.println("You have enough resources to build a settlement!");
         } else {
+            showError("You don't have enough resources to build a settlement.");
             currentPlayer.setAddSettlement(false);
             System.out.println("You don't have enough resources to build a settlement.");
         }
@@ -1138,11 +1264,12 @@ public void addSettlement(MouseEvent mouseEvent) {
     }
 
 
-    public static void checkRoadResources(Player currentPlayer) {
+    private void checkRoadResources(Player currentPlayer) {
         if (currentPlayer.getResources().get("wood") >= 1 && currentPlayer.getResources().get("brick") >= 1) {
             currentPlayer.setAddRoad(true);
             System.out.println("You have enough resources to build a road!");
         } else {
+            showError("You don't have enough resources to build a road.");
             currentPlayer.setAddRoad(false);
             System.out.println("You don't have enough resources to build a road.");
         }
@@ -1150,47 +1277,55 @@ public void addSettlement(MouseEvent mouseEvent) {
 
 
     public void changeRoadColor(MouseEvent mouseEvent) {
-        Rectangle clickedRoad = (Rectangle) mouseEvent.getSource();
-        if ("used".equals(clickedRoad.getUserData())) {
-            return;
-        }
-        Player currentPlayer = players.get(currentPlayerIndex);
+        if (players.get(currentPlayerIndex).getRoads() != 15) {
 
-        // Check if setAddRoad is true for the current player
-        if (!currentPlayer.isAddRoad()) {
-            System.out.println("setAddRoad is not true for the current player");
-            return;
-        }
-
-        if (!currentPlayer.isPlaying()) {
-            playRoadAnimation((ImageView) RoadBTN);
-            return;
-        }
-
-        clickedRoad.setFill(currentPlayer.getPlayerColour().getFxColor());
-
-        clickedRoad.setUserData("used");
-        System.out.println(currentPlayer.getPlayerName() + currentPlayer.getRoads());
-        updateLongestRoadLabel(currentPlayer);
-
-        currentPlayer.setRoads();
-
-        // Decrement wood and brick if the player has placed 3 or more roads
-        if (currentPlayer.getRoads() >= 3) {
-            int currentWood = currentPlayer.getResources().get("wood");
-            int currentBrick = currentPlayer.getResources().get("brick");
-
-            if (currentWood >= 1 && currentBrick >= 1) {
-                currentPlayer.getResources().put("wood", currentWood - 1);
-                currentPlayer.getResources().put("brick", currentBrick - 1);
-                System.out.println("Wood and brick resources decremented by 1.");
-            } else {
-                System.out.println("Cannot decrement resources. Not enough wood or brick resources.");
+            Rectangle clickedRoad = (Rectangle) mouseEvent.getSource();
+            if ("used".equals(clickedRoad.getUserData())) {
+                return;
             }
+            Player currentPlayer = players.get(currentPlayerIndex);
+
+            // Check if setAddRoad is true for the current player
+            if (!currentPlayer.isAddRoad()) {
+                System.out.println("setAddRoad is not true for the current player");
+                return;
+            }
+
+            if (!currentPlayer.isPlaying()) {
+                playRoadAnimation((ImageView) RoadBTN);
+                return;
+            }
+
+            clickedRoad.setFill(currentPlayer.getPlayerColour().getFxColor());
+
+            clickedRoad.setUserData("used");
+            System.out.println(currentPlayer.getPlayerName() + currentPlayer.getRoads());
+            updateLongestRoadLabel(currentPlayer);
+
+            currentPlayer.setRoads();
+
+            // Decrement wood and brick if the player has placed 3 or more roads
+            if (currentPlayer.getRoads() >= 3) {
+                int currentWood = currentPlayer.getResources().get("wood");
+                int currentBrick = currentPlayer.getResources().get("brick");
+
+                if (currentWood >= 1 && currentBrick >= 1) {
+                    currentPlayer.getResources().put("wood", currentWood - 1);
+                    currentPlayer.getResources().put("brick", currentBrick - 1);
+                    System.out.println("Wood and brick resources decremented by 1.");
+                } else {
+                    System.out.println("Cannot decrement resources. Not enough wood or brick resources.");
+                    showError("Not enough wood or brick resources.");
+                }
+            }
+            updateRCounter(currentPlayer);
+            updateResourceCounters(currentPlayer);
+        } else {
+            showError("You dont have any more roads to build");
         }
-        updateRCounter(currentPlayer);
-        updateResourceCounters(currentPlayer);
     }
+
+
 
 
     private void playRoadAnimation(ImageView roadButton) {
@@ -1237,7 +1372,7 @@ public void addSettlement(MouseEvent mouseEvent) {
                 for (Map.Entry<ImageView, Colour> entry : currentPlayer.getAddedSettlements().entrySet()) {
                     ImageView image = entry.getKey();
                     Colour colour = entry.getValue();
-                    currentPlayer.setAddSettlement(true);
+                    currentPlayer.setAddCity(true);
                     if (entry.getValue().equals(currentPlayer.getPlayerColour())) {
                         image.setOnMouseClicked(event -> {
                             // Check if the player is allowed to build a city before proceeding
@@ -1258,7 +1393,7 @@ public void addSettlement(MouseEvent mouseEvent) {
                                     System.out.println("Cannot decrement resources. Not enough grain or ore resources.");
                                 }
                             } else {
-                                System.out.println("Not enough resources to build a city.");
+                                showError("Not enough resources to build a city.");
                             }
                         });
                     } else {
@@ -1266,7 +1401,7 @@ public void addSettlement(MouseEvent mouseEvent) {
                     }
                 }
             } else {
-                System.out.println("You can only build a city starting from round 3.");
+                showError("You can only build a city starting from round 3.");
             }
         }
     }
@@ -1275,15 +1410,19 @@ public void addSettlement(MouseEvent mouseEvent) {
 
     //Handler for when adding a city, changes the settlement to an image
     private void addCityHandler(MouseEvent event, ImageView image, Player currentPlayer) {
-        System.out.println("HI works");
-        image = (ImageView) event.getSource();
-        double tempX = image.getLayoutX();
-        double tempY = image.getLayoutY();
-        if (currentPlayer.isPlaying() || currentPlayer.isAddSettlement()) {
-            image.setVisible(false);
-            addImageCity(currentPlayer.getPlayerColour(), tempX, tempY);
-        } else {
-            playSettlementAnimation((ImageView) SettlementBTN);
+        if(currentPlayer.getCity() != 4) {
+            System.out.println("HI works");
+            image = (ImageView) event.getSource();
+            double tempX = image.getLayoutX();
+            double tempY = image.getLayoutY();
+            if (currentPlayer.isPlaying() || currentPlayer.isAddSettlement()) {
+                image.setVisible(false);
+                addImageCity(currentPlayer.getPlayerColour(), tempX, tempY);
+            } else {
+                playSettlementAnimation((ImageView) SettlementBTN);
+            }
+        }else {
+            showError("You dont have any more cities to build");
         }
     }
 
@@ -1314,23 +1453,11 @@ public void addSettlement(MouseEvent mouseEvent) {
         AnchorPane.setLeftAnchor(imageView, x - 10);
         Player currentPlayer = players.get(currentPlayerIndex);
         currentPlayer.getAddedCities().put(imageView, currentPlayer.getPlayerColour());
+        currentPlayer.setCity();
         // Add the image to the AnchorPane
         anchorPane.getChildren().add(imageView);
+
     }
-    //Simple animation for the buttons
-//    public void hoverEnter(MouseEvent mouseEvent) {
-//        ImageView imageView = (ImageView) mouseEvent.getSource();
-//        AnimationHandler.hoverEnter(imageView);
-//    }
-//
-//    public void hoverExit(MouseEvent mouseEvent) {
-//        ImageView imageView = (ImageView) mouseEvent.getSource();
-//        AnimationHandler.hoverExit(imageView);
-//    }
-//    public void roadAnimation() {
-//        ImageView imageView = (ImageView) RoadBTN;
-//        AnimationHandler.roadAnimation(imageView);
-//    }
 
     //Hide elements for each player
     private void hideAllPlayerElements() {
@@ -1386,7 +1513,6 @@ public void addSettlement(MouseEvent mouseEvent) {
         System.out.println(players.get(currentPlayerIndex).getSettlements());
     }
 }
-
 
 
 
