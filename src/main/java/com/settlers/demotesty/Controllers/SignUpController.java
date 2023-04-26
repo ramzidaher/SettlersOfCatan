@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -122,15 +123,29 @@ public class SignUpController implements Initializable {
     }
 
     public void submitBTN(MouseEvent event) throws IOException {
+        if (players.size() != 4){
+            showErrorMessage("Please Make sure you have four players");
+        }else {
             FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/com/settlers/demotesty/test.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) submitButton.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-        System.out.println("submitBTN called");
+            System.out.println("submitBTN called");
 
-        System.out.println(players.size());
+            System.out.println(players.size());
+        }
     }
+
+    private void showErrorMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+
     public static ArrayList<Player> getPlayers() {
         return players;
     }

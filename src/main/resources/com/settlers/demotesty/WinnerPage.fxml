@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@style2.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.settlers.demotesty.Controllers.WelcomeController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@style2.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.settlers.demotesty.Controllers.WinnerController">
     <children>
         <AnchorPane prefHeight="1080.0" prefWidth="1920.0">
             <children>
@@ -19,16 +20,20 @@
                         <Image url="@../../../Images%20for%20the%20game/Empty-Login-Page.jpg" />
                     </image>
                 </ImageView>
-                <Button fx:id="startBTN" layoutX="880.0" layoutY="819.0" mnemonicParsing="false" onMouseClicked="#Start" prefHeight="49.0" prefWidth="160.0" styleClass="modern-button" text="Start">
+                <Button fx:id="QuitBTN" layoutX="1644.0" layoutY="913.0" mnemonicParsing="false" onMouseClicked="#Quit" prefHeight="49.0" prefWidth="198.0" styleClass="modern-button" text="Quit Game">
                     <font>
                         <Font name="Gill Sans Ultra Bold Condensed" size="25.0" />
                     </font>
                 </Button>
-                <Text fill="#1ba0a5" layoutX="546.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text" text="Welcome To Settlers">
+                <Text fx:id="winnerText" fill="#1ba0a5" layoutX="660.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text" text="Ramzi Won the game with 13 Victory point" textAlignment="CENTER" wrappingWidth="600.7890625">
                     <font>
                         <Font name="Gill Sans Ultra Bold" size="80.0" />
                     </font>
+                    <effect>
+                        <javafx.scene.effect.DropShadow fx:id="dropShadow" color="#000000" offsetX="5.0" offsetY="5.0" radius="15.0" />
+                    </effect>
                 </Text>
+
             </children>
         </AnchorPane>
     </children>

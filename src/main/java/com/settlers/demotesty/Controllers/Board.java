@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -51,6 +52,9 @@ public class Board extends SignUpController  implements Initializable {
 
 
     public Group PlayerOneTagBox, PlayerTwoTagBox, PlayerThreeTagBox, PlayerFoursTagBox;
+    public Text PlayerOneVP;
+    public Text PlayerTwoVP;
+    public Text PlayerThreeVP;
     @FXML
     private AnchorPane anchorPane;
 
@@ -125,6 +129,10 @@ public class Board extends SignUpController  implements Initializable {
     private ArrayList<Polygon> testHex = new ArrayList<>();
     private ResourceDeck resourceDeck = new ResourceDeck();
     private boolean currentPlayerNumberFound = false;
+    @FXML
+    private Text PlayerFourVP;
+    private static Player gameWinner;
+
 
 
     @Override
@@ -318,7 +326,7 @@ public class Board extends SignUpController  implements Initializable {
         players.add(player2);
         players.add(player3);
         players.add(player4);
-        player1.setAi(true);
+//        player1.setAi(true);
 
         diceController = new DiceController(dice1, dice2, DiceOutCome);
         assignPlayer();//TODO change the position of it put it back on top
@@ -328,6 +336,7 @@ public class Board extends SignUpController  implements Initializable {
         if (players.get(0).isAi()) {
             simulateMouseEvent();
         }
+
 
     }
 
@@ -342,6 +351,7 @@ public class Board extends SignUpController  implements Initializable {
         NextPlayer(fakeMouseEvent);
         AIMain();
 //        changeRoadColor(fakeMouseEvent);
+
 
 
     }
@@ -366,9 +376,12 @@ public class Board extends SignUpController  implements Initializable {
         handleRadioButtonSettlementActions(fakeMouseEvent, randomVisibleButton, players.get(currentPlayerIndex));
     }
 
+    //For AI
     private void handleRadioButtonSettlementActions(MouseEvent event, RadioButton BTN, Player currentPlayer) {
         if (players.get(currentPlayerIndex).getSettlements() != 5) {
-
+            if (currentPlayer.isAddSettlement()) {
+                currentPlayer.setAddSettlement(false);
+            }
             double tempX = BTN.getLayoutX();
             double tempY = BTN.getLayoutY();
             if (currentPlayer.isAddSettlement()) {
@@ -377,10 +390,11 @@ public class Board extends SignUpController  implements Initializable {
             } else {
                 ImageView settlementButton = (ImageView) SettlementBTN;
                 playSettlementAnimation(settlementButton);
+                return;
             }
             showPlayerElements(currentPlayerIndex, currentPlayer);
         } else {
-            showError("Cant add any Settlement");
+            showError("Cant add any Settlement, no more available");
         }
     }
 
@@ -857,7 +871,13 @@ public class Board extends SignUpController  implements Initializable {
             System.out.println("The players list is empty!");
             return;
         }
+        for (Player player : players) {
+            if (player.getVP() >= 10) {
+                setGameWinner(player);
+                endGame(anchorPane);
 
+            }
+        }
         currentPlayerIndex++;
         if (currentPlayerIndex >= players.size()) {
             currentPlayerIndex = 0;
@@ -886,7 +906,42 @@ public class Board extends SignUpController  implements Initializable {
         updateResourceCounters(players.get(currentPlayerIndex));
         changeRobberMsg.setVisible(false);
         pickPlayerMsg.setVisible(false);
+        setPlayerVPs();
     }
+
+    // Setter method for the game winner
+    void setGameWinner(Player player) {
+        this.gameWinner = player;
+    }
+
+    // Getter method for the game winner
+    static Player getGameWinner() {
+        return gameWinner;
+    }
+
+    private void endGame(Node nodeInCurrentScene) {
+        System.out.println("IM IN WINNER PAGE");
+        try {
+            FXMLLoader loader = new FXMLLoader(WelcomeController.class.getResource("/com/settlers/demotesty/WinnerPage.fxml"));
+            Parent root = loader.load();
+
+            // Create a new Scene with the loaded root
+            Scene scene = new Scene(root);
+
+            // Get the current stage from the passed node
+            Stage currentStage = (Stage) nodeInCurrentScene.getScene().getWindow();
+            currentStage.close(); // Close the current stage
+
+            // Create a new Stage and set the Scene to it
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.show(); // Show the new stage
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
     private void AIMain() {
@@ -914,11 +969,12 @@ public class Board extends SignUpController  implements Initializable {
     private void updateCurrentPlayer() {
         Player currentPlayer = players.get(currentPlayerIndex);
         ResourceCrdsPlayerName.setText(currentPlayer.getPlayerName());
-        hideAllPlayerElements();
+//        hideAllPlayerElements();
         for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
             player.setPlaying(i == currentPlayerIndex);
         }
+
         showPlayerElements(currentPlayerIndex, currentPlayer);
         addRadioButtonListeners(currentPlayer);
     }
@@ -930,7 +986,7 @@ public class Board extends SignUpController  implements Initializable {
         }
     }
 
-    //    //Settlement button
+    //Settlement button
     public void addSettlement(MouseEvent mouseEvent) {
         if (currentPlayerIndex == -1) {
             PickATurnNote.setVisible(true);
@@ -956,39 +1012,48 @@ public class Board extends SignUpController  implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-//    public void simulateMouseEventRadioBTN() {
-//        double x = 100; // X coordinate of the event
-//        double y = 100; // Y coordinate of the event
-//        MouseButton button = MouseButton.PRIMARY; // MouseButton.PRIMARY represents a left-click event
-//        int clickCount = 1; // Number of clicks (1 for single click, 2 for double click, etc.)
-//
-//        MouseEvent fakeMouseEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, x, y, x, y, button, clickCount, false, false, false, false, true, false, false, true, false, false, null);
-//
-//        handleRadioButtonSettlementAction(fakeMouseEvent);
-//    }
+
+    private void setPlayerVPs() {
+        players.get(0).setVP();
+        PlayerOneVP.setText(String.valueOf(players.get(0).getVP()));
+        players.get(1).setVP();
+        PlayerTwoVP.setText(String.valueOf(players.get(1).getVP()));
+        players.get(2).setVP();
+        PlayerThreeVP.setText(String.valueOf(players.get(2).getVP()));
+        players.get(3).setVP();
+        PlayerFourVP.setText(String.valueOf(players.get(3).getVP()));
+    }
+
 
     //Handler for every radio button so each time one is pressed it replaces it by a settlement
     private void handleRadioButtonSettlementAction(MouseEvent event, RadioButton BTN, Player currentPlayer) {
-        if (players.get(currentPlayerIndex).getSettlements() != 5) {
+        if (currentPlayer.isAi() || currentPlayer.isAddSettlement()) {
 
-            RadioButton radioButton = (RadioButton) event.getSource();
-            double tempX = BTN.getLayoutX();
-            double tempY = BTN.getLayoutY();
-            if (currentPlayer.isAi()) {
-                addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
-            } else if (currentPlayer.isAddSettlement()) {
-                radioButton.setVisible(false);
-                addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
+            if (players.get(currentPlayerIndex).getSettlements() != 5) {
+
+                RadioButton radioButton = (RadioButton) event.getSource();
+                double tempX = BTN.getLayoutX();
+                double tempY = BTN.getLayoutY();
+                if (currentPlayer.isAi()) {
+                    addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
+                } else if (currentPlayer.isAddSettlement()) {
+                    radioButton.setVisible(false);
+                    addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
+                } else {
+                    ImageView settlementButton = (ImageView) SettlementBTN;
+                    playSettlementAnimation(settlementButton);
+                }
+                showPlayerElements(currentPlayerIndex, currentPlayer);
+                currentPlayer.setAddSettlement(false);
+
             } else {
-                ImageView settlementButton = (ImageView) SettlementBTN;
-                playSettlementAnimation(settlementButton);
+                showError("Cant add any Settlement, no more settlements left!");
             }
-            showPlayerElements(currentPlayerIndex, currentPlayer);
-
         }else {
-            showError("Cant add any Settlement");
+            playSettlementAnimation((ImageView) SettlementBTN);
         }
     }
+
 
     private void playSettlementAnimation(ImageView settlementButton) {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(300), settlementButton);
@@ -1027,6 +1092,7 @@ public class Board extends SignUpController  implements Initializable {
         Player currentPlayer = players.get(currentPlayerIndex);
         currentPlayer.getAddedSettlements().put(imageView, currentPlayer.getPlayerColour());
         currentPlayer.setSettlements();
+        setPlayerVPs();;
         anchorPane.getChildren().add(imageView);
 
         // Call the findNearestHexes method after adding the settlement
@@ -1050,7 +1116,6 @@ public class Board extends SignUpController  implements Initializable {
                 System.out.println("Wood, brick, grain, and wool resources decremented by 1.");
             } else {
                 showError("Not enough wood, brick, grain, or wool resources.");
-//                    System.out.println("Cannot decrement resources. Not enough wood, brick, grain, or wool resources.");
             }
         }
 
@@ -1224,43 +1289,15 @@ public class Board extends SignUpController  implements Initializable {
         switch (building) {
             case "Road":
                 checkRoadResources(currentPlayer);
+                break;
             case "Settlement":
                 checkSettlementResources(currentPlayer);
+                break;
             case "City":
                 checkCityResources(currentPlayer);
+                break;
         }
 
-    }
-
-    private void checkCityResources(Player currentPlayer) {
-        if (hasCityResources(currentPlayer)) {
-            currentPlayer.setAddCity(true);
-            System.out.println("You have enough resources to build a city!");
-        } else {
-            showError("You don't have enough resources to build a city.");
-            currentPlayer.setAddCity(false);
-            System.out.println("You don't have enough resources to build a city.");
-        }
-    }
-
-    private boolean hasCityResources(Player currentPlayer) {
-        return currentPlayer.getResources().get("grain") >= 2 && currentPlayer.getResources().get("ore") >= 3;
-    }
-
-    private void checkSettlementResources(Player currentPlayer) {
-        if (hasSettlementResources(currentPlayer)) {
-            currentPlayer.setAddSettlement(true);
-            System.out.println("You have enough resources to build a settlement!");
-        } else {
-            showError("You don't have enough resources to build a settlement.");
-            currentPlayer.setAddSettlement(false);
-            System.out.println("You don't have enough resources to build a settlement.");
-        }
-    }
-
-    private boolean hasSettlementResources(Player currentPlayer) {
-        return currentPlayer.getResources().get("wood") >= 1 && currentPlayer.getResources().get("brick") >= 1
-                && currentPlayer.getResources().get("grain") >= 1 && currentPlayer.getResources().get("wool") >= 1;
     }
 
 
@@ -1275,53 +1312,95 @@ public class Board extends SignUpController  implements Initializable {
         }
     }
 
+    private void checkCityResources(Player currentPlayer) {
+        if (hasCityResources(currentPlayer)) {
+            currentPlayer.setAddCity(true);
+            System.out.println("You have enough resources to build a city!");
+        } else {
+            showError("You don't have enough resources to build a city.");
+            currentPlayer.setAddCity(false);
+            System.out.println("You don't have enough resources to build a city.");
+        }
+    }
+
+    private void checkSettlementResources(Player currentPlayer) {
+        if (hasSettlementResources(currentPlayer)) {
+            currentPlayer.setAddSettlement(true);
+            System.out.println("You have enough resources to build a settlement!");
+        } else {
+            showError("You don't have enough resources to build a settlement.");
+            currentPlayer.setAddSettlement(false);
+            System.out.println("You don't have enough resources to build a settlement.");
+        }
+    }
+
+    private boolean hasCityResources(Player currentPlayer) {
+        return currentPlayer.getResources().get("grain") >= 2 && currentPlayer.getResources().get("ore") >= 3;
+    }
+
+    private boolean hasSettlementResources(Player currentPlayer) {
+        return currentPlayer.getResources().get("wood") >= 1 && currentPlayer.getResources().get("brick") >= 1
+                && currentPlayer.getResources().get("grain") >= 1 && currentPlayer.getResources().get("wool") >= 1;
+    }
+
+
+
+
 
     public void changeRoadColor(MouseEvent mouseEvent) {
-        if (players.get(currentPlayerIndex).getRoads() != 15) {
+        if (players.get(currentPlayerIndex).isAddRoad()) {
 
-            Rectangle clickedRoad = (Rectangle) mouseEvent.getSource();
-            if ("used".equals(clickedRoad.getUserData())) {
-                return;
-            }
-            Player currentPlayer = players.get(currentPlayerIndex);
+            if (players.get(currentPlayerIndex).getRoads() != 15) {
 
-            // Check if setAddRoad is true for the current player
-            if (!currentPlayer.isAddRoad()) {
-                System.out.println("setAddRoad is not true for the current player");
-                return;
-            }
-
-            if (!currentPlayer.isPlaying()) {
-                playRoadAnimation((ImageView) RoadBTN);
-                return;
-            }
-
-            clickedRoad.setFill(currentPlayer.getPlayerColour().getFxColor());
-
-            clickedRoad.setUserData("used");
-            System.out.println(currentPlayer.getPlayerName() + currentPlayer.getRoads());
-            updateLongestRoadLabel(currentPlayer);
-
-            currentPlayer.setRoads();
-
-            // Decrement wood and brick if the player has placed 3 or more roads
-            if (currentPlayer.getRoads() >= 3) {
-                int currentWood = currentPlayer.getResources().get("wood");
-                int currentBrick = currentPlayer.getResources().get("brick");
-
-                if (currentWood >= 1 && currentBrick >= 1) {
-                    currentPlayer.getResources().put("wood", currentWood - 1);
-                    currentPlayer.getResources().put("brick", currentBrick - 1);
-                    System.out.println("Wood and brick resources decremented by 1.");
-                } else {
-                    System.out.println("Cannot decrement resources. Not enough wood or brick resources.");
-                    showError("Not enough wood or brick resources.");
+                Rectangle clickedRoad = (Rectangle) mouseEvent.getSource();
+                if ("used".equals(clickedRoad.getUserData())) {
+                    return;
                 }
+                Player currentPlayer = players.get(currentPlayerIndex);
+
+                // Check if setAddRoad is true for the current player
+                if (!currentPlayer.isAddRoad()) {
+                    System.out.println("setAddRoad is not true for the current player");
+                    return;
+                }
+
+                if (!currentPlayer.isPlaying()) {
+                    playRoadAnimation((ImageView) RoadBTN);
+                    return;
+                }
+
+                clickedRoad.setFill(currentPlayer.getPlayerColour().getFxColor());
+
+                clickedRoad.setUserData("used");
+                System.out.println(currentPlayer.getPlayerName() + currentPlayer.getRoads());
+                updateLongestRoadLabel(currentPlayer);
+
+                currentPlayer.setRoads();
+
+                // Decrement wood and brick if the player has placed 3 or more roads
+                if (currentPlayer.getRoads() >= 3) {
+                    int currentWood = currentPlayer.getResources().get("wood");
+                    int currentBrick = currentPlayer.getResources().get("brick");
+
+                    if (currentWood >= 1 && currentBrick >= 1) {
+                        currentPlayer.getResources().put("wood", currentWood - 1);
+                        currentPlayer.getResources().put("brick", currentBrick - 1);
+                        System.out.println("Wood and brick resources decremented by 1.");
+                    } else {
+                        System.out.println("Cannot decrement resources. Not enough wood or brick resources.");
+                        showError("Not enough wood or brick resources.");
+                    }
+                }
+                updateRCounter(currentPlayer);
+                updateResourceCounters(currentPlayer);
+                updateLongestRoadLabel(currentPlayer);
+                currentPlayer.setAddRoad(false);
+            } else {
+                showError("You dont have any more roads to build");
             }
-            updateRCounter(currentPlayer);
-            updateResourceCounters(currentPlayer);
-        } else {
-            showError("You dont have any more roads to build");
+
+        }else {
+            playRoadAnimation((ImageView) RoadBTN);
         }
     }
 
@@ -1369,60 +1448,83 @@ public class Board extends SignUpController  implements Initializable {
             if (gameCounter >= 3) {
                 checkCityResources(currentPlayer);
 
-                for (Map.Entry<ImageView, Colour> entry : currentPlayer.getAddedSettlements().entrySet()) {
-                    ImageView image = entry.getKey();
-                    Colour colour = entry.getValue();
-                    currentPlayer.setAddCity(true);
-                    if (entry.getValue().equals(currentPlayer.getPlayerColour())) {
-                        image.setOnMouseClicked(event -> {
-                            // Check if the player is allowed to build a city before proceeding
-                            if (currentPlayer.isAddCity()) {
-                                addCityHandler(event, image, currentPlayer);
+                if (currentPlayer.isAddCity()) {
 
-                                // Decrement 2 grains and 3 ores
-                                int currentGrain = currentPlayer.getResources().get("grain");
-                                int currentOre = currentPlayer.getResources().get("ore");
 
-                                if (currentGrain >= 2 && currentOre >= 3) {
-                                    currentPlayer.getResources().put("grain", currentGrain - 2);
-                                    currentPlayer.getResources().put("ore", currentOre - 3);
-                                    System.out.println("Grain and ore resources decremented.");
-                                    updateRCounter(currentPlayer);
-                                    updateResourceCounters(currentPlayer);
+                    for (Map.Entry<ImageView, Colour> entry : currentPlayer.getAddedSettlements().entrySet()) {
+                        ImageView image = entry.getKey();
+                        Colour colour = entry.getValue();
+                        currentPlayer.setAddCity(true);
+
+                        if (entry.getValue().equals(currentPlayer.getPlayerColour())) {
+                            image.setOnMouseClicked(event -> {
+                                // Check if the player is allowed to build a city before proceeding
+                                if (currentPlayer.isAddCity()) {
+                                    addCityHandler(event, image, currentPlayer);
+
+                                    // Decrement 2 grains and 3 ores
+                                    int currentGrain = currentPlayer.getResources().get("grain");
+                                    int currentOre = currentPlayer.getResources().get("ore");
+
+                                    if (currentGrain >= 2 && currentOre >= 3) {
+                                        currentPlayer.getResources().put("grain", currentGrain - 2);
+                                        currentPlayer.getResources().put("ore", currentOre - 3);
+                                        System.out.println("Grain and ore resources decremented.");
+                                        updateRCounter(currentPlayer);
+                                        updateResourceCounters(currentPlayer);
+                                        setPlayerVPs();
+                                    } else {
+                                        System.out.println("Cannot decrement resources. Not enough grain or ore resources.");
+                                    }
                                 } else {
-                                    System.out.println("Cannot decrement resources. Not enough grain or ore resources.");
+                                    playCityAnimation((ImageView) CityBTN);
                                 }
-                            } else {
-                                showError("Not enough resources to build a city.");
-                            }
-                        });
-                    } else {
-                        System.out.println("Not the right colour player");
+                            });
+                        } else {
+                            System.out.println("Not the right colour player");
+                        }
                     }
+                }else {
+                    playCityAnimation((ImageView) CityBTN);
                 }
+
             } else {
                 showError("You can only build a city starting from round 3.");
             }
+
         }
     }
 
+    private void playCityAnimation(ImageView cityBTN) {
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(300),cityBTN );
+        scaleTransition.setFromX(1);
+        scaleTransition.setFromY(1);
+        scaleTransition.setToX(1.2);
+        scaleTransition.setToY(1.2);
+        scaleTransition.setAutoReverse(true);
+        scaleTransition.setCycleCount(2);
+        scaleTransition.play();
+    }
 
 
     //Handler for when adding a city, changes the settlement to an image
     private void addCityHandler(MouseEvent event, ImageView image, Player currentPlayer) {
-        if(currentPlayer.getCity() != 4) {
-            System.out.println("HI works");
-            image = (ImageView) event.getSource();
-            double tempX = image.getLayoutX();
-            double tempY = image.getLayoutY();
-            if (currentPlayer.isPlaying() || currentPlayer.isAddSettlement()) {
-                image.setVisible(false);
-                addImageCity(currentPlayer.getPlayerColour(), tempX, tempY);
+        if (currentPlayer.isAddCity()) {
+            if (currentPlayer.getCity() != 4) {
+                System.out.println("HI works");
+                image = (ImageView) event.getSource();
+                double tempX = image.getLayoutX();
+                double tempY = image.getLayoutY();
+                if (currentPlayer.isPlaying() || currentPlayer.isAddSettlement()) {
+                    image.setVisible(false);
+                    addImageCity(currentPlayer.getPlayerColour(), tempX, tempY);
+                } else {
+                    playSettlementAnimation((ImageView) SettlementBTN);
+                }
+                currentPlayer.setAddCity(false);
             } else {
-                playSettlementAnimation((ImageView) SettlementBTN);
+                showError("You dont have any more cities to build");
             }
-        }else {
-            showError("You dont have any more cities to build");
         }
     }
 
@@ -1498,6 +1600,7 @@ public class Board extends SignUpController  implements Initializable {
     }
     //Only to debug
     public void DEBUG(MouseEvent event) {
+
         System.out.println("///////////////");
 //        Player cp = players.get(currentPlayerIndex);
         for (Player cp : players) {

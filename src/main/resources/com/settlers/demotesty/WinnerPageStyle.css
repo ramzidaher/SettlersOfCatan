@@ -1,0 +1,14 @@
+.modern-button {
+    -fx-background-color: #1ba0a5;
+    -fx-text-fill: white;
+    -fx-font-size: 25px;
+    -fx-font-family: "Gill Sans Ultra Bold Condensed";
+}
+
+.welcome-text {
+    -fx-fill: CYAN;
+    -fx-stroke: BLACK;
+    -fx-stroke-width: 2;
+    -fx-font-size: 80px;
+    -fx-font-family: "Gill Sans Ultra Bold";
+}

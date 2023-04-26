@@ -31,7 +31,7 @@
                         <Font name="Eras Bold ITC" size="12.0" />
                     </font></Text>
                 <ComboBox fx:id="PlayerColourDropDownList" layoutX="916.0" layoutY="427.0" opacity="0.5" prefHeight="24.0" prefWidth="178.0" />
-                <Button fx:id="submitButton" layoutX="1636.0" layoutY="911.0" mnemonicParsing="false" onMouseClicked="#submitBTN" prefHeight="74.0" prefWidth="207.0" style="-fx-background-color: #0437F2;" text="Submit Players" textFill="WHITE">
+                <Button fx:id="submitButton" layoutX="1636.0" layoutY="911.0" mnemonicParsing="false" onMouseClicked="#submitBTN" prefHeight="74.0" prefWidth="207.0" style="-fx-background-color: #0437F2;" text="Submit" textFill="WHITE">
                     <font>
                         <Font name="Gill Sans Ultra Bold" size="12.0" />
                     </font>
@@ -41,11 +41,6 @@
                 <Text fx:id="ColourPickWarning" fill="Black" layoutX="923.0" layoutY="468.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Make sure you pick a colour" visible="false" />
             <Button fx:id="Human_BTN" layoutX="899.0" layoutY="478.0" mnemonicParsing="false" onMouseClicked="#addPlayerHuman" prefHeight="24.0" prefWidth="70.0" style="-fx-background-color: #FF5733;" text="Human" wrapText="true" />
             <Button fx:id="AI_BTN" layoutX="1025.0" layoutY="478.0" mnemonicParsing="false" onMouseClicked="#addPlayerAI" prefHeight="24.0" prefWidth="70.0" style="-fx-background-color: #FF5733;" text="AI" />
-            <Text fill="WHITE" layoutX="1613.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Players in the game">
-               <font>
-                  <Font size="19.0" />
-               </font>
-            </Text>
             </children>
         </AnchorPane>
     </children>

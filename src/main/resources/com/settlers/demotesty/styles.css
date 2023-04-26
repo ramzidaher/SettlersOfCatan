@@ -73,3 +73,26 @@
     -fx-scale-y: 1.2;
     -fx-transition: all 0.3s ease;
 }
+
+/* animations.css */
+
+
+
+.player-tag-box.tag-box-active .player-tag-box-rectangle {
+    -fx-animation-name: tagBoxBlink;
+    -fx-animation-duration: 1s;
+    -fx-animation-iteration-count: infinite;
+    -fx-animation-timing-function: linear;
+}
+
+@keyframes tagBoxBlink {
+    0% {
+        -fx-stroke: black;
+    }
+    50% {
+        -fx-stroke: yellow;
+    }
+    100% {
+        -fx-stroke: white;
+    }
+}
