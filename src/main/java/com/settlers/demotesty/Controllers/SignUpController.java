@@ -66,13 +66,28 @@ public class SignUpController implements Initializable {
         System.out.println("addPlayerHuman called");
 
         addPlayer(false);
+        if(players.size() == 4){
+            Human_BTN.setVisible(false);
+            AI_BTN.setVisible(false);
+            PlayerNameTextField.setVisible(false);
+            PlayerName.setVisible(false);
+            PlayerColour.setVisible(false);
+            PlayerColourDropDownList.setVisible(false);
+        }
     }
 
     @FXML
     void addPlayerAI(MouseEvent event) throws IOException {
         System.out.println("addPlayerAI called");
-
         addPlayer(true);
+        if(players.size() == 4){
+            Human_BTN.setVisible(false);
+            AI_BTN.setVisible(false);
+            PlayerNameTextField.setVisible(false);
+            PlayerName.setVisible(false);
+            PlayerColour.setVisible(false);
+            PlayerColourDropDownList.setVisible(false);
+        }
     }
 
     private void addPlayer(boolean isAI) throws IOException {

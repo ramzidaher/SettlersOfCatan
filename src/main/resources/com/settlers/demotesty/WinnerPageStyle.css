@@ -6,7 +6,7 @@
 }
 
 .welcome-text {
-    -fx-fill: CYAN;
+    -fx-fill: #00ffe4;
     -fx-stroke: BLACK;
     -fx-stroke-width: 2;
     -fx-font-size: 80px;

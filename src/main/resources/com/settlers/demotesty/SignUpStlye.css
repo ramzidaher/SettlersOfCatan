@@ -1,0 +1,12 @@
+.submit-button {
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 18px;
+    -fx-background-color: #FF5733;
+    -fx-text-fill: #FFFFFF;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+}
+
+.submit-button:hover {
+    -fx-background-color: #FF7A5A;
+}

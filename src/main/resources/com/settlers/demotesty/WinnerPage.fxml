@@ -6,21 +6,19 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@style2.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.settlers.demotesty.Controllers.WinnerController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="960.0" prefWidth="1920.0" stylesheets="@style2.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.settlers.demotesty.Controllers.WinnerController">
     <children>
-        <AnchorPane prefHeight="1080.0" prefWidth="1920.0">
+        <AnchorPane prefHeight="1202.0" prefWidth="1920.0">
             <children>
-                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="1080.0" stroke="BLACK" strokeType="INSIDE" width="1920.0" />
-                <ImageView fx:id="Welcome" fitHeight="1080.0" fitWidth="1920.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="Welcome" fitHeight="962.0" fitWidth="1920.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../Images%20for%20the%20game/Empty-Login-Page.jpg" />
+                        <Image url="@../../../Images%20for%20the%20game/WinnerPage.png" />
                     </image>
                 </ImageView>
-                <Button fx:id="QuitBTN" layoutX="1644.0" layoutY="913.0" mnemonicParsing="false" onMouseClicked="#Quit" prefHeight="49.0" prefWidth="198.0" styleClass="modern-button" text="Quit Game">
+                <Button fx:id="QuitBTN" layoutX="1642.0" layoutY="829.0" mnemonicParsing="false" onMouseClicked="#Quit" prefHeight="49.0" prefWidth="198.0" styleClass="modern-button" text="Quit Game">
                     <font>
                         <Font name="Gill Sans Ultra Bold Condensed" size="25.0" />
                     </font>
