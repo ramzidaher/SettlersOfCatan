@@ -74,17 +74,17 @@ public class Player {
         this.settlementsPlacedInRound = settlementsPlacedInRound;
     }
 
-//    public ArrayList<Card> getResourceCard() {
-//        ArrayList<Card> resourceCards = new ArrayList<>();
-//        for (Map.Entry<String, Integer> entry : resources.entrySet()) {
-//            String key = entry.getKey();
-//            int value = entry.getValue();
-//            for (int i = 0; i < value; i++) {
-//                resourceCards.add(new Card(key));
-//            }
-//        }
-//        return resourceCards;
-//    }
+    public ArrayList<Card> getResourceCard() {
+        ArrayList<Card> resourceCards = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : resources.entrySet()) {
+            String key = entry.getKey();
+            int value = entry.getValue();
+            for (int i = 0; i < value; i++) {
+                resourceCards.add(new Card(key));
+            }
+        }
+        return resourceCards;
+    }
 
     public Card getResourceCard(String type) {
         Integer count = resources.get(type);

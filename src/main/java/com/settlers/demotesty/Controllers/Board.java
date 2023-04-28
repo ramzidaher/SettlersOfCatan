@@ -308,10 +308,10 @@ public class Board extends SignUpController  implements Initializable {
         Player player2 = new Player("Ahmad", Colour.BLUE);
         Player player3 = new Player("Shelly", Colour.YELLOW);
         Player player4 = new Player("Gheith", Colour.GREEN);
-        players.add(player1);
-        players.add(player2);
-        players.add(player3);
-        players.add(player4);
+//        players.add(player1);
+//        players.add(player2);
+//        players.add(player3);
+//        players.add(player4);
 //        player1.setAi(true);
 //        player2.setAi(true);
 //        player3.setAi(true);
@@ -1361,7 +1361,13 @@ public class Board extends SignUpController  implements Initializable {
         AnchorPane.setTopAnchor(imageView, y - 15);
         AnchorPane.setLeftAnchor(imageView, x - 10);
         Player currentPlayer = players.get(currentPlayerIndex);
-        currentPlayer.getAddedSettlements().put(imageView, currentPlayer.getPlayerColour());
+        if (currentPlayer.isAi()) {
+            System.out.println("HEHEHE ADDING AND GETTING RESOURCES FOR AI");
+            currentPlayer.getAddedSettlements().put(imageView, currentPlayer.getPlayerColour());
+        }else {
+            currentPlayer.getAddedSettlements().put(imageView, currentPlayer.getPlayerColour());
+
+        }
         currentPlayer.setSettlements();
         setPlayerVPs();
         anchorPane.getChildren().add(imageView);
@@ -2007,7 +2013,6 @@ public class Board extends SignUpController  implements Initializable {
         System.out.println(players.get(currentPlayerIndex).getSettlements());
     }
 }
-
 
 
 
