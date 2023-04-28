@@ -18,7 +18,18 @@ import javafx.scene.text.Text;
  * @author Sean
  */
 public class Player {
+    private boolean hasRolledThisRound;
+
     private boolean isAi;
+
+    public boolean hasRolledThisRound() {
+        return hasRolledThisRound;
+    }
+
+    public void setHasRolledThisRound(boolean hasRolledThisRound) {
+        this.hasRolledThisRound = hasRolledThisRound;
+    }
+
     private Colour playerColour;
     private String playerName;
     private int Roads;
@@ -52,7 +63,17 @@ public class Player {
         resources.put("wood", 0);
         nearestHexes = new HashMap<>();
         isAi = false;
+    }// In the Player class, add the following variable and its getter/setter methods
+    private int settlementsPlacedInRound;
+
+    public int getSettlementsPlacedInRound() {
+        return settlementsPlacedInRound;
     }
+
+    public void setSettlementsPlacedInRound(int settlementsPlacedInRound) {
+        this.settlementsPlacedInRound = settlementsPlacedInRound;
+    }
+
 //    public ArrayList<Card> getResourceCard() {
 //        ArrayList<Card> resourceCards = new ArrayList<>();
 //        for (Map.Entry<String, Integer> entry : resources.entrySet()) {

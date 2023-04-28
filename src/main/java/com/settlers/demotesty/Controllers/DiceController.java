@@ -16,12 +16,14 @@ public class DiceController {
     private Rectangle dice2;
     private Text DiceOutCome;
 
+
     public DiceController(Rectangle dice1, Rectangle dice2, Text diceOutCome) {
         this.dice1 = dice1;
         this.dice2 = dice2;
         this.DiceOutCome = diceOutCome;
         diceRoll();
     }
+
 
     private void diceRoll() {
         //DiceImages 1

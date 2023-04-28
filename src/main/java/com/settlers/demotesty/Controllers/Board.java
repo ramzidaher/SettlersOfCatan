@@ -55,6 +55,7 @@ public class Board extends SignUpController  implements Initializable {
     public Text PlayerOneVP;
     public Text PlayerTwoVP;
     public Text PlayerThreeVP;
+    public AnchorPane DiceAnchor;
     @FXML
     private AnchorPane anchorPane;
 
@@ -299,7 +300,7 @@ public class Board extends SignUpController  implements Initializable {
         System.out.println("Text y: " + yCoordText);
         System.out.println("Printing The Hex");
         System.out.println(hexagonsById);
-        currentPlayerIndex = -1;
+        currentPlayerIndex =-1;
         shuffleHexagons();//Calls Shuffle method
         shuffleNumber();
         for (Rectangle road : Roads) {
@@ -319,7 +320,9 @@ public class Board extends SignUpController  implements Initializable {
         players.add(player3);
         players.add(player4);
 //        player1.setAi(true);
-        player2.setAi(true);
+//        player2.setAi(true);
+//        player3.setAi(true);
+//        player4.setAi(true);
 
         diceController = new DiceController(dice1, dice2, DiceOutCome);
         assignPlayer();//TODO change the position of it put it back on top
@@ -328,11 +331,47 @@ public class Board extends SignUpController  implements Initializable {
         RoberImage.setLayoutX(HexDesert.getLayoutX() - 30);
         RoberImage.setLayoutY(HexDesert.getLayoutY() - 43);
         if (players.get(0).isAi()) {
+            System.out.println("YO YO");
             simulateMouseEvent();
         }
+//        if (!players.isEmpty()) {
+//            int aiPlayerCount = countAIPlayers(players);
+//            simulateMouseEvent(aiPlayerCount);
+//        }
+        DiceRollBTN.setVisible(false);
+        DiceAnchor.setVisible(false);
 
 
     }
+
+    // Count AI players in the list
+    public int countAIPlayers(List<Player> players) {
+        int count = 0;
+        for (Player player : players) {
+            if (player.isAi()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // Everything AI-related is here
+    public void simulateMouseEvent(int aiPlayerCount) {
+        double x = 100; // X coordinate of the event
+        double y = 100; // Y coordinate of the event
+        MouseButton button = MouseButton.PRIMARY; // MouseButton.PRIMARY represents a left-click event
+        int clickCount = 1; // Number of clicks (1 for single click, 2 for double click, etc.)
+
+        MouseEvent fakeMouseEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, x, y, x, y, button, clickCount, false, false, false, false, true, false, false, true, false, false, null);
+
+        for (int i = 0; i < aiPlayerCount; i++) {
+            NextPlayer(fakeMouseEvent);
+        }
+    }
+
+
+
+
 
     //Everything AI Related is here
     public void simulateMouseEvent() {
@@ -344,7 +383,11 @@ public class Board extends SignUpController  implements Initializable {
         MouseEvent fakeMouseEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, x, y, x, y, button, clickCount, false, false, false, false, true, false, false, true, false, false, null);
 
         NextPlayer(fakeMouseEvent);
-        AIMain();
+        NextPlayer(fakeMouseEvent);
+        NextPlayer(fakeMouseEvent);
+        NextPlayer(fakeMouseEvent);
+//        AIMain();
+
 //        changeRoadColor(fakeMouseEvent);
 
 
@@ -358,6 +401,7 @@ public class Board extends SignUpController  implements Initializable {
         int clickCount = 1; // Number of clicks (1 for single click, 2 for double click, etc.)
 
         MouseEvent fakeMouseEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, x, y, x, y, button, clickCount, false, false, false, false, true, false, false, true, false, false, null);
+
         addSettlement(fakeMouseEvent);
     }
 
@@ -370,7 +414,7 @@ public class Board extends SignUpController  implements Initializable {
 
         MouseEvent fakeMouseEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, x, y, x, y, button, clickCount, false, false, false, false, true, false, false, true, false, false, null);
 
-        handleRadioButtonSettlementActions(fakeMouseEvent, randomVisibleButton, players.get(currentPlayerIndex));
+        handleRadioButtonSettlementActionAI(fakeMouseEvent, randomVisibleButton, players.get(currentPlayerIndex));
     }
 
     //For AI
@@ -938,12 +982,23 @@ public class Board extends SignUpController  implements Initializable {
      *
      * @param mouseEvent the MouseEvent that triggers the method
      */
+
     public void roll(MouseEvent mouseEvent) {
-        // Roll the dice using the diceController
-        int diceOutcome = diceController.roll();
-        // Distribute resources based on the dice outcome
-        distributeResources(diceOutcome);
-        System.out.println("Dice Outcome: " + diceOutcome);//TODO Remove this print statement
+        Player currentPlayer = players.get(currentPlayerIndex);
+
+        if (!currentPlayer.hasRolledThisRound()) {
+            // Roll the dice using the diceController
+            int diceOutcome = diceController.roll();
+
+            // Distribute resources based on the dice outcome
+            distributeResources(diceOutcome);
+            System.out.println("Dice Outcome: " + diceOutcome); //TODO Remove this print statement
+
+            // Set hasRolledThisRound to true after rolling the dice
+            currentPlayer.setHasRolledThisRound(true);
+        } else {
+            showError("You can only roll the dice once per round.");
+        }
     }
 
     /**
@@ -953,6 +1008,7 @@ public class Board extends SignUpController  implements Initializable {
      * @param mouseEvent the MouseEvent that triggers the method
      */
     public void NextPlayer(MouseEvent mouseEvent) {
+        System.out.println("Game Round: " + gameCounter + " Current Player: " + currentPlayerIndex);
         if (players.isEmpty()) {
             System.out.println("The players list is empty!");
             return;
@@ -968,9 +1024,18 @@ public class Board extends SignUpController  implements Initializable {
         currentPlayerIndex++;
         if (currentPlayerIndex >= players.size()) {
             currentPlayerIndex = 0;
+        }
+
+        for (Player player : players) {
+            player.setHasRolledThisRound(false);
+        }
+
+        // Increment the game counter when the index is reset to 0 (i.e., when the first player starts their turn)
+        if (currentPlayerIndex == 0) {
             gameCounter++;
             GameCounterID.setText(String.valueOf(gameCounter));
         }
+
         // If the current player is an AI, execute the AI turn
         if (players.get(currentPlayerIndex).isAi()) {
             AIMain();
@@ -982,17 +1047,29 @@ public class Board extends SignUpController  implements Initializable {
         OreCardCounter.setText("0");
         WoolCardCounter.setText("0");
         WoodCardCounter.setText("0");
-        updateResourceCounters(players.get(currentPlayerIndex));
         changeRobberMsg.setVisible(false);
         pickPlayerMsg.setVisible(false);
         setPlayerVPs();
+
         // If the game is starting, reset the game counter and change the Next Turn button text
         if (NextTurn.getText().equals("Start Game")) {
             gameCounter = 1;
             GameCounterID.setText("1");
             NextTurn.setText("Next Turn");
         }
+        if (gameCounter == 1 || gameCounter ==2){
+            DiceRollBTN.setVisible(false);
+            DiceAnchor.setVisible(false);
+
+        }else {
+            DiceRollBTN.setVisible(true);
+            DiceAnchor.setVisible(true);
+
+        }
+        players.get(currentPlayerIndex).setHasRolledThisRound(false);
+
     }
+
 
     /**
      * Setter method for the game winner
@@ -1044,7 +1121,7 @@ public class Board extends SignUpController  implements Initializable {
      */
     private void AIMain() {
         Random random = new Random();
-        if (gameCounter == 1) {
+//        if (gameCounter == 1) {
             simulateMouseEventSettlementBTN();
             int randomIndex = random.nextInt(ButtonForBuildings.size());
             RadioButton randomVisibleButton = ButtonForBuildings.get(randomIndex);
@@ -1053,7 +1130,7 @@ public class Board extends SignUpController  implements Initializable {
                 randomVisibleButton = ButtonForBuildings.get(randomIndex);
             }
             simulateMouseEventRadioBTN(randomVisibleButton);
-        }
+//        }
     }
 
     /**
@@ -1079,7 +1156,39 @@ public class Board extends SignUpController  implements Initializable {
         for (RadioButton BTN : ButtonForBuildings) {
             BTN.setOnMouseClicked(event -> handleRadioButtonSettlementAction(event, BTN, currentPlayer));
         }
+    }    /**
+     * Adds listeners to the radio buttons for the current player
+     *
+     * @param currentPlayer the current player
+     */
+    private void addRadioButtonListenersAI(Player currentPlayer) {
+        for (RadioButton BTN : ButtonForBuildings) {
+            BTN.setOnMouseClicked(event -> handleRadioButtonSettlementActionAI(event, BTN, currentPlayer));
+        }
     }
+
+    private void handleRadioButtonSettlementActionAI(MouseEvent event, RadioButton btn, Player currentPlayer) {
+        if (players.get(currentPlayerIndex).getSettlements() != 5) {
+            // Get the source of the MouseEvent instead of casting the event itself
+            RadioButton radioButton = (RadioButton) event.getPickResult().getIntersectedNode();
+            double tempX = btn.getLayoutX();
+            double tempY = btn.getLayoutY();
+            if (currentPlayer.isAi()) {
+                addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
+            } else if (currentPlayer.isAddSettlement()) {
+                radioButton.setVisible(false);
+                addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
+            } else {
+                ImageView settlementButton = (ImageView) SettlementBTN;
+                playSettlementAnimation(settlementButton);
+            }
+            showPlayerElements(currentPlayerIndex, currentPlayer);
+            currentPlayer.setAddSettlement(false);
+        } else {
+            showError("Cannot add any more settlements. No more settlements left!");
+        }
+    }
+
 
     /**
      * Handles adding a settlement for the current player
@@ -1131,6 +1240,14 @@ public class Board extends SignUpController  implements Initializable {
         PlayerFourVP.setText(String.valueOf(players.get(3).getVP()));
     }
 
+    private void resetSettlementsPlacedInRound() {
+        for (Player player : players) {
+            player.setSettlementsPlacedInRound(0);
+        }
+    }
+
+
+    // In the Player class, add the following variable and its getter/setter methods
 
     /**
      * Handles the action for when a radio button is clicked to place a settlement
@@ -1141,6 +1258,10 @@ public class Board extends SignUpController  implements Initializable {
      */
     private void handleRadioButtonSettlementAction(MouseEvent event, RadioButton BTN, Player currentPlayer) {
         if (currentPlayer.isAi() || currentPlayer.isAddSettlement()) {
+            if ((gameCounter == 1 && currentPlayer.getSettlements() == 1) || (gameCounter == 2 && currentPlayer.getSettlements() == 2)) {
+                showError("Cannot add any more settlements. Only one settlement allowed at this stage!");
+                return;
+            }
             if (players.get(currentPlayerIndex).getSettlements() != 5) {
                 RadioButton radioButton = (RadioButton) event.getSource();
                 double tempX = BTN.getLayoutX();
@@ -1163,6 +1284,8 @@ public class Board extends SignUpController  implements Initializable {
             playSettlementAnimation((ImageView) SettlementBTN);
         }
     }
+
+
 
     /**
      * Plays the settlement button animation
@@ -1254,6 +1377,29 @@ public class Board extends SignUpController  implements Initializable {
             updateResourceCounters(currentPlayer);
         }
     }
+    public Rectangle findNearestRoad(double x, double y) {
+        double minDistance = Double.MAX_VALUE;
+        Rectangle nearestRoad = null;
+
+        System.out.println("Total roads in the Roads array: " + Roads.size());
+
+        for (Rectangle road : Roads) {
+            double roadCenterX = road.getX() + (road.getWidth() / 2);
+            double roadCenterY = road.getY() + (road.getHeight() / 2);
+
+            double distance = Math.sqrt(Math.pow(roadCenterX - x, 2) + Math.pow(roadCenterY - y, 2));
+
+            System.out.println("Checking road at (" + road.getX() + ", " + road.getY() + "), distance: " + distance);
+
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestRoad = road;
+            }
+        }
+
+        return nearestRoad;
+    }
+
 
     /**
      * Finds the nearest hex to the given coordinates and adds it to the player's nearestHexes map.
@@ -1308,6 +1454,14 @@ public class Board extends SignUpController  implements Initializable {
         ArrayList<Polygon> polygonsList = new ArrayList<>(polygons);
         currentPlayer.getNearestHexes().put("Settlement number: " + settlementNumber, polygonsList);
         addResourcesFromSettlement(currentPlayer, polygonsList);
+        Rectangle nearestRoad = findNearestRoad(x, y);
+
+        // Check if the nearest road exists
+        if (nearestRoad != null) {
+            System.out.println("Nearest road found at: (" + nearestRoad.getX() + ", " + nearestRoad.getY() + ")");
+        } else {
+            System.out.println("No roads found");
+        }
     }
 
 
@@ -1535,13 +1689,18 @@ public class Board extends SignUpController  implements Initializable {
     public void changeRoadColor(MouseEvent mouseEvent) {
         if (players.get(currentPlayerIndex).isAddRoad()) {
 
-            if (players.get(currentPlayerIndex).getRoads() != 15) {
+            Player currentPlayer = players.get(currentPlayerIndex);
+            if ((gameCounter == 1 && currentPlayer.getRoads() == 1) || (gameCounter == 2 && currentPlayer.getRoads() == 2)) {
+                showError("Cannot add any more roads. Only one road allowed at this stage!");
+                return;
+            }
+
+            if (currentPlayer.getRoads() != 15) {
 
                 Rectangle clickedRoad = (Rectangle) mouseEvent.getSource();
                 if ("used".equals(clickedRoad.getUserData())) {
                     return;
                 }
-                Player currentPlayer = players.get(currentPlayerIndex);
 
                 // Check if setAddRoad is true for the current player
                 if (!currentPlayer.isAddRoad()) {
@@ -1817,6 +1976,7 @@ public class Board extends SignUpController  implements Initializable {
     public void DEBUG(MouseEvent event) {
         System.out.println("///////////////");
 //  Player cp = players.get(currentPlayerIndex);
+        players.get(currentPlayerIndex).printNearestHexes();
         for (Player cp : players) {
             System.out.println("Player Name :" + cp.getPlayerName());
             System.out.println();
