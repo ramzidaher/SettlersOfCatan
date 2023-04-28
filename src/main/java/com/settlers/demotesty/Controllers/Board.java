@@ -31,10 +31,16 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javax.swing.JPanel;
+
+import javax.swing.*;
+import java.awt.*;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -44,11 +50,11 @@ import java.util.List;
  */
 public class Board extends SignUpController  implements Initializable {
 
-    @FXML
+
     public Group PlayerOneTagBox, PlayerTwoTagBox, PlayerThreeTagBox, PlayerFoursTagBox;
-    public Text PlayerOneVP,PlayerTwoVP,PlayerThreeVP,PlayerFourVP;
-    @FXML
-    public AnchorPane DiceAnchor;
+    public Text PlayerOneVP;
+    public Text PlayerTwoVP;
+    public Text PlayerThreeVP;
     @FXML
     private AnchorPane anchorPane;
 
@@ -61,14 +67,11 @@ public class Board extends SignUpController  implements Initializable {
             ResourceCrdsPlayerName, WoodCardCounter, WoolCardCounter;
 
     // ImageView
-    @FXML
-
     public ImageView RoberImage, CityBTN, RoadBTN, SettlementBTN, WaterHex1, WaterHex10, WaterHex11, WaterHex12, WaterHex13, WaterHex14, WaterHex15,
             WaterHex16, WaterHex17, WaterHex18, WaterHex2, WaterHex3, WaterHex4, WaterHex5, WaterHex6, WaterHex7, WaterHex8, WaterHex9;
 
     // Button
-    @FXML
-    public Button QuitGame, TradeBTN, DiceRollBTN, NextTurn;
+    public Button testDebug, QuitGame, TradeBTN, DiceRollBTN, NextTurn;
 
     // Circle
     @FXML
@@ -126,16 +129,11 @@ public class Board extends SignUpController  implements Initializable {
     private ArrayList<Polygon> testHex = new ArrayList<>();
     private ResourceDeck resourceDeck = new ResourceDeck();
     private boolean currentPlayerNumberFound = false;
+    @FXML
+    private Text PlayerFourVP;
     private static Player gameWinner;
 
-    /**
-     This method is an implementation of the initialize() method from the Initializable interface.
-     It is called when the corresponding FXML file is loaded and allows for initialization of
-     the controller and its components.
-     @param url The URL location of the FXML file.
-     @param resourceBundle The ResourceBundle for the FXML file.
-     @return void
-     */
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gameCounter = 0;
@@ -144,6 +142,8 @@ public class Board extends SignUpController  implements Initializable {
         } else {
             return;
         }
+
+
         //IMages of the Tiles
         Image img1_ore = new Image("Images for the game/ore.png");
         Image img2_grain = new Image("Images for the game/grain.png");
@@ -165,17 +165,21 @@ public class Board extends SignUpController  implements Initializable {
         Hex9.setFill(new ImagePattern(img5_wool));
         Hex10.setFill(new ImagePattern(img5_wool));
         Hex11.setFill(new ImagePattern(img5_wool));
+
         //Bricks x 3
         Hex12.setFill(new ImagePattern(img3_clay));
         Hex13.setFill(new ImagePattern(img3_clay));
         Hex14.setFill(new ImagePattern(img3_clay));
+
         //Lumber x 4
         Hex15.setFill(new ImagePattern(img4_wood));
         Hex17.setFill(new ImagePattern(img4_wood));
         Hex18.setFill(new ImagePattern(img4_wood));
         Hex19.setFill(new ImagePattern(img4_wood));
+
         //Desert x 1
         HexDesert.setFill(new ImagePattern(img6_Desert));
+
         //Ore x 3
         hexagonsResources.put(Hex1, "ore");
         hexagonsResources.put(Hex2, "ore");
@@ -201,6 +205,7 @@ public class Board extends SignUpController  implements Initializable {
         hexagonsResources.put(Hex19, "wood");
         //Desert x 1
         hexagonsResources.put(HexDesert, "desert");
+
         waterHex.put(WaterHex1, "Water");
         waterHex.put(WaterHex2, "Water");
         waterHex.put(WaterHex3, "Water");
@@ -220,6 +225,7 @@ public class Board extends SignUpController  implements Initializable {
         waterHex.put(WaterHex16, "Water");
         waterHex.put(WaterHex17, "Water");
         waterHex.put(WaterHex18, "Water");
+
         Roads.addAll(Arrays.asList(Road_1_2, Road_1_3, Road_1_5, Road_1_6, Road_1_7, Road_1_8, Road_1_9, Road_1_10, Road_1_11,
                 Road_1_12, Road_1_13, Road_1_14, Road_1_15, Road_1_16, Road_1_17, Road_1_18, Road_1_19,
                 Road_1_20, Road_1_21, Road_1_22, Road_1_23, Road_1_24, Road_1_25, Road_1_26, Road_1_27,
@@ -313,31 +319,22 @@ public class Board extends SignUpController  implements Initializable {
         players.add(player3);
         players.add(player4);
 //        player1.setAi(true);
-//        player2.setAi(true);
-//        player3.setAi(true);
-//        player4.setAi(true);
+        player2.setAi(true);
+
         diceController = new DiceController(dice1, dice2, DiceOutCome);
         assignPlayer();//TODO change the position of it put it back on top
+
         //Put's Robber on the desert
         RoberImage.setLayoutX(HexDesert.getLayoutX() - 30);
         RoberImage.setLayoutY(HexDesert.getLayoutY() - 43);
         if (players.get(0).isAi()) {
-            System.out.println("YO YO");
             simulateMouseEvent();
         }
-        DiceRollBTN.setVisible(false);
-        DiceAnchor.setVisible(false);
+
+
     }
 
     //Everything AI Related is here
-
-
-    /**
-     * This method simulates a mouse click event on the screen. It creates a MouseEvent object
-     * with the given coordinates, mouse button, and click count, and passes it to the NextPlayer
-     * method multiple times.
-     * @return void
-     */
     public void simulateMouseEvent() {
         double x = 100; // X coordinate of the event
         double y = 100; // Y coordinate of the event
@@ -346,23 +343,14 @@ public class Board extends SignUpController  implements Initializable {
 
         MouseEvent fakeMouseEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, x, y, x, y, button, clickCount, false, false, false, false, true, false, false, true, false, false, null);
 
-        // Call NextPlayer method multiple times with the fakeMouseEvent parameter
         NextPlayer(fakeMouseEvent);
-        NextPlayer(fakeMouseEvent);
-        NextPlayer(fakeMouseEvent);
-        NextPlayer(fakeMouseEvent);
+        AIMain();
+//        changeRoadColor(fakeMouseEvent);
 
-        // Uncomment below lines to execute additional methods with the fakeMouseEvent parameter
-        //    AIMain();
-        //    changeRoadColor(fakeMouseEvent);
+
     }
-    /**
-     * This method simulates a mouse click event on the screen to add a settlement for AI.
-     * It creates a MouseEvent object with the given coordinates, mouse button, and click count,
-     * and passes it to the addSettlement method.
-     *
-     * @return void
-     */
+
+    //For AI
     public void simulateMouseEventSettlementBTN() {
         double x = 100; // X coordinate of the event
         double y = 100; // Y coordinate of the event
@@ -370,18 +358,10 @@ public class Board extends SignUpController  implements Initializable {
         int clickCount = 1; // Number of clicks (1 for single click, 2 for double click, etc.)
 
         MouseEvent fakeMouseEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, x, y, x, y, button, clickCount, false, false, false, false, true, false, false, true, false, false, null);
-
-        // Call addSettlement method with the fakeMouseEvent parameter
         addSettlement(fakeMouseEvent);
     }
 
-    /**
-     * This method simulates a mouse click event on the screen to select a radio button for AI.
-     * It creates a MouseEvent object with the given coordinates, mouse button, and click count,
-     * and passes it to the handleRadioButtonSettlementActionAI method.
-     * @param randomVisibleButton The radio button to be selected.
-     * @return void
-     */
+    //For AI
     public void simulateMouseEventRadioBTN(RadioButton randomVisibleButton) {
         double x = 100; // X coordinate of the event
         double y = 100; // Y coordinate of the event
@@ -390,24 +370,12 @@ public class Board extends SignUpController  implements Initializable {
 
         MouseEvent fakeMouseEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, x, y, x, y, button, clickCount, false, false, false, false, true, false, false, true, false, false, null);
 
-        // Call handleRadioButtonSettlementActionAI method with the fakeMouseEvent parameter
-        // and the given radio button and current player object
-        handleRadioButtonSettlementActionAI(fakeMouseEvent, randomVisibleButton, players.get(currentPlayerIndex));
+        handleRadioButtonSettlementActions(fakeMouseEvent, randomVisibleButton, players.get(currentPlayerIndex));
     }
 
-
-    /**
-     * This method handles the radio button click event for adding a settlement.
-     * It checks if the player has remaining settlements and if they are allowed to add a settlement.
-     * If yes, it updates the player's addSettlement field, hides the clicked button, and adds
-     * the settlement image to the game board. If not, it shows an error message.
-     * @param event The MouseEvent object representing the radio button click event.
-     * @param BTN The RadioButton object that was clicked.
-     * @param currentPlayer The Player object representing the current player.
-     * @return void
-     */
+    //For AI
     private void handleRadioButtonSettlementActions(MouseEvent event, RadioButton BTN, Player currentPlayer) {
-        if (currentPlayer.getSettlements() != 5) {
+        if (players.get(currentPlayerIndex).getSettlements() != 5) {
             if (currentPlayer.isAddSettlement()) {
                 currentPlayer.setAddSettlement(false);
             }
@@ -426,74 +394,9 @@ public class Board extends SignUpController  implements Initializable {
             showError("Cant add any Settlement, no more available");
         }
     }
-    /**
-     * Adds listeners to the radio buttons for the current player
-     * @param currentPlayer the current player
-     */
-    private void addRadioButtonListenersAI(Player currentPlayer) {
-        for (RadioButton BTN : ButtonForBuildings) {
-            BTN.setOnMouseClicked(event -> handleRadioButtonSettlementActionAI(event, BTN, currentPlayer));
-        }
-    }
-
-    /**
-     * Handles the action when a settlement radio button is clicked for an AI player
-     * @param event the MouseEvent when the radio button is clicked
-     * @param btn the radio button that was clicked
-     * @param currentPlayer the current player whose turn it is
-     */
-    private void handleRadioButtonSettlementActionAI(MouseEvent event, RadioButton btn, Player currentPlayer) {
-        if (players.get(currentPlayerIndex).getSettlements() != 5) {
-            // Get the source of the MouseEvent instead of casting the event itself
-            RadioButton radioButton = (RadioButton) event.getPickResult().getIntersectedNode();
-            double tempX = btn.getLayoutX();
-            double tempY = btn.getLayoutY();
-
-            // If the current player is an AI, add the settlement image automatically
-            if (currentPlayer.isAi()) {
-                addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
-            }
-            // If the current player is not an AI and is allowed to add a settlement, add the settlement image and hide the radio button
-            else if (currentPlayer.isAddSettlement()) {
-                radioButton.setVisible(false);
-                addImageSettlement(currentPlayer.getPlayerColour(), tempX, tempY);
-            }
-            // If the current player is not an AI and is not allowed to add a settlement, play the settlement animation
-            else {
-                ImageView settlementButton = (ImageView) SettlementBTN;
-                playSettlementAnimation(settlementButton);
-            }
-            showPlayerElements(currentPlayerIndex, currentPlayer);
-            currentPlayer.setAddSettlement(false);
-        } else {
-            showError("Cannot add any more settlements. No more settlements left!");
-        }
-    }
-
-    /**
-     * Handles the AI turn
-     */
-    private void AIMain() {
-        Random random = new Random();
-//        if (gameCounter == 1) {
-        simulateMouseEventSettlementBTN();
-        int randomIndex = random.nextInt(ButtonForBuildings.size());
-        RadioButton randomVisibleButton = ButtonForBuildings.get(randomIndex);
-        while (!randomVisibleButton.isVisible()) {
-            randomIndex = random.nextInt(ButtonForBuildings.size());
-            randomVisibleButton = ButtonForBuildings.get(randomIndex);
-        }
-        simulateMouseEventRadioBTN(randomVisibleButton);
-//        }
-    }
 
 
-    /**
-     * This method assigns player names to the respective PlayerID labels.
-     * It sets the text of each PlayerID label to the name of the corresponding player
-     * in the players list and fills the corresponding PlayerTagBoxColor with the player's color.
-     * @return void
-     */
+    //This method assigns player names to the respective PlayerID labels
     private void assignPlayer() {
         // Set the text of PlayerOneID label to the first player's name
         PlayerOneID.setText(players.get(0).getPlayerName());
@@ -517,12 +420,7 @@ public class Board extends SignUpController  implements Initializable {
     }
 
 
-    /**
-     * This method shuffles the positions of the hexagons on the board.
-     * It creates copies of the original coordinates lists, saves the original coordinates of hexagons,
-     * shuffles the hexagons using a random index, and updates the x and y layout positions of the hexagons.
-     * @return void
-     */
+    // This method shuffles the positions of the hexagons on the board
     private void shuffleHexagons() {
         // Create copies of the original coordinates lists
         List<Double> xCoordinatesCopy = new ArrayList<>();
@@ -552,33 +450,15 @@ public class Board extends SignUpController  implements Initializable {
         }
     }
 
-
-    /**
-     * This method returns the x-coordinate layout position of the "HexDesert" hexagon.
-     * @return The double value of the x-coordinate layout position of the "HexDesert" hexagon.
-     */
     private double getHexDesertX() {
         return hexagonsById.get("HexDesert").getLayoutX();
     }
 
-    /**
-     * This method returns the y-coordinate layout position of the "HexDesert" hexagon.
-     * @return The double value of the y-coordinate layout position of the "HexDesert" hexagon.
-     */
     private double getHexDesertY() {
         return hexagonsById.get("HexDesert").getLayoutY();
     }
 
-
-
-    /**
-     * This method shuffles the number tokens around the board.
-     * It hides the desert number token (Num_19) since the desert hexagon has no number,
-     * removes Num_19 from the TextNumbers list, iterates through each number token in TextNumbers,
-     * generates random coordinates for the number tokens, checks if the number token is too close to the desert hexagon,
-     * and sets the layout position of the number token to the randomly chosen coordinates.
-     * @return void
-     */
+    //Shuffle the numbers around
     private void shuffleNumber() {
         // Hide the desert number token (Num_19) since the desert hexagon has no number
         Num_19.setVisible(false);
@@ -613,18 +493,7 @@ public class Board extends SignUpController  implements Initializable {
     }
 
 
-
-
-    /**
-     * This method checks the dice outcome and distributes resources accordingly.
-     * It iterates through each number token and checks if its value is equal to the dice outcome.
-     * If it is, it stores the Text object in a temporary array of size 2, with the first element being the current Text object
-     * and the second element being the next Text object with the same value (if any).
-     * If the dice outcome is 7, it displays a message indicating that the player can move the robber and sets event handlers for hexagons and number tokens.
-     * It then calls the checksHexandNumber method with the temporary array of Text objects as a parameter.
-     * @param diceOutcome The value of the dice outcome.
-     * @return void
-     */
+    //Main checker for the dice outcome
     public void distributeResources(int diceOutcome) {
         double TextX = 0;
         double TextY = 0;
@@ -647,7 +516,7 @@ public class Board extends SignUpController  implements Initializable {
         }
         // Add a print statement when the diceOutcome is 7
         if (diceOutcome == 7) {
-            System.out.println("Lucky number 7! Player gets to change Robber Position.");
+            System.out.println("Lucky number 7! Player gets to change Robber Position.");//TODO Remove this print statement
             isRobberMoveAllowed = true;
             changeRobberPosition(RoberImage);
         } else {
@@ -659,21 +528,12 @@ public class Board extends SignUpController  implements Initializable {
 
     }
 
-    /**
-     * This method displays a message indicating that the player can move the robber, and sets event handlers for hexagons and number tokens.
-     * @param robberImage The ImageView of the robber to be moved.
-     * @return void
-     */
     private void changeRobberPosition(ImageView robberImage) {
         changeRobberMsg.setVisible(true);
         setHexagonsAndTextEventHandlers();
     }
 
-    /**
-     * This method sets event handlers for hexagons and number tokens.
-     * It iterates through each hexagon and number token and sets a mouse click event handler.
-     * @return void
-     */
+    //sets event handler for numbers and Hexagon's
     private void setHexagonsAndTextEventHandlers() {
         for (Map.Entry<Polygon, String> entry : hexagonsResources.entrySet()) {
             Polygon polygon = entry.getKey();
@@ -684,25 +544,17 @@ public class Board extends SignUpController  implements Initializable {
         }
     }
 
-    /**
-     * Checks if the hexagon is the same as the number so when a player presses the hex or number it will send an event
-     * @param element the element that has been pressed, either a Polygon or Text object.
-     */
+    //Checks if the hexagon is the same as the number so when a player presses the hex or number it will send an event
     private void elementPressed(Object element) {
-        // checks if the robber move is allowed, if not it returns
         if (!isRobberMoveAllowed) {
             return;
         }
-
-        // If the element is a Polygon, move the robber to that location.
         if (element instanceof Polygon) {
             System.out.println("Polygon pressed: " + element);
             double x = ((Polygon) element).getLayoutX();
             double y = ((Polygon) element).getLayoutY();
             moveRobber(x, y);
-        }
-        // If the element is a Text object, move the robber to the corresponding hexagon location.
-        else if (element instanceof Text) {
+        } else if (element instanceof Text) {
             System.out.println("Hex/Numbers is pressed");
             double x = ((Text) element).getLayoutX();
             double y = ((Text) element).getLayoutY();
@@ -710,18 +562,13 @@ public class Board extends SignUpController  implements Initializable {
         }
     }
 
-    /**
-     * Moves the robber to the hexagon that has been pressed
-     * @param x the x-coordinate of the hexagon that was pressed
-     * @param y the y-coordinate of the hexagon that was pressed
-     */
+    //Moves the robber to the hexagon the has been pressed
     private void moveRobber(double x, double y) {
         // Update the layout of the robber image based on the coordinates of the hexagon that was pressed
         RoberImage.setLayoutX(x - 30);
         RoberImage.setLayoutY(y - 43);
         // Hide the message that prompts the player to change the robber's location
         changeRobberMsg.setVisible(false);
-
         // Check each hexagon on the board to see if the robber is currently on it
         for (Polygon hex : hexagonsResources.keySet()) {
             // Convert the center coordinates of the robber image to local coordinates of the hexagon
@@ -733,11 +580,9 @@ public class Board extends SignUpController  implements Initializable {
             );
             // Check if the robber is inside the hexagon
             boolean robberInsideHex = hex.contains(robber);
-
             if (robberInsideHex) {
                 // Print the ID of the hexagon the robber is on
                 System.out.println("Robber is on the " + hex.getId());
-
                 // Create a list of players who have settlements on the hexagon
                 ArrayList<Player> playersWithSettlementOnHex = new ArrayList<>();
                 for (Player currentPlayer : players) {
@@ -763,9 +608,8 @@ public class Board extends SignUpController  implements Initializable {
                         updateRCounter(chosenPlayer);
                         updateRCounter(players.get(currentPlayerIndex));
                     });
-                }
-                // If there is only one player with a settlement on the hexagon, steal resources from them
-                else if (playersWithSettlementOnHex.size() == 1) {
+                    // If there is only one player with a settlement on the hexagon, steal resources from them
+                } else if (playersWithSettlementOnHex.size() == 1) {
                     stealResourcesFromHex(playersWithSettlementOnHex.get(0), hex);
                 }
             }
@@ -796,6 +640,7 @@ public class Board extends SignUpController  implements Initializable {
 
     /**
      * Returns the index of the current player.
+     *
      * @return The index of the current player.
      */
     public static int getCurrentPlayerIndex() {
@@ -804,6 +649,7 @@ public class Board extends SignUpController  implements Initializable {
 
     /**
      * This method is called when the mouse enters a UI element, but it does not do anything.
+     *
      * @param event The mouse event that triggered the hoverEnter method.
      */
     public void hoverEnter(MouseEvent event) {
@@ -812,6 +658,7 @@ public class Board extends SignUpController  implements Initializable {
 
     /**
      * This method is called when the mouse exits a UI element, but it does not do anything.
+     *
      * @param event The mouse event that triggered the hoverExit method.
      */
     public void hoverExit(MouseEvent event) {
@@ -824,6 +671,7 @@ public class Board extends SignUpController  implements Initializable {
     public interface PlayerChoiceCallback {
         /**
          * This method is called when a player is chosen in the getUserChoice method.
+         *
          * @param player The player that was chosen.
          */
         void onPlayerChosen(Player player);
@@ -832,6 +680,7 @@ public class Board extends SignUpController  implements Initializable {
 
     /**
      * Prompts the user to choose a player from a list of players and executes the specified callback when a player is chosen.
+     *
      * @param playersWithSettlementOnHex The list of players who have settlements on the hexagon the robber is on.
      * @param callback                   The callback to execute when a player is chosen.
      */
@@ -865,6 +714,7 @@ public class Board extends SignUpController  implements Initializable {
 
     /**
      * Steals resources from a player who has settlements on a specified hexagon.
+     *
      * @param cp  The player who has settlements on the specified hexagon.
      * @param hex The hexagon from which to steal resources.
      */
@@ -889,6 +739,7 @@ public class Board extends SignUpController  implements Initializable {
 
     /**
      * Steals a resource from a player and gives it to the current player.
+     *
      * @param cp          The player from whom to steal the resource.
      * @param hexResource The type of resource to steal.
      */
@@ -933,6 +784,7 @@ public class Board extends SignUpController  implements Initializable {
 
     /**
      * Updates the resource counter for a player in the UI.
+     *
      * @param player The player whose resource counter to update.
      */
     private void updateRCounter(Player player) {
@@ -967,6 +819,7 @@ public class Board extends SignUpController  implements Initializable {
     /**
      * Checks if a hexagon on the board matches a given number token, and if so, gives resources to the players
      * with settlements on that hexagon.
+     *
      * @param tempTexts An array of Text objects representing the number tokens on the board.
      */
     public void checksHexandNumber(Text[] tempTexts) {
@@ -1034,10 +887,8 @@ public class Board extends SignUpController  implements Initializable {
         }
     }
 
-    /**
-     * Updates the resource GUI counter for the current player
-     * @param currentPlayer the current player whose resource GUI counter needs to be updated
-     */
+
+    //Updates the Resource GUI counter
     private void updateResourceCounters(Player currentPlayer) {
         BrickCardCounter.setText(String.valueOf(currentPlayer.getResources().get("brick")));
         GrainCardCounter.setText(String.valueOf(currentPlayer.getResources().get("grain")));
@@ -1047,7 +898,8 @@ public class Board extends SignUpController  implements Initializable {
     }
 
     /**
-     * Gives resources to a player based on the resource type of given hexagon.
+     * Gives resources to a player based on the resource type of a given hexagon.
+     *
      * @param allPlayers The player to give resources to.
      * @param polygon    The hexagon to check for a resource type.
      * @return True if the player was given resources, false otherwise.
@@ -1076,37 +928,31 @@ public class Board extends SignUpController  implements Initializable {
                 }
             }
         }
+
         return resourcesGiven;
     }
 
 
     /**
      * Rolls the dice and distributes resources based on the outcome
+     *
      * @param mouseEvent the MouseEvent that triggers the method
      */
     public void roll(MouseEvent mouseEvent) {
-        Player currentPlayer = players.get(currentPlayerIndex);
-        if (!currentPlayer.hasRolledThisRound()) {
-            // Roll the dice using the diceController
-            int diceOutcome = diceController.roll();
-            // Distribute resources based on the dice outcome
-            distributeResources(diceOutcome);
-            System.out.println("Dice Outcome: " + diceOutcome); //TODO Remove this print statement
-
-            // Set hasRolledThisRound to true after rolling the dice
-            currentPlayer.setHasRolledThisRound(true);
-        } else {
-            showError("You can only roll the dice once per round.");
-        }
+        // Roll the dice using the diceController
+        int diceOutcome = diceController.roll();
+        // Distribute resources based on the dice outcome
+        distributeResources(diceOutcome);
+        System.out.println("Dice Outcome: " + diceOutcome);//TODO Remove this print statement
     }
 
     /**
      * Mouse Handler that switches players, changing the resource counters for each player's resources that they have
      * Also checks if a player has reached 10 victory points, and ends the game if necessary
+     *
      * @param mouseEvent the MouseEvent that triggers the method
      */
     public void NextPlayer(MouseEvent mouseEvent) {
-        System.out.println("Game Round: " + gameCounter + " Current Player: " + currentPlayerIndex);
         if (players.isEmpty()) {
             System.out.println("The players list is empty!");
             return;
@@ -1122,12 +968,6 @@ public class Board extends SignUpController  implements Initializable {
         currentPlayerIndex++;
         if (currentPlayerIndex >= players.size()) {
             currentPlayerIndex = 0;
-        }
-        for (Player player : players) {
-            player.setHasRolledThisRound(false);
-        }
-        // Increment the game counter when the index is reset to 0 (i.e., when the first player starts their turn)
-        if (currentPlayerIndex == 0) {
             gameCounter++;
             GameCounterID.setText(String.valueOf(gameCounter));
         }
@@ -1142,31 +982,21 @@ public class Board extends SignUpController  implements Initializable {
         OreCardCounter.setText("0");
         WoolCardCounter.setText("0");
         WoodCardCounter.setText("0");
+        updateResourceCounters(players.get(currentPlayerIndex));
         changeRobberMsg.setVisible(false);
         pickPlayerMsg.setVisible(false);
         setPlayerVPs();
-
         // If the game is starting, reset the game counter and change the Next Turn button text
         if (NextTurn.getText().equals("Start Game")) {
             gameCounter = 1;
             GameCounterID.setText("1");
             NextTurn.setText("Next Turn");
         }
-        if (gameCounter == 1 || gameCounter ==2){
-            DiceRollBTN.setVisible(false);
-            DiceAnchor.setVisible(false);
-
-        }else {
-            DiceRollBTN.setVisible(true);
-            DiceAnchor.setVisible(true);
-
-        }
-        players.get(currentPlayerIndex).setHasRolledThisRound(false);
-
     }
 
     /**
      * Setter method for the game winner
+     *
      * @param player the player who has won the game
      */
     void setGameWinner(Player player) {
@@ -1175,6 +1005,7 @@ public class Board extends SignUpController  implements Initializable {
 
     /**
      * Getter method for the game winner
+     *
      * @return the player who has won the game
      */
     static Player getGameWinner() {
@@ -1183,6 +1014,7 @@ public class Board extends SignUpController  implements Initializable {
 
     /**
      * Ends the game and opens the WinnerPage.fxml file
+     *
      * @param nodeInCurrentScene the Node in the current Scene to close before opening the new Scene
      */
     private void endGame(Node nodeInCurrentScene) {
@@ -1207,7 +1039,22 @@ public class Board extends SignUpController  implements Initializable {
     }
 
 
-
+    /**
+     * Handles the AI turn
+     */
+    private void AIMain() {
+        Random random = new Random();
+        if (gameCounter == 1) {
+            simulateMouseEventSettlementBTN();
+            int randomIndex = random.nextInt(ButtonForBuildings.size());
+            RadioButton randomVisibleButton = ButtonForBuildings.get(randomIndex);
+            while (!randomVisibleButton.isVisible()) {
+                randomIndex = random.nextInt(ButtonForBuildings.size());
+                randomVisibleButton = ButtonForBuildings.get(randomIndex);
+            }
+            simulateMouseEventRadioBTN(randomVisibleButton);
+        }
+    }
 
     /**
      * Updates the UI to reflect the current player
@@ -1225,6 +1072,7 @@ public class Board extends SignUpController  implements Initializable {
 
     /**
      * Adds listeners to the radio buttons for the current player
+     *
      * @param currentPlayer the current player
      */
     private void addRadioButtonListeners(Player currentPlayer) {
@@ -1233,9 +1081,9 @@ public class Board extends SignUpController  implements Initializable {
         }
     }
 
-
     /**
      * Handles adding a settlement for the current player
+     *
      * @param mouseEvent the MouseEvent that triggers the method
      */
     public void addSettlement(MouseEvent mouseEvent) {
@@ -1258,6 +1106,7 @@ public class Board extends SignUpController  implements Initializable {
 
     /**
      * Shows an error message with the given message
+     *
      * @param message the error message to display
      */
     private void showError(String message) {
@@ -1282,6 +1131,7 @@ public class Board extends SignUpController  implements Initializable {
         PlayerFourVP.setText(String.valueOf(players.get(3).getVP()));
     }
 
+
     /**
      * Handles the action for when a radio button is clicked to place a settlement
      *
@@ -1291,10 +1141,6 @@ public class Board extends SignUpController  implements Initializable {
      */
     private void handleRadioButtonSettlementAction(MouseEvent event, RadioButton BTN, Player currentPlayer) {
         if (currentPlayer.isAi() || currentPlayer.isAddSettlement()) {
-            if ((gameCounter == 1 && currentPlayer.getSettlements() == 1) || (gameCounter == 2 && currentPlayer.getSettlements() == 2)) {
-                showError("Cannot add any more settlements. Only one settlement allowed at this stage!");
-                return;
-            }
             if (players.get(currentPlayerIndex).getSettlements() != 5) {
                 RadioButton radioButton = (RadioButton) event.getSource();
                 double tempX = BTN.getLayoutX();
@@ -1320,6 +1166,7 @@ public class Board extends SignUpController  implements Initializable {
 
     /**
      * Plays the settlement button animation
+     *
      * @param settlementButton the ImageView of the settlement button
      */
     private void playSettlementAnimation(ImageView settlementButton) {
@@ -1335,6 +1182,7 @@ public class Board extends SignUpController  implements Initializable {
 
     /**
      * Adds a settlement image for the current player and gives resources depending on the settlement location
+     *
      * @param colour the color of the settlement
      * @param x      the x-coordinate of the settlement
      * @param y      the y-coordinate of the settlement
@@ -1394,6 +1242,7 @@ public class Board extends SignUpController  implements Initializable {
 
     /**
      * Adds resources to the current player when a settlement is added in round two
+     *
      * @param currentPlayer the current player
      * @param polygons      the list of hexagon polygons on the game board
      */
@@ -1405,27 +1254,10 @@ public class Board extends SignUpController  implements Initializable {
             updateResourceCounters(currentPlayer);
         }
     }
-    public Rectangle findNearestRoad(double x, double y) {
-        double minDistance = Double.MAX_VALUE;
-        Rectangle nearestRoad = null;
-
-        System.out.println("Total roads in the Roads array: " + Roads.size());
-
-        for (Rectangle road : Roads) {
-            double roadCenterX = road.getX() + (road.getWidth() / 2);
-            double roadCenterY = road.getY() + (road.getHeight() / 2);
-            double distance = Math.sqrt(Math.pow(roadCenterX - x, 2) + Math.pow(roadCenterY - y, 2));
-            System.out.println("Checking road at (" + road.getX() + ", " + road.getY() + "), distance: " + distance);
-            if (distance < minDistance) {
-                minDistance = distance;
-                nearestRoad = road;
-            }
-        }
-        return nearestRoad;
-    }
 
     /**
      * Finds the nearest hex to the given coordinates and adds it to the player's nearestHexes map.
+     *
      * @param x             the x coordinate of the settlement
      * @param y             the y coordinate of the settlement
      * @param currentPlayer the player who is adding the settlement
@@ -1476,14 +1308,6 @@ public class Board extends SignUpController  implements Initializable {
         ArrayList<Polygon> polygonsList = new ArrayList<>(polygons);
         currentPlayer.getNearestHexes().put("Settlement number: " + settlementNumber, polygonsList);
         addResourcesFromSettlement(currentPlayer, polygonsList);
-        Rectangle nearestRoad = findNearestRoad(x, y);
-
-        // Check if the nearest road exists
-        if (nearestRoad != null) {
-            System.out.println("Nearest road found at: (" + nearestRoad.getX() + ", " + nearestRoad.getY() + ")");
-        } else {
-            System.out.println("No roads found");
-        }
     }
 
 
@@ -1526,8 +1350,10 @@ public class Board extends SignUpController  implements Initializable {
         }
     }
 
+
     /**
      * Checks for the nearest hex by going left and right.
+     *
      * @param x             The x-coordinate of the current position.
      * @param y             The y-coordinate of the current position.
      * @param currentPlayer The current player.
@@ -1536,6 +1362,7 @@ public class Board extends SignUpController  implements Initializable {
      */
     private void OptionTwoLeftandRight(double x, double y, Player currentPlayer, String direction, HashSet<Polygon> polygons) {
         System.out.println("IN OPTION TWO");
+
         if (direction.equals("right")) {
             CirclePointerHexes.setLayoutY(y - 40);
             CirclePointerHexes.setLayoutX(x + 50);
@@ -1545,6 +1372,7 @@ public class Board extends SignUpController  implements Initializable {
         } else if (direction.equals("down")) {
             CirclePointerHexes.setLayoutY(y + 40);
         }
+
         for (Polygon hex : hexagonsResources.keySet()) {
             Point2D circleCenterInHex = hex.parentToLocal(
                     CirclePointerHexes.localToParent(
@@ -1552,6 +1380,7 @@ public class Board extends SignUpController  implements Initializable {
                             CirclePointerHexes.getBoundsInLocal().getCenterY()
                     )
             );
+
             boolean isCircleInsideHex = hex.contains(circleCenterInHex);
 
             if (isCircleInsideHex) {
@@ -1706,18 +1535,13 @@ public class Board extends SignUpController  implements Initializable {
     public void changeRoadColor(MouseEvent mouseEvent) {
         if (players.get(currentPlayerIndex).isAddRoad()) {
 
-            Player currentPlayer = players.get(currentPlayerIndex);
-            if ((gameCounter == 1 && currentPlayer.getRoads() == 1) || (gameCounter == 2 && currentPlayer.getRoads() == 2)) {
-                showError("Cannot add any more roads. Only one road allowed at this stage!");
-                return;
-            }
-
-            if (currentPlayer.getRoads() != 15) {
+            if (players.get(currentPlayerIndex).getRoads() != 15) {
 
                 Rectangle clickedRoad = (Rectangle) mouseEvent.getSource();
                 if ("used".equals(clickedRoad.getUserData())) {
                     return;
                 }
+                Player currentPlayer = players.get(currentPlayerIndex);
 
                 // Check if setAddRoad is true for the current player
                 if (!currentPlayer.isAddRoad()) {
@@ -1993,7 +1817,6 @@ public class Board extends SignUpController  implements Initializable {
     public void DEBUG(MouseEvent event) {
         System.out.println("///////////////");
 //  Player cp = players.get(currentPlayerIndex);
-        players.get(currentPlayerIndex).printNearestHexes();
         for (Player cp : players) {
             System.out.println("Player Name :" + cp.getPlayerName());
             System.out.println();
