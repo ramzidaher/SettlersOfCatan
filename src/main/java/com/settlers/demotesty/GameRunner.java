@@ -9,8 +9,8 @@ import java.io.IOException;
 
 public class GameRunner extends Application {
     public void start(Stage stage) throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(GameRunner.class.getResource("WelcomePage.fxml"));
-        FXMLLoader fxmlLoader = new FXMLLoader(GameRunner.class.getResource("test.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(GameRunner.class.getResource("WelcomePage.fxml"));
+//        FXMLLoader fxmlLoader = new FXMLLoader(GameRunner.class.getResource("test.fxml"));
 //        FXMLLoader fxmlLoader = new FXMLLoader(GameRunner.class.getResource("SignUpPage.fxml"));
 //        FXMLLoader fxmlLoader = new FXMLLoader(GameRunner.class.getResource("WinnerPage.fxml"));
 

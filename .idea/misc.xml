@@ -5,7 +5,9 @@
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>
   <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Sussex OneDrive/Desktop/SettlersFeb24/demoTesty/out" />
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/out" />
+    <option name="OPTION_SCOPE" value="public" />
+    <option name="OPTION_INCLUDE_LIBS" value="true" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_19" default="true" project-jdk-name="openjdk-19" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
