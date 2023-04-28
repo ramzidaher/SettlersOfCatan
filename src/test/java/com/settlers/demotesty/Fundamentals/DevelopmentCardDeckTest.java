@@ -1,9 +1,12 @@
 package com.settlers.demotesty.Fundamentals;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.settlers.demotesty.Fundimentals.Card;
+import com.settlers.demotesty.Fundimentals.DevelopmentCardDeck;
 import org.junit.jupiter.api.Test;
 
 public class DevelopmentCardDeckTest {
@@ -52,11 +55,11 @@ public class DevelopmentCardDeckTest {
         int numVictoryPoints = 0;
         for (int i = 0; i < 25; i++) {
             Card card = deck.getRandomCard();
-            if (card.getType().equals("knight")) {
+            if (card.toString().equals("knight")) {
                 numKnights++;
-            } else if (card.getType().equals("progress")) {
+            } else if (card.toString().equals("progress")) {
                 numProgress++;
-            } else if (card.getType().equals("victory")) {
+            } else if (card.toString().equals("victory")) {
                 numVictoryPoints++;
             }
         }

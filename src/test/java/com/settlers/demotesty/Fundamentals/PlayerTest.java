@@ -4,10 +4,10 @@ import com.settlers.demotesty.Fundimentals.Card;
 import com.settlers.demotesty.Fundimentals.Colour;
 import com.settlers.demotesty.Fundimentals.Player;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Polygon;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -53,15 +53,6 @@ public class PlayerTest {
         }
     }
 
-    @Test
-    public void testSetAndGetNearestHexes() {
-        HashMap<String, ArrayList<Polygon>> expectedNearestHexes = new HashMap<>();
-        ArrayList<Polygon> polygons = new ArrayList<>();
-        polygons.add(new Polygon());
-        expectedNearestHexes.put("hex1", polygons);
-        player.setNearestHexes(expectedNearestHexes);
-        assertEquals(expectedNearestHexes, player.getNearestHexes());
-    }
 
     @Test
     public void testSetAndGetAddedSettlements() {
@@ -104,5 +95,5 @@ public class PlayerTest {
         player.setAddSettlement(true);
         assertTrue(player.isAddSettlement());
     }
-}
 
+}

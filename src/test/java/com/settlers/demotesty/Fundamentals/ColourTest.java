@@ -1,5 +1,6 @@
 package com.settlers.demotesty.Fundamentals;
 
+import com.settlers.demotesty.Fundimentals.Colour;
 import org.junit.jupiter.api.Test;
 import javafx.scene.paint.Color;
 import static org.junit.jupiter.api.Assertions.assertEquals;

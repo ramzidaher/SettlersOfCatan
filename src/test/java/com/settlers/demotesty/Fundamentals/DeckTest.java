@@ -1,5 +1,7 @@
 package com.settlers.demotesty.Fundamentals;
 
+import com.settlers.demotesty.Fundimentals.Card;
+import com.settlers.demotesty.Fundimentals.Deck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;

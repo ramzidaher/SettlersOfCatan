@@ -21,7 +21,7 @@ public class Deck {
      * Add card to deck
      * @param card
      */
-    protected void addCard(Card card) {
+    public void addCard(Card card) {
         deck.add(card);
     }
 
