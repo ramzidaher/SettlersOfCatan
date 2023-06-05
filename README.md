@@ -16,7 +16,7 @@ Settlers of Cattan is a multiplayer board game where players assume roles as set
 
 1. Clone the repository or download the zip file and extract it.
 2. Open your preferred IDE, import the project and ensure you have the JavaFX library set up.
-3. Run the `Main.java` file.
+3. Run the `GameRunner.java` file.
 
 ## Game Features
 
